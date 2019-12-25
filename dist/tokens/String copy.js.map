@@ -1,0 +1,1 @@
+{"version":3,"file":"String copy.js","sourceRoot":"","sources":["../../lib/tokens/String copy.ts"],"names":[],"mappings":";;AAAA,mCAAgC;AAEhC,MAAa,YAAa,SAAQ,aAAa;IAE3C,YAAoB,GAAW;QAC3B,KAAK,EAAE,CAAC;QADQ,QAAG,GAAH,GAAG,CAAQ;QAD/B,eAAU,GAAG,qBAAqB,CAAC;IAGnC,CAAC;IAED,IAAI,UAAU;QACV,OAAO,IAAI,CAAC,GAAG,CAAC;IACpB,CAAC;CACJ;AATD,oCASC"}
