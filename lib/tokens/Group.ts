@@ -1,20 +1,20 @@
-import { Token } from "./Token";
+import { DefaultToken, Token } from "./Token";
 import { Tokenizer } from "../Tokenizer";
 
-export class Group extends Token<Token<unknown>> {
+export class Group extends DefaultToken {
     token_type = "MoLang.Group";
-    private data: Token<unknown>;
+    protected token: Token;
 
     constructor(str: string) {
         super();
-        this.data = Tokenizer.parse(str);
+        this.token = Tokenizer.parse(str.substring(1, str.length - 1));
     }
 
-    get token_data() {
-        return this.data;
+    eval() {
+        return this.token.eval();
     }
 
     static is(str: string) {
-        return str[0] === "(" && str[str.length - 1] === ")";
+        return str.startsWith("(") && str.endsWith(")");
     }
 }

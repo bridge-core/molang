@@ -1,6 +1,5 @@
 import { Store, StoreData } from "./Store";
 import { Tokenizer } from "./Tokenizer";
-import { Resolver } from "./Resolver";
 
 export class Interpreter {
     private store: Store;
@@ -9,8 +8,9 @@ export class Interpreter {
         this.store = new Store(env);
     }
     parse(str: string) {
-        return Resolver.eval(Tokenizer.parse(str));
+        return Tokenizer.parse(str).eval();
     }
 }
 
 console.log(new Interpreter({}).parse("0.0 ? 'hello world' : 'nope'"));
+console.log(new Interpreter({}).parse("!0.0 ? 'hello world' : 'nope'"));

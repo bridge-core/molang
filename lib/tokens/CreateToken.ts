@@ -2,9 +2,11 @@ import { Group } from "./Group";
 import { Ternary } from "./Ternary";
 import { NumberToken } from "./Number";
 import { StringToken } from "./String";
+import { Negation } from "./Negation";
 
 export class CreateToken {
     private static tokens = [
+        Negation,
         Group,
         Ternary,
 

@@ -1,13 +1,21 @@
 import { Token } from "./Token";
 
-export class NumberToken extends Token<number> {
+export class NumberToken extends Token {
     token_type = "MoLang.NumberToken";
-    constructor(private str: string) {
+    protected data: number;
+
+    constructor(str: string) {
         super();
+
+        this.data = Number(str);
     }
 
-    get token_data() {
-        return Number(this.str);
+    eval() {
+        return this.data;
+    }
+
+    negate() {
+        return this.data === 0 ? 0 : 1;
     }
 
     static is(str: string) {

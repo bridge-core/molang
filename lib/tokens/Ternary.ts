@@ -1,9 +1,9 @@
 import { Token } from "./Token";
 import { Tokenizer } from "../Tokenizer";
 
-export class Ternary extends Token<Token<unknown>[]> {
+export class Ternary extends Token {
     token_type = "MoLang.Ternary";
-    private data: Token<unknown>[];
+    private data: Token[];
 
     constructor(str: string) {
         super();
@@ -14,8 +14,11 @@ export class Ternary extends Token<Token<unknown>[]> {
             .map(str => Tokenizer.parse(str));
     }
 
-    get token_data() {
-        return this.data;
+    eval() {
+        return this.data[0].eval() ? this.data[1].eval() : this.data[2].eval();
+    }
+    negate() {
+        return this.data[0].negate() ? this.data[1].eval() : this.data[2].eval();
     }
 
     static is(str: string) {

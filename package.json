@@ -1,0 +1,29 @@
+{
+  "name": "molangts",
+  "version": "0.1.0",
+  "description": "A parser for Minecraft's MoLang language",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/solvedDev/MoLang.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/solvedDev/MoLang/issues"
+  },
+  "homepage": "https://github.com/solvedDev/MoLang#readme",
+  "devDependencies": {
+    "@types/jest": "^24.0.25",
+    "@types/node": "^13.1.2",
+    "jest": "^24.9.0",
+    "ts-jest": "^24.2.0",
+    "typescript": "^3.7.4"
+  }
+}
