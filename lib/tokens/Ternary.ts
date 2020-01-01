@@ -22,7 +22,6 @@ export class Ternary extends Token {
     }
 
     static is(str: string) {
-        let cond = str.split("?");
-        return cond[1] !== undefined && cond[1].includes(":");
+        return /.+\?.+:.+/.test(str);
     }
 }

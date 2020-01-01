@@ -3,12 +3,17 @@ import { Ternary } from "./Ternary";
 import { NumberToken } from "./Number";
 import { StringToken } from "./String";
 import { Negation } from "./Negation";
+import { Conjunction } from "./Conjunction";
+import { Disjunction } from "./Disjunction";
 
 export class CreateToken {
     private static tokens = [
         Negation,
         Group,
         Ternary,
+
+        Conjunction,
+        Disjunction,
 
         NumberToken,
         StringToken

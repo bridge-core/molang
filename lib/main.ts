@@ -12,5 +12,4 @@ export class Interpreter {
     }
 }
 
-console.log(new Interpreter({}).parse("0.0 ? 'hello world' : 'nope'"));
-console.log(new Interpreter({}).parse("!0.0 ? 'hello world' : 'nope'"));
+console.log(new Interpreter({}).parse("1.0 && !0.0 ? 'True' : 'False'"));

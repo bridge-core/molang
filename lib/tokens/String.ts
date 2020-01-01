@@ -10,8 +10,8 @@ export class StringToken extends Token {
         return this.str.substring(1, this.str.length - 1);
     }
 
-    negate(): number {
-        throw new Error("Cannot negate string.");
+    negate() {
+        return Number(!this.str);
     }
 
     static is(str: string) {
