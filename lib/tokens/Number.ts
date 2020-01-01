@@ -15,7 +15,7 @@ export class NumberToken extends Token {
     }
 
     negate() {
-        return this.data === 0 ? 0 : 1;
+        return this.data === 0 ? 1 : 0;
     }
 
     static is(str: string) {
