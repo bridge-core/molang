@@ -1,4 +1,4 @@
-import { Interpreter } from "./main";
+import MoLang from "./main";
 
 export interface IStore {
     [var_name: string]: StoreTypes;
@@ -6,7 +6,7 @@ export interface IStore {
 export type StoreTypes = number | string | boolean | IStore;
 
 export class Store {
-    constructor(public interpreter: Interpreter, private data: any) {}
+    constructor(public interpreter: MoLang.Interpreter, private data: any) {}
 
     set(var_path: string, val: number | string | boolean) {
         Store.set(this.data, var_path, val);

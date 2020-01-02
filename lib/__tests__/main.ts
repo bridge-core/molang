@@ -1,4 +1,4 @@
-import { Interpreter } from "../main"
+import MoLang from "../main"
 
 const TESTS: [string, string | number][] = [
     [ "1 + 6", 7 ],
@@ -17,7 +17,7 @@ const TESTS: [string, string | number][] = [
 ];
 
 describe("interpreter.parse(string)", () => {
-    let i = new Interpreter({
+    let i = new MoLang.Interpreter({
         variable: {},
         query: {
             get_equipped_item_name(slot: number) {
