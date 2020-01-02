@@ -18,6 +18,7 @@ import { Subtraction } from "./Subtraction";
 import { SetVar } from "./SetVar";
 import { Variable } from "./Variable";
 import { FunctionCall } from "./FunctionCall";
+import { ArrayAccess } from "./ArrayAccess";
 
 export class CreateToken {
     private static tokens = [
@@ -44,6 +45,7 @@ export class CreateToken {
         StringToken,
         SetVar,
         FunctionCall,
+        ArrayAccess,
         Variable
     ];
 

@@ -10,7 +10,10 @@ const TESTS: [string, string | number][] = [
     ["query.get_equipped_item_name(0)", "diamond_sword_0"],
     ["query.get_equipped_item_name(1)", "diamond_sword_1"],
     ["math.add(1, 5)", 6],
-    ["rider(1).slot", 1]
+    ["rider(1).slot", 1],
+    ["rider(1).is(math.add(1, 5))", 6],
+    ["Texture.variants[Texture.variants.length - 1]", 6],
+    ["Texture.variants[1 * 3]", 4]
 ];
 
 describe("interpreter.parse(string)", () => {
@@ -21,6 +24,9 @@ describe("interpreter.parse(string)", () => {
                 return 'diamond_sword_' + slot;
             }
         },
+        Texture: {
+            variants: [1, 2, 3, 4, 5, 6]
+        },
         math: {
             add(a: number, b: number) {
                 return a + b;
@@ -30,6 +36,9 @@ describe("interpreter.parse(string)", () => {
             return {
                 get slot() {
                     return slot;
+                },
+                is(id: number) {
+                    return id;
                 }
             }
         }

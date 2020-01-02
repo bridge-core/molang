@@ -35,6 +35,7 @@ export abstract class DefaultToken extends Token {
 export abstract class CombinatorToken extends Token {
     static isWrapper(str: string, op: string) {
         let brackets = 0;
+        let brackets_1 = 0;
 
         for(let i = 0; i < str.length; i++) {   
             let char = str[i];
@@ -43,7 +44,11 @@ export abstract class CombinatorToken extends Token {
                 brackets++;
             else if(char === ")")
                 brackets--;
-            else if(brackets === 0 && char === op[0] && (op[1] === undefined || next_char === op[1]))
+            if(char === "[")
+                brackets_1++;
+            else if(char === "]")
+                brackets_1--;
+            else if(brackets === 0 && brackets_1 === 0 && char === op[0] && (op[1] === undefined || next_char === op[1]))
                 return true;
         }
         return false;
