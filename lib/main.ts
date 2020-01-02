@@ -8,8 +8,10 @@ export class Interpreter {
         this.store = new Store(env);
     }
     parse(str: string) {
-        return Tokenizer.parse(str).eval();
+        let res = Tokenizer.parse(str).eval();
+        if(typeof res === "boolean") return Number(res);
+        return res;
     }
 }
 
-console.log(new Interpreter({}).parse("1.0 && !0.0 ? 'True' : 'False'"));
+console.log(new Interpreter({}).parse("(1.0 * 0.0) + 1.0"));

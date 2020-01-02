@@ -1,7 +1,7 @@
-import {  Token } from "./Token";
+import { Token, CombinatorToken } from "./Token";
 import { Tokenizer } from "../Tokenizer";
 
-export class Disjunction extends Token {
+export class Disjunction extends CombinatorToken {
     token_type = "MoLang.Disjunction";
     protected tokens: [Token, Token];
 
@@ -22,6 +22,6 @@ export class Disjunction extends Token {
     }
 
     static is(str: string) {
-        return /.+\|\|.+/.test(str);
+        return this.isWrapper(str, "||");
     }
 }

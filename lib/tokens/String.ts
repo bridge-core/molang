@@ -9,9 +9,8 @@ export class StringToken extends Token {
     eval() {
         return this.str.substring(1, this.str.length - 1);
     }
-
     negate() {
-        return Number(!this.str);
+        return !this.str;
     }
 
     static is(str: string) {

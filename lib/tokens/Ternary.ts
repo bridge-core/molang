@@ -7,10 +7,14 @@ export class Ternary extends Token {
 
     constructor(str: string) {
         super();
-        let cond = str.split("?");
-        let opts = cond[1].split(":");
+        //Parse condition
+        let index = str.indexOf("?");
+        let cond = str.substring(0, index);
+        //Parse body
+        let body = str.substring(index + 1, str.length);
+        index = body.indexOf(":");
 
-        this.data = [ cond[0], opts[0], opts[1] ]
+        this.data = [ cond, body.substring(0, index), body.substring(index + 1, body.length) ]
             .map(str => Tokenizer.parse(str));
     }
 

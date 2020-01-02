@@ -1,13 +1,13 @@
 import { Token, CombinatorToken } from "./Token";
 import { Tokenizer } from "../Tokenizer";
 
-export class Conjunction extends CombinatorToken {
-    token_type = "MoLang.Conjunction";
+export class EqualsTo extends CombinatorToken {
+    token_type = "MoLang.EqualsTo";
     protected tokens: [Token, Token];
 
     constructor(str: string) {
         super();
-        let split_index = str.indexOf("&");
+        let split_index = str.indexOf("=");
         this.tokens = [
             Tokenizer.parse(str.substring(0, split_index)),
             Tokenizer.parse(str.substring(split_index + 2, str.length))
@@ -15,13 +15,13 @@ export class Conjunction extends CombinatorToken {
     }
 
     eval() {
-        return this.tokens[0].eval() && this.tokens[1].eval();
+        return this.tokens[0].eval() == this.tokens[1].eval();
     }
     negate() {
-        return this.tokens[0].negate() && this.tokens[1].eval();
+        return this.tokens[0].negate() == this.tokens[1].eval();
     }
 
     static is(str: string) {
-        return this.isWrapper(str, "&&");
+        return this.isWrapper(str, "==");
     }
 }
