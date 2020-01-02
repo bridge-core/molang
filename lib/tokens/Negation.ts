@@ -1,5 +1,6 @@
 import { DefaultToken, Token } from "./Token";
 import { Tokenizer } from "../Tokenizer";
+import { Store } from "../Store";
 
 export class Negation extends DefaultToken {
     token_type = "MoLang.Negation";
@@ -10,8 +11,8 @@ export class Negation extends DefaultToken {
         this.token = Tokenizer.parse(str.substring(1, str.length));
     }
 
-    eval() {
-        return this.token.negate();
+    eval(store: Store) {
+        return this.token.negate(store);
     }
 
     static is(str: string) {

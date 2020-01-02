@@ -1,5 +1,6 @@
 import { Token, CombinatorToken } from "./Token";
 import { Tokenizer } from "../Tokenizer";
+import { Store } from "../Store";
 
 export class GreaterEqualsThan extends CombinatorToken {
     token_type = "MoLang.GreaterEqualsThan";
@@ -14,11 +15,11 @@ export class GreaterEqualsThan extends CombinatorToken {
         ];
     }
 
-    eval() {
-        return this.tokens[0].eval() >= this.tokens[1].eval();
+    eval(store: Store) {
+        return this.tokens[0].eval(store) >= this.tokens[1].eval(store);
     }
-    negate() {
-        return this.tokens[0].negate() >= this.tokens[1].eval();
+    negate(store: Store) {
+        return this.tokens[0].negate(store) >= this.tokens[1].eval(store);
     }
 
     static is(str: string) {

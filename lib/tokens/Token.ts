@@ -1,4 +1,4 @@
-import { escapeRegExp } from "lodash";
+import { Store } from "../Store";
 
 export abstract class Token {
     /**
@@ -18,18 +18,17 @@ export abstract class Token {
     /**
      * Implement how this specific Token gets evaluated
      */
-    abstract eval(): string | number | boolean;
+    abstract eval(store: Store): string | number | boolean;
 
     /**
      * Implement how negating this specific Token works
      */
-    abstract negate(): string | number | boolean;
+    abstract negate(store: Store): string | number | boolean;
 }
 
 export abstract class DefaultToken extends Token {
-    protected abstract token: Token;
-    negate() {
-        return !this.token.eval();
+    negate(store: Store) {
+        return !this.eval(store);
     }
 }
 

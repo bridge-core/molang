@@ -1,20 +1,21 @@
 import { Token } from "./Token";
 import { Store } from "../Store";
 
-export class StringToken extends Token {
-    token_type = "MoLang.StringToken";
+export class Variable extends Token {
+    token_type = "MoLang.Variable";
+
     constructor(private str: string) {
         super();
     }
 
     eval(store: Store) {
-        return this.str.substring(1, this.str.length - 1);
+        return store.get(this.str);
     }
     negate(store: Store) {
-        return !this.str;
+        return !store.get(this.str);
     }
 
     static is(str: string) {
-        return str.startsWith("'") && str.endsWith("'");
+        return /([a-z]|[A-Z]|[0-9]|_|\.)+/.test(str);
     }
 }

@@ -1,7 +1,7 @@
 import { Token, CombinatorToken } from "./Token";
 import { Tokenizer } from "../Tokenizer";
-import { isNumber } from "util";
 import { toNumber } from "../util/toNumber";
+import { Store } from "../Store";
 
 export class Subtraction extends CombinatorToken {
     token_type = "MoLang.Subtraction";
@@ -16,12 +16,12 @@ export class Subtraction extends CombinatorToken {
         ];
     }
 
-    eval() {
-        let eval_arr = this.tokens.map(t => toNumber(t.eval()));
+    eval(store: Store) {
+        let eval_arr = this.tokens.map(t => toNumber(t.eval(store)));
         return eval_arr[0] - eval_arr[1];
     }
-    negate() {
-        let eval_arr = [this.tokens[0].negate(), this.tokens[1].eval()].map(val => toNumber(val));
+    negate(store: Store) {
+        let eval_arr = [this.tokens[0].negate(store), this.tokens[1].eval(store)].map(val => toNumber(val));
         return eval_arr[0] - eval_arr[1];
     }
 

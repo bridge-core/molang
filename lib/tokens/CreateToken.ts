@@ -15,6 +15,9 @@ import { Multiplication } from "./Multiplication";
 import { Division } from "./Division";
 import { Addition } from "./Addition";
 import { Subtraction } from "./Subtraction";
+import { SetVar } from "./SetVar";
+import { Variable } from "./Variable";
+import { FunctionCall } from "./FunctionCall";
 
 export class CreateToken {
     private static tokens = [
@@ -38,7 +41,10 @@ export class CreateToken {
         Subtraction,
 
         NumberToken,
-        StringToken
+        StringToken,
+        SetVar,
+        FunctionCall,
+        Variable
     ];
 
     static create(str: string) {

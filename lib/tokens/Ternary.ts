@@ -1,5 +1,6 @@
 import { Token } from "./Token";
 import { Tokenizer } from "../Tokenizer";
+import { Store } from "../Store";
 
 export class Ternary extends Token {
     token_type = "MoLang.Ternary";
@@ -18,11 +19,11 @@ export class Ternary extends Token {
             .map(str => Tokenizer.parse(str));
     }
 
-    eval() {
-        return this.data[0].eval() ? this.data[1].eval() : this.data[2].eval();
+    eval(store: Store) {
+        return this.data[0].eval(store) ? this.data[1].eval(store) : this.data[2].eval(store);
     }
-    negate() {
-        return this.data[0].negate() ? this.data[1].eval() : this.data[2].eval();
+    negate(store: Store) {
+        return this.data[0].negate(store) ? this.data[1].eval(store) : this.data[2].eval(store);
     }
 
     static is(str: string) {

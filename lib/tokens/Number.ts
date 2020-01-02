@@ -1,4 +1,5 @@
 import { Token } from "./Token";
+import { Store } from "../Store";
 
 export class NumberToken extends Token {
     token_type = "MoLang.NumberToken";
@@ -10,11 +11,11 @@ export class NumberToken extends Token {
         this.data = Number(str);
     }
 
-    eval() {
+    eval(store: Store) {
         return this.data;
     }
 
-    negate() {
+    negate(store: Store) {
         return this.data === 0 ? 1 : 0;
     }
 

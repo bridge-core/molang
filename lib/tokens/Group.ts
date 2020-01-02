@@ -1,5 +1,6 @@
 import { DefaultToken, Token } from "./Token";
 import { Tokenizer } from "../Tokenizer";
+import { Store } from "../Store";
 
 export class Group extends DefaultToken {
     token_type = "MoLang.Group";
@@ -10,8 +11,8 @@ export class Group extends DefaultToken {
         this.token = Tokenizer.parse(str.substring(1, str.length - 1));
     }
 
-    eval() {
-        return this.token.eval();
+    eval(store: Store) {
+        return this.token.eval(store);
     }
 
     static is(str: string) {
