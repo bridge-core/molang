@@ -7,8 +7,6 @@ This library is a MoLang parser for JavaScript/TypeScript applications.
 
 ## Usage
 ```javascript
-import MoLang from "molang";
-
 const interpreter = new MoLang.Interpreter({
   query: {
     x: 1,
