@@ -3,6 +3,8 @@ import MoLang from "../main"
 const TESTS: [string, string | number][] = [
     [ "1 + 6", 7 ],
     [ "((7 * 0) + 1) / 2", 0.5 ],
+    [ "4 / 2 == 2", 1],
+    [ "1.0 == 1.0 && 0.0 == 0.0", 1],
     ["(1.0 && 0.0) + 1.0 ? 'True' : 'False'", "True"],
     ["variable.temp = 'test'", 1],
     ["variable.temp", 'test'],
@@ -13,7 +15,9 @@ const TESTS: [string, string | number][] = [
     ["rider(1).slot", 1],
     ["rider(1).is(math.add(1, 5))", 6],
     ["Texture.variants[Texture.variants.length - 1]", 6],
-    ["Texture.variants[1 * 3]", 4]
+    ["Texture.variants[1 * 3]", 4],
+    ["Texture.variants[math.add(1, 3)]", 5],
+    ["math.add(rider(0).get_length(Texture.variants[0]) + 5, 6)", 12]
 ];
 
 describe("interpreter.parse(string)", () => {
@@ -25,7 +29,7 @@ describe("interpreter.parse(string)", () => {
             }
         },
         Texture: {
-            variants: [1, 2, 3, 4, 5, 6]
+            variants: ["1", 2, 3, 4, 5, 6]
         },
         math: {
             add(a: number, b: number) {
@@ -39,6 +43,9 @@ describe("interpreter.parse(string)", () => {
                 },
                 is(id: number) {
                     return id;
+                },
+                get_length(str: string) {
+                    return str.length;
                 }
             }
         }

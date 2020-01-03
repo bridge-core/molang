@@ -38,6 +38,8 @@ export class ArrayAccess extends DefaultToken {
     }
 
     static is(str: string) {
-        return /([a-z]|[A-Z]|[0-9]|_|\.)+(\[.+\])/.test(str);
+        if(-1 === str.indexOf("(") || str.indexOf("[") < str.indexOf("("))
+            return /([a-z]|[A-Z]|[0-9]|_|\.)+(\[.+\])/.test(str);
+        return false;
     }
 }

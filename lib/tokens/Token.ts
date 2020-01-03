@@ -24,6 +24,11 @@ export abstract class Token {
      * Implement how negating this specific Token works
      */
     abstract negate(store: Store): string | number | boolean;
+
+    /**
+     * Implements whether a MoLang statement can be shortened
+     */
+    // abstract canResolve(store: Store): void;
 }
 
 export abstract class DefaultToken extends Token {
@@ -33,6 +38,11 @@ export abstract class DefaultToken extends Token {
 }
 
 export abstract class CombinatorToken extends Token {
+    protected abstract tokens: [Token, Token];
+    // canResolve() {
+    //     return tokens[0].canResolve() && tokens[1].canResolve();
+    // }
+
     static isWrapper(str: string, op: string) {
         let brackets = 0;
         let brackets_1 = 0;

@@ -17,8 +17,11 @@ export class FunctionCall extends DefaultToken {
             .map(part => Tokenizer.parse(part));
 
         this.resolve = (store) => {
+            // console.log(str, store);
+            
             let func = store.get(access);
             store.reset(); //Reset a potential custom store
+            // console.log(func, args.map(a => a.eval(store)));
             let res = func(...args.map(a => a.eval(store)));
 
             //Function call like "root().slot"
@@ -34,6 +37,8 @@ export class FunctionCall extends DefaultToken {
     }
 
     static is(str: string) {
-        return /([a-z]|[A-Z]|[0-9]|_|\.)+(\(\)|\(.+\))/.test(str);
+        if(-1 === str.indexOf("[") || str.indexOf("(") < str.indexOf("["))
+            return /([a-z]|[A-Z]|[0-9]|_|\.)+(\(\)|\(.+\))/.test(str);
+        return false;
     }
 }
