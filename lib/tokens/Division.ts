@@ -6,10 +6,11 @@ import { Store } from "../Store";
 export class Division extends CombinatorToken {
     token_type = "MoLang.Division";
     protected tokens: [Token, Token];
+    protected operator = "/";
 
     constructor(str: string) {
         super();
-        let split_index = str.indexOf("/");
+        let split_index = str.indexOf(this.operator);
         this.tokens = [
             Tokenizer.parse(str.substring(0, split_index)),
             Tokenizer.parse(str.substring(split_index + 1, str.length))
@@ -26,6 +27,6 @@ export class Division extends CombinatorToken {
     }
 
     static is(str: string) {
-        return this.isWrapper(str, "/");
+        return super.is(str, "/");
     }
 }

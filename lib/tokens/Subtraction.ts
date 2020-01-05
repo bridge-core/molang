@@ -6,6 +6,7 @@ import { Store } from "../Store";
 export class Subtraction extends CombinatorToken {
     token_type = "MoLang.Subtraction";
     protected tokens: [Token, Token];
+    protected operator = "-";
 
     constructor(str: string) {
         super();
@@ -26,6 +27,6 @@ export class Subtraction extends CombinatorToken {
     }
 
     static is(str: string) {
-        return this.isWrapper(str, "-");
+        return super.is(str, "-");
     }
 }

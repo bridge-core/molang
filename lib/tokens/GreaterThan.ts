@@ -5,6 +5,7 @@ import { Store } from "../Store";
 export class GreaterThan extends CombinatorToken {
     token_type = "MoLang.GreaterThan";
     protected tokens: [Token, Token];
+    protected operator = ">";
 
     constructor(str: string) {
         super();
@@ -23,6 +24,6 @@ export class GreaterThan extends CombinatorToken {
     }
 
     static is(str: string) {
-        return this.isWrapper(str, ">");
+        return super.is(str, ">");
     }
 }

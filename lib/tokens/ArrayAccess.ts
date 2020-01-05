@@ -5,7 +5,7 @@ import { findClosingBracket } from "../util/findClosingBracket";
 
 export class ArrayAccess extends DefaultToken {
     token_type = "MoLang.ArrayAccess";
-    protected resolve: (store: Store) => number | string | boolean;
+    protected evalHelper: (store: Store) => number | string | boolean;
 
     constructor(str: string) {
         super();
@@ -15,7 +15,7 @@ export class ArrayAccess extends DefaultToken {
         let index = Tokenizer.parse(str.substring(split_index + 1, end_bracket));
         
 
-        this.resolve = (store) => {
+        this.evalHelper = (store) => {
             let arr = store.get(access);
             store.reset(); //Reset potential custom store
 
@@ -34,7 +34,7 @@ export class ArrayAccess extends DefaultToken {
     }
 
     eval(store: Store) {
-        return this.resolve(store);
+        return this.evalHelper(store);
     }
 
     static is(str: string) {

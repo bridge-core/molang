@@ -5,6 +5,7 @@ import { Store } from "../Store";
 export class SmallerEqualsThan extends CombinatorToken {
     token_type = "MoLang.SmallerEqualsThan";
     protected tokens: [Token, Token];
+    protected operator = "<=";
 
     constructor(str: string) {
         super();
@@ -23,6 +24,6 @@ export class SmallerEqualsThan extends CombinatorToken {
     }
 
     static is(str: string) {
-        return this.isWrapper(str, "<=");
+        return super.is(str, "<=");
     }
 }

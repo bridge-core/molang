@@ -6,7 +6,7 @@ import { splitArgs } from "../util/splitArgs";
 
 export class FunctionCall extends DefaultToken {
     token_type = "MoLang.FunctionCall";
-    protected resolve: (store: Store) => number | string | boolean;
+    protected evalHelper: (store: Store) => number | string | boolean;
 
     constructor(str: string) {
         super();
@@ -16,7 +16,7 @@ export class FunctionCall extends DefaultToken {
         let args = splitArgs(str.substring(split_index + 1, end_bracket))
             .map(part => Tokenizer.parse(part));
 
-        this.resolve = (store) => {
+        this.evalHelper = (store) => {
             // console.log(str, store);
             
             let func = store.get(access);
@@ -33,7 +33,7 @@ export class FunctionCall extends DefaultToken {
     }
 
     eval(store: Store) {
-        return this.resolve(store);
+        return this.evalHelper(store);
     }
 
     static is(str: string) {
