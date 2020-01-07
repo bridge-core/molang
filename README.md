@@ -5,8 +5,13 @@
 
 This library is a MoLang parser for JavaScript/TypeScript applications.
 
+## Installation
+```npm i molang```
+
 ## Usage
 ```javascript
+import MoLang from "molang";
+
 const interpreter = new MoLang.Interpreter({
   query: {
     x: 1,
