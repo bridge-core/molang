@@ -2,6 +2,9 @@ import MoLang from "../main"
 
 const TESTS: [string, string | number][] = [
     [ "1 + 6", 7 ],
+    ["0 <= 0", 1.0],
+    ["0 == 0", 1.0],
+    ["0 != 0", 0.0],
     [ "((7 * 0) + 1) / 2", 0.5 ],
     [ "4 / 2 == 2", 1],
     [ "1.0 == 1.0 && 0.0 == 0.0", 1],
@@ -17,7 +20,8 @@ const TESTS: [string, string | number][] = [
     ["Texture.variants[Texture.variants.length - 1]", 6],
     ["Texture.variants[1 * 3]", 4],
     ["Texture.variants[math.add(1, 3)]", 5],
-    ["math.add(rider(0).get_length(Texture.variants[0]) + 5, 6)", 12]
+    ["math.add(rider(0).get_length(Texture.variants[0]) + 5, 6)", 12],
+    ["query.get_position(0) >= 0 &&  query.get_position(0) <= 0", 1.0]
 ];
 
 describe("interpreter.parse(string)", () => {
@@ -26,6 +30,9 @@ describe("interpreter.parse(string)", () => {
         query: {
             get_equipped_item_name(slot: number) {
                 return 'diamond_sword_' + slot;
+            },
+            get_position() {
+                return 0;
             }
         },
         Texture: {

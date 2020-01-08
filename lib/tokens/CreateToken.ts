@@ -29,8 +29,8 @@ export class CreateToken {
         Conjunction,
         Disjunction,
 
-        SmallerThan,
         SmallerEqualsThan,
+        SmallerThan,
         GreaterEqualsThan,
         GreaterThan,
         EqualsTo,

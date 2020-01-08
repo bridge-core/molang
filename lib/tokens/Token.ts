@@ -28,12 +28,12 @@ export abstract class Token {
     /**
      * Implements whether a MoLang statement can be shortened
      */
-    abstract canResolve(store: Store): boolean;
+    // abstract canResolve(store: Store): boolean;
 
     /**
      * Implements how to shorten this MoLang statement
      */
-    abstract resolve(store: Store): string;
+    // abstract resolve(store: Store): string;
 }
 
 export abstract class DefaultToken extends Token {
@@ -46,13 +46,13 @@ export abstract class CombinatorToken extends Token {
     protected abstract tokens: [Token, Token];
     protected abstract operator: string;
 
-    canResolve(store: Store) {
-        return this.tokens[0].canResolve(store) && this.tokens[1].canResolve(store);
-    }
-    resolve(store: Store) {
-        if(this.canResolve(store)) return "" + this.eval(store);
-        return `${this.tokens[0].resolve(store)} ${this.operator} ${this.tokens[1].resolve(store)}`;
-    }
+    // canResolve(store: Store) {
+    //     return this.tokens[0].canResolve(store) && this.tokens[1].canResolve(store);
+    // }
+    // resolve(store: Store) {
+    //     if(this.canResolve(store)) return "" + this.eval(store);
+    //     return `${this.tokens[0].resolve(store)} ${this.operator} ${this.tokens[1].resolve(store)}`;
+    // }
 
     static is(str: string, op?: string) {
         if(op === undefined) return false;

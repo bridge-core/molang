@@ -1,8 +1,8 @@
 {
-  "name": "molangts",
-  "version": "0.1.0",
+  "name": "molang",
+  "version": "0.2.0",
   "description": "A parser for Minecraft's MoLang language",
-  "main": "index.js",
+  "main": "dist/main.js",
   "directories": {
     "lib": "lib"
   },
