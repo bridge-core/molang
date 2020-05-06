@@ -8,6 +8,8 @@ const STRING_TESTS: string[] = [
 	"'test' == 'test2'",
 	'!(1 + 3) && query.test_something_else',
 	"dragon.get_attack_anim('head') + dragon.test.something_else(0, 4, 66)",
+	'0 ? 1 : 2',
+	'(0 ? 1 : 2) ? 3 : 4',
 ]
 
 describe('MoLang.AST.create(string)', () => {

@@ -8,9 +8,9 @@ export abstract class ASTNode {
 	abstract toString(): string
 	abstract createChildren(
 		expression: string,
-		getSplitStrings?: (exp: string) => string[]
+		getSplitStrings?: () => string[]
 	): ASTNode
-	eval() {
+	eval(): unknown {
 		return this.toString()
 	}
 
@@ -21,6 +21,9 @@ export abstract class ASTNode {
 	}
 }
 
+/**
+ * Parses single character front operator
+ */
 export abstract class UnaryNode extends ASTNode {
 	constructor(protected operator: string) {
 		super()
@@ -46,17 +49,17 @@ export abstract class UnaryNode extends ASTNode {
 	}
 }
 
+/**
+ * Parses binary operators of length 1 or 2
+ */
 export abstract class BinaryNode extends ASTNode {
 	constructor(protected operator: string) {
 		super()
 	}
 
-	createChildren(
-		expression: string,
-		getSplitStrings?: (expression: string) => string[]
-	) {
+	createChildren(_: string, getSplitStrings?: () => string[]) {
 		this.children =
-			getSplitStrings?.(expression).map((expr) => createNode(expr)) ?? []
+			getSplitStrings?.()?.map((expr) => createNode(expr)) ?? []
 		return this
 	}
 
@@ -96,7 +99,7 @@ export abstract class BinaryNode extends ASTNode {
 			)
 				return {
 					isCorrectToken: true,
-					getSplitStrings: (expression: string) => {
+					getSplitStrings: () => {
 						return [
 							expression.substring(0, i),
 							expression.substring(i + 1, expression.length),
@@ -111,7 +114,7 @@ export abstract class BinaryNode extends ASTNode {
 			)
 				return {
 					isCorrectToken: true,
-					getSplitStrings: (expression: string) => {
+					getSplitStrings: () => {
 						return [
 							expression.substring(0, i),
 							expression.substring(i + 2, expression.length),
@@ -126,12 +129,84 @@ export abstract class BinaryNode extends ASTNode {
 	}
 }
 
-export abstract class TernaryNode extends ASTNode {
-	testRegExp: RegExp = /test/
+/**
+ * Parses n* single character operators
+ */
+export abstract class ChainNode extends ASTNode {
+	constructor(protected operators: string) {
+		super()
+	}
+
+	createChildren(_: string, getSplitStrings?: () => string[]) {
+		this.children =
+			getSplitStrings?.()?.map((expr) => createNode(expr)) ?? []
+		return this
+	}
+
+	toString() {
+		let str = this.children[0].toString()
+
+		for (let i = 0; i < this.operators.length; i++)
+			str += ` ${this.operators[i]} ${this.children[i + 1].toString()}`
+
+		return str
+	}
 
 	test(expression: string) {
+		const brackets = {
+			default: 0,
+			squirly: 0,
+			square: 0,
+		}
+		const outsideBrackets = () => {
+			return (
+				brackets.default === 0 &&
+				brackets.square === 0 &&
+				brackets.squirly === 0
+			)
+		}
+
+		let searchCharIndex = 0
+		let splitPoints = [-1]
+		for (let i = 0; i < expression.length; i++) {
+			const char = expression[i]
+
+			if (char === '(') brackets.default++
+			else if (char === ')') brackets.default--
+			else if (char === '[') brackets.square++
+			else if (char === ']') brackets.square--
+			else if (char === '{') brackets.squirly++
+			else if (char === '}') brackets.squirly--
+			else if (
+				outsideBrackets() &&
+				char === this.operators[searchCharIndex]
+			) {
+				searchCharIndex++
+				splitPoints.push(i)
+			}
+
+			if (searchCharIndex === this.operators.length)
+				return {
+					isCorrectToken: true,
+					getSplitStrings: () => {
+						splitPoints.push(expression.length)
+						const res: string[] = []
+
+						for (let j = 1; j < splitPoints.length; j++)
+							res.push(
+								expression.substring(
+									splitPoints[j - 1] + 1,
+									splitPoints[j]
+								)
+							)
+
+						return res
+					},
+				}
+		}
+
 		return {
-			isCorrectToken: this.testRegExp.test(expression),
+			isCorrectToken: false,
 		}
 	}
 }

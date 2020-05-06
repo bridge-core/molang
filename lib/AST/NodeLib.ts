@@ -20,6 +20,7 @@ import {
 	FunctionCallNode,
 	PropertyNode,
 } from './Nodes/export'
+import { IfElseNode } from './Nodes/Ternary/IfElse'
 
 interface ICreateASTNode {
 	new (): ASTNode
@@ -28,7 +29,7 @@ interface ICreateASTNode {
 
 let ASTNodes: [string, ICreateASTNode][] = [
 	['MoLang.NegationNode', NegationNode],
-	// ['MoLang.IfElseNode', IfElseNode],
+	['MoLang.IfElseNode', IfElseNode],
 	['MoLang.IfNode', IfNode],
 
 	['MoLang.ConjunctionNode', ConjunctionNode],

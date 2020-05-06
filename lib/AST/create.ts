@@ -2,7 +2,7 @@ import { getASTNodes } from './NodeLib'
 
 export interface ITestResult {
 	isCorrectToken: boolean
-	getSplitStrings?: (expression: string) => string[]
+	getSplitStrings?: () => string[]
 }
 
 export function createNode(expression: string) {

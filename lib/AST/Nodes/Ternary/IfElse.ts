@@ -1,6 +1,8 @@
-// import { TernaryNode } from '../ASTNode'
+import { ChainNode } from '../../ASTNode'
 
-// export class IfElseNode extends TernaryNode {
-// 	type = 'MoLang.IfElseNode'
-// 	static testRegExp = /.+\?.+:.+/
-// }
+export class IfElseNode extends ChainNode {
+	type = 'MoLang.IfElseNode'
+	constructor() {
+		super('?:')
+	}
+}
