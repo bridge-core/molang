@@ -1,14 +1,21 @@
-import { getASTNodes } from './NodeLib'
+import { createNodeLib } from './NodeLib'
 
 export interface ITestResult {
 	isCorrectToken: boolean
 	getSplitStrings?: () => string[]
 }
 
-export function createNode(expression: string) {
+let defaultNodeLib: ReturnType<typeof createNodeLib>
+export function createNode(
+	expression: string,
+	nodeLib?: ReturnType<typeof createNodeLib>
+) {
+	if (nodeLib) defaultNodeLib = nodeLib
+	else nodeLib = defaultNodeLib
+
 	expression = expression.trim()
 
-	for (const [nodeName, Node] of getASTNodes()) {
+	for (const [nodeName, Node] of nodeLib.getASTNodes()) {
 		const node = new Node()
 		const { isCorrectToken, getSplitStrings } = node.test(expression)
 		if (isCorrectToken)

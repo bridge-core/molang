@@ -18,7 +18,8 @@ describe('MoLang.AST.addNode(string, node)', () => {
 		}
 	}
 
-	AST.addNode('MoLang.FunctionCallNode', MyCustomNode)
+	const myLib = AST.NodeLib.create()
+	myLib.addNode('MoLang.FunctionCallNode', MyCustomNode)
 	;[
 		['test.something()', 'It works!'],
 		[
@@ -27,6 +28,6 @@ describe('MoLang.AST.addNode(string, node)', () => {
 		],
 		['test.something() && 0', 'It works! && 0'],
 	].forEach(([t, res]) =>
-		test(t, () => expect(AST.create(t).toString()).toBe(res))
+		test(t, () => expect(AST.create(t, myLib).toString()).toBe(res))
 	)
 })

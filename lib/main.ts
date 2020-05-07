@@ -1,12 +1,14 @@
 import { createNode } from './AST/create'
-import { addNode as AddASTNode, addNodes as AddASTNodes } from './AST/NodeLib'
+import { createNodeLib } from './AST/NodeLib'
 
+const defaultLib = createNodeLib()
 export function parse(expression: string) {}
 export namespace AST {
-	export const create = (expression: string) => {
-		return createNode(expression)
+	export const create = (expression: string, nodeLib = defaultLib) => {
+		return createNode(expression.toLowerCase(), nodeLib)
 	}
-	export const addNode = AddASTNode
-	export const addNodes = AddASTNodes
+	export namespace NodeLib {
+		export const create = createNodeLib
+	}
 }
 export * from './AST/Nodes/export'
