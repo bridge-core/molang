@@ -15,7 +15,7 @@ export abstract class ASTNode {
 		expression: string,
 		getSplitStrings?: () => string[]
 	): ASTNode
-	eval(): IEvalResult {
+	eval(...args: unknown[]): IEvalResult {
 		return {
 			value: this.toString(),
 		}

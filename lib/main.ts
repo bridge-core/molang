@@ -3,7 +3,14 @@ import { createNodeLib } from './AST/NodeLib'
 import { ExecutionGroupNode } from './AST/Nodes/ExecutionGroup'
 
 const defaultLib = createNodeLib()
-export function parse(expression: string) {}
+export function parse(expression: string) {
+	setNodeLib(defaultLib)
+	return new ExecutionGroupNode()
+		.createChildren(expression.toLowerCase())
+		.eval()
+}
+export { setENV } from './AST/ENV'
+
 export namespace AST {
 	export const create = (expression: string, nodeLib = defaultLib) => {
 		setNodeLib(nodeLib)

@@ -1,4 +1,5 @@
 import { ASTNode } from '../ASTNode'
+import { ENV } from '../ENV'
 
 export class PropertyNode extends ASTNode {
 	type = 'MoLang.PropertyNode'
@@ -9,6 +10,29 @@ export class PropertyNode extends ASTNode {
 		return this
 	}
 
+	findValue() {
+		let path = this.expression.split('.')
+		let current = ENV.value[<string>path.shift()]
+
+		while (path.length > 0) current = current[<string>path.shift()]
+
+		return current
+	}
+	eval(...args: unknown[]) {
+		const value = this.findValue()
+		if (typeof value === 'function')
+			return {
+				value: value(...args),
+			}
+		else if (value !== undefined)
+			return {
+				value,
+			}
+		else
+			throw new Error(
+				`Undefined property reference: "${this.expression}"`
+			)
+	}
 	toString() {
 		return this.expression
 	}

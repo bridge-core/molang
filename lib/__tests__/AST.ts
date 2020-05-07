@@ -1,4 +1,5 @@
 import { AST } from '../main'
+import { setENV } from '../main'
 
 const TESTS: [string, number | string][] = [
 	['1 + 6', 7],
@@ -20,16 +21,16 @@ const TESTS: [string, number | string][] = [
 	// ["variable.temp = 'test'", 1],
 	// ['variable.temp', 'test'],
 	// ["variable.temp == 'test'", 1],
-	// ['query.get_equipped_item_name(0)', 'diamond_sword_0'],
-	// ['query.get_equipped_item_name(1)', 'diamond_sword_1'],
-	// ['math.add(1, 5)', 6],
-	// ['rider(1).slot', 1],
-	// ['rider(1).is(math.add(1, 5))', 6],
-	// ['Texture.variants[Texture.variants.length - 1]', 6],
-	// ['Texture.variants[1 * 3]', 4],
-	// ['Texture.variants[math.add(1, 3)]', 5],
-	// ['math.add(rider(0).get_length(Texture.variants[0]) + 5, 6)', 12],
-	// ['query.get_position(0) >= 0 &&  query.get_position(0) <= 0', 1.0],
+	['query.get_equipped_item_name(0)', 'diamond_sword_0'],
+	['query.get_equipped_item_name(1)', 'diamond_sword_1'],
+	['math.add(1, 5)', 6],
+	['rider.slot', 1],
+	['rider.is(math.add(1, 5))', 6],
+	// ['texture.variants[texture.variants.length - 1]', 6],
+	// ['texture.variants[1 * 3]', 4],
+	// ['texture.variants[math.add(1, 3)]', 5],
+	// ['math.add(rider.get_length(texture.variants[0]) + 5, 6)', 12],
+	['query.get_position(0) >= 0 && query.get_position(0) <= 0', 1.0],
 	// ['!(1 + 3) && query.test_something_else', 0],
 	// [
 	// 	"dragon.get_attack_anim('head') + dragon.test.something_else(0, 4, 66)",
@@ -38,6 +39,34 @@ const TESTS: [string, number | string][] = [
 ]
 
 describe('MoLang.AST.create(string)', () => {
+	setENV({
+		variable: {},
+		query: {
+			get_equipped_item_name(slot: number) {
+				return 'diamond_sword_' + slot
+			},
+			get_position() {
+				return 0
+			},
+		},
+		texture: {
+			variants: ['1', 2, 3, 4, 5, 6],
+		},
+		math: {
+			add(a: number, b: number) {
+				return a + b
+			},
+		},
+		rider: {
+			slot: 1,
+			is(id: number) {
+				return id
+			},
+			get_length(str: string) {
+				return str.length
+			},
+		},
+	})
 	TESTS.forEach(([t, res]) =>
 		test(t, () => {
 			const tree = AST.create(t)

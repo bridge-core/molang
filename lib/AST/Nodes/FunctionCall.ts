@@ -12,15 +12,21 @@ export class FunctionCallNode extends ASTNode {
 		]
 		this.children = [
 			createNode(body),
-			...callSignatures
-				.substring(0, callSignatures.length - 1)
-				.split(',')
+			...splitInner(
+				callSignatures.substring(0, callSignatures.length - 1),
+				','
+			)
 				.filter((arg) => arg !== '')
 				.map((arg) => createNode(arg)),
 		]
 		return this
 	}
 
+	eval() {
+		return this.children[0].eval(
+			...this.children.slice(1).map((c) => c.eval().value)
+		)
+	}
 	toString() {
 		return `${this.children[0].toString()}(${this.children
 			.slice(1)
@@ -35,4 +41,39 @@ export class FunctionCallNode extends ASTNode {
 			),
 		}
 	}
+}
+
+function splitInner(str: string, splitChar: string) {
+	const res: string[] = []
+	const brackets = {
+		default: 0,
+		squirly: 0,
+		square: 0,
+	}
+	const outsideBrackets = () => {
+		return (
+			brackets.default === 0 &&
+			brackets.square === 0 &&
+			brackets.squirly === 0
+		)
+	}
+	let lastSplit = 0
+
+	for (let i = 0; i < str.length; i++) {
+		const char = str[i]
+
+		if (char === '(') brackets.default++
+		else if (char === ')') brackets.default--
+		else if (char === '[') brackets.square++
+		else if (char === ']') brackets.square--
+		else if (char === '{') brackets.squirly++
+		else if (char === '}') brackets.squirly--
+		else if (outsideBrackets() && char === splitChar) {
+			res.push(str.substring(lastSplit, i))
+			lastSplit = i + 1
+		}
+	}
+
+	res.push(str.substring(lastSplit, str.length))
+	return res
 }
