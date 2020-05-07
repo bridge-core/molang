@@ -121,6 +121,7 @@ export abstract class BinaryNode extends ASTNode {
 			else if (char === '{') brackets.squirly++
 			else if (char === '}') brackets.squirly--
 			else if (
+				i !== 0 &&
 				this.operator.length === 1 &&
 				outsideBrackets() &&
 				char === this.operator
@@ -135,6 +136,7 @@ export abstract class BinaryNode extends ASTNode {
 					},
 				}
 			else if (
+				i !== 0 &&
 				this.operator.length === 2 &&
 				outsideBrackets() &&
 				char === this.operator[0] &&

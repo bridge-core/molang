@@ -7,10 +7,9 @@ export class IfNode extends BinaryNode {
 	}
 
 	eval() {
-		const { val1, val2 } = this.evalHelper()
+		const { value } = this.children[0].eval()
 
-		return {
-			value: val1 ? val2 : 0,
-		}
+		if (value) return this.children[1].eval()
+		else return { value: 0 }
 	}
 }

@@ -21,6 +21,7 @@ import {
 	PropertyNode,
 	NegationNode,
 	ReturnNode,
+	MakeNegativeNode,
 } from './Nodes/export'
 
 export interface ICreateASTNode {
@@ -48,12 +49,13 @@ export function createNodeLib() {
 		['MoLang.AdditionNode', AdditionNode],
 		['MoLang.SubtractionNode', SubtractionNode],
 
+		['MoLang.ReturnNode', ReturnNode],
+		['MoLang.NegationNode', NegationNode],
+		['MoLang.MakeNegativeNode', MakeNegativeNode],
+
 		['MoLang.NumberNode', NumberNode],
 		['MoLang.GroupNode', GroupNode],
 		['MoLang.StringNode', StringNode],
-
-		['MoLang.ReturnNode', ReturnNode],
-		['MoLang.NegationNode', NegationNode],
 
 		['MoLang.FunctionCallNode', FunctionCallNode],
 		['MoLang.PropertyNode', PropertyNode],

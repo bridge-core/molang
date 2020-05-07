@@ -14,7 +14,10 @@ export class ExecutionGroupNode extends ASTNode {
 
 	eval() {
 		//If only one statement: Always return
-		if (this.children.length === 1) return this.children[0].eval()
+		if (this.children.length === 1) {
+			const { isReturn, value } = this.children[0].eval()
+			return { isReturn, value: isReturn ? 0.0 : value }
+		}
 
 		for (let c of this.children) {
 			const { isReturn, value } = c.eval()
@@ -32,7 +35,13 @@ export class ExecutionGroupNode extends ASTNode {
 	}
 
 	toString() {
-		return this.children.map((c) => c.toString()).join('; ')
+		if (this.children.length === 1) {
+			return this.children[0].type === 'Molang.ReturnNode'
+				? `${this.children[0].toString()};`
+				: this.children[0].toString()
+		}
+
+		return `${this.children.map((c) => c.toString()).join('; ')};`
 	}
 
 	test(_: string) {
