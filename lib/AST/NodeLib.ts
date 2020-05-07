@@ -1,6 +1,6 @@
 import { ASTNode } from './ASTNode'
 import {
-	NegationNode,
+	IfElseNode,
 	IfNode,
 	ConjunctionNode,
 	DisjunctionNode,
@@ -19,7 +19,7 @@ import {
 	StringNode,
 	FunctionCallNode,
 	PropertyNode,
-	IfElseNode,
+	NegationNode,
 	ReturnNode,
 } from './Nodes/export'
 
@@ -30,8 +30,6 @@ export interface ICreateASTNode {
 
 export function createNodeLib() {
 	let ASTNodes: [string, ICreateASTNode][] = [
-		['MoLang.ReturnNode', ReturnNode],
-		['MoLang.NegationNode', NegationNode],
 		['MoLang.IfElseNode', IfElseNode],
 		['MoLang.IfNode', IfNode],
 
@@ -53,6 +51,9 @@ export function createNodeLib() {
 		['MoLang.NumberNode', NumberNode],
 		['MoLang.GroupNode', GroupNode],
 		['MoLang.StringNode', StringNode],
+
+		['MoLang.ReturnNode', ReturnNode],
+		['MoLang.NegationNode', NegationNode],
 
 		['MoLang.FunctionCallNode', FunctionCallNode],
 		['MoLang.PropertyNode', PropertyNode],

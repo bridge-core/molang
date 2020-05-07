@@ -18,6 +18,7 @@ const TESTS: [string, number | string][] = [
 	['(0 ? 1 : 2) ? 3 : 4', 3],
 	['0 ? 1 : 2; return 1', 1],
 	["(1 && 0) + 1 ? 'true' : 'false'", 'true'],
+	["!(1 && 0) ? 'true' : 'false'", 'true'],
 	// ["variable.temp = 'test'", 1],
 	// ['variable.temp', 'test'],
 	// ["variable.temp == 'test'", 1],
