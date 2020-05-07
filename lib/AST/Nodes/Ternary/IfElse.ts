@@ -5,4 +5,12 @@ export class IfElseNode extends ChainNode {
 	constructor() {
 		super('?:')
 	}
+
+	eval() {
+		if (this.children[0].eval().value) {
+			return this.children[1].eval()
+		} else {
+			return this.children[2].eval()
+		}
+	}
 }

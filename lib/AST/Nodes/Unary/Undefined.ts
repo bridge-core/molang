@@ -8,6 +8,7 @@ export class UndefinedNode extends ASTNode {
 		this.expression = expression
 		return this
 	}
+
 	toString() {
 		return this.expression
 	}

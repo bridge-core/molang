@@ -10,10 +10,15 @@ export class NumberNode extends ASTNode {
 	toString() {
 		return String(this.number)
 	}
+	eval() {
+		return {
+			value: this.number,
+		}
+	}
 	test(expression: string) {
 		this.number = Number(expression)
 		return {
-			isCorrectToken: !Number.isNaN(this.number),
+			isCorrectToken: expression !== '' && !Number.isNaN(this.number),
 		}
 	}
 }

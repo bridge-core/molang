@@ -19,8 +19,9 @@ import {
 	StringNode,
 	FunctionCallNode,
 	PropertyNode,
+	IfElseNode,
+	ReturnNode,
 } from './Nodes/export'
-import { IfElseNode } from './Nodes/Ternary/IfElse'
 
 export interface ICreateASTNode {
 	new (): ASTNode
@@ -29,6 +30,7 @@ export interface ICreateASTNode {
 
 export function createNodeLib() {
 	let ASTNodes: [string, ICreateASTNode][] = [
+		['MoLang.ReturnNode', ReturnNode],
 		['MoLang.NegationNode', NegationNode],
 		['MoLang.IfElseNode', IfElseNode],
 		['MoLang.IfNode', IfNode],

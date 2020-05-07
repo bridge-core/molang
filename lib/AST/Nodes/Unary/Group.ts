@@ -14,6 +14,10 @@ export class GroupNode extends ASTNode {
 		return this
 	}
 
+	eval() {
+		return this.children[0].eval()
+	}
+
 	toString() {
 		return `${this.operators[0]}${this.children[0].toString()}${
 			this.operators[1]

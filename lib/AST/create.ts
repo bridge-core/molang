@@ -6,12 +6,14 @@ export interface ITestResult {
 }
 
 let defaultNodeLib: ReturnType<typeof createNodeLib>
+export function setNodeLib(lib: ReturnType<typeof createNodeLib>) {
+	defaultNodeLib = lib
+}
 export function createNode(
 	expression: string,
 	nodeLib?: ReturnType<typeof createNodeLib>
 ) {
-	if (nodeLib) defaultNodeLib = nodeLib
-	else nodeLib = defaultNodeLib
+	if (!nodeLib) nodeLib = defaultNodeLib
 
 	expression = expression.trim()
 
@@ -22,5 +24,5 @@ export function createNode(
 			return node.createChildren(expression, getSplitStrings)
 	}
 
-	throw new Error(`Invalid MoLang: ${expression}`)
+	throw new Error(`Invalid MoLang: "${expression}"`)
 }

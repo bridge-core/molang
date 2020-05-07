@@ -15,6 +15,7 @@ export class FunctionCallNode extends ASTNode {
 			...callSignatures
 				.substring(0, callSignatures.length - 1)
 				.split(',')
+				.filter((arg) => arg !== '')
 				.map((arg) => createNode(arg)),
 		]
 		return this

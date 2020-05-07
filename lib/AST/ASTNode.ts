@@ -1,5 +1,10 @@
 import { ITestResult, createNode } from './create'
 
+export interface IEvalResult {
+	isReturn?: boolean
+	value: number | string
+}
+
 export abstract class ASTNode {
 	abstract type: string
 	public static priority: number = 0
@@ -10,8 +15,10 @@ export abstract class ASTNode {
 		expression: string,
 		getSplitStrings?: () => string[]
 	): ASTNode
-	eval(): unknown {
-		return this.toString()
+	eval(): IEvalResult {
+		return {
+			value: this.toString(),
+		}
 	}
 
 	test(_: string): ITestResult {
@@ -38,13 +45,20 @@ export abstract class UnaryNode extends ASTNode {
 		return this
 	}
 
+	eval() {
+		return this.children[0].eval()
+	}
+
 	toString() {
 		return `${this.operator}${this.children[0].toString()}`
 	}
 
 	test(expression: string): ITestResult {
 		return {
-			isCorrectToken: expression[0] === this.operator,
+			isCorrectToken:
+				this.operator.length === 1
+					? expression[0] === this.operator
+					: expression.startsWith(this.operator),
 		}
 	}
 }
@@ -67,6 +81,20 @@ export abstract class BinaryNode extends ASTNode {
 		return `${this.children[0].toString()} ${
 			this.operator
 		} ${this.children[1].toString()}`
+	}
+
+	protected evalHelper() {
+		const { value: val1 } = this.children[0].eval()
+		const { value: val2 } = this.children[1].eval()
+		if (typeof val1 === 'string' || typeof val2 === 'string')
+			throw new Error(
+				`Cannot use '${this.operator}' operator with string "${val1} ${this.operator} ${val2}"`
+			)
+
+		return {
+			val1,
+			val2,
+		}
 	}
 
 	test(expression: string) {

@@ -12,6 +12,11 @@ export class StringNode extends GroupNode {
 		return this
 	}
 
+	eval() {
+		return {
+			value: this.expression,
+		}
+	}
 	toString() {
 		return `'${this.expression}'`
 	}

@@ -5,4 +5,12 @@ export class EqualsNode extends BinaryNode {
 	constructor() {
 		super('==')
 	}
+
+	eval() {
+		return {
+			value: Number(
+				this.children[0].eval().value === this.children[1].eval().value
+			),
+		}
+	}
 }
