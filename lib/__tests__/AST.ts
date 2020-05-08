@@ -2,11 +2,11 @@ import { AST } from '../main'
 import { setENV } from '../main'
 
 const TESTS: [string, number | string][] = [
-	['1 + 6', 7],
-	['1 * 4', 4],
-	['-(1.5 + 3.5)', -5],
-	['(1 + 3) * 4', 16],
-	['(1 + 3) * (3 + 1)', 16],
+	['1 + 1', 2],
+	['1 + 1 * 2', 3],
+	['-(1 + 1)', -2],
+	['(1 + 1) * 2', 4],
+	['(1 + 1) * (1 + 1)', 4],
 	["'test' == 'test2'", 0],
 	['return 1', 0], //This is not a bug - Minecraft doesn't support return statements without semicolon
 	['0 <= 0', 1.0],

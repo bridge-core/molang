@@ -31,6 +31,8 @@ export interface ICreateASTNode {
 
 export function createNodeLib() {
 	let ASTNodes: [string, ICreateASTNode][] = [
+		['MoLang.NumberNode', NumberNode],
+
 		['MoLang.IfElseNode', IfElseNode],
 		['MoLang.IfNode', IfNode],
 
@@ -44,16 +46,15 @@ export function createNodeLib() {
 		['MoLang.EqualsNode', EqualsNode],
 		['MoLang.NotEqualsNode', NotEqualsNode],
 
-		['MoLang.MultiplicationNode', MultiplicationNode],
-		['MoLang.DivisionNode', DivisionNode],
 		['MoLang.AdditionNode', AdditionNode],
 		['MoLang.SubtractionNode', SubtractionNode],
+		['MoLang.MultiplicationNode', MultiplicationNode],
+		['MoLang.DivisionNode', DivisionNode],
 
 		['MoLang.ReturnNode', ReturnNode],
 		['MoLang.NegationNode', NegationNode],
 		['MoLang.MakeNegativeNode', MakeNegativeNode],
 
-		['MoLang.NumberNode', NumberNode],
 		['MoLang.GroupNode', GroupNode],
 		['MoLang.StringNode', StringNode],
 

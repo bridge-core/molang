@@ -5,10 +5,13 @@ export class ExecutionGroupNode extends ASTNode {
 	type = 'MoLang.ExecutionGroupNode'
 
 	createChildren(expression: string) {
-		this.children = expression
-			.split(';')
-			.filter((expr) => expr !== '')
-			.map((expr) => createNode(expr))
+		const split = expression.split(';').filter((expr) => expr !== '')
+		for (let expr of split) {
+			const node = createNode(expr)
+			this.children.push(node)
+
+			if (node.type === 'MoLang.ReturnNode') return this
+		}
 		return this
 	}
 

@@ -67,11 +67,25 @@ export abstract class UnaryNode extends ASTNode {
  * Parses binary operators of length 1 or 2
  */
 export abstract class BinaryNode extends ASTNode {
+	protected collectedIndex: number = -1
 	constructor(protected operator: string) {
 		super()
 	}
+	collect(op: string, index: number) {
+		if (
+			this.operator.length === 1 &&
+			op[0] === this.operator &&
+			this.collectedIndex === -1
+		)
+			this.collectedIndex = index
+		else if (op === this.operator && this.collectedIndex === -1)
+			this.collectedIndex = index
+	}
+	getCollected() {
+		return this.collectedIndex
+	}
 
-	createChildren(_: string, getSplitStrings?: () => string[]) {
+	createChildren(expression: string, getSplitStrings?: () => string[]) {
 		this.children =
 			getSplitStrings?.()?.map((expr) => createNode(expr)) ?? []
 		return this
