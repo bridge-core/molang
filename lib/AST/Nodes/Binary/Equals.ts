@@ -8,9 +8,10 @@ export class EqualsNode extends BinaryNode {
 
 	eval() {
 		return {
-			value: Number(
+			value:
 				this.children[0].eval().value == this.children[1].eval().value
-			),
+					? 1.0
+					: 0.0,
 		}
 	}
 }

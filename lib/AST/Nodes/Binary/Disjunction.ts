@@ -10,7 +10,7 @@ export class DisjunctionNode extends BinaryNode {
 		const { val1, val2 } = this.evalHelper()
 
 		return {
-			value: Number(Boolean(val1 || val2)),
+			value: val1 || val2,
 		}
 	}
 }

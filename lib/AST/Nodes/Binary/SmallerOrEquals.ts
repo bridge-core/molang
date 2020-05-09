@@ -10,7 +10,7 @@ export class SmallerOrEqualsNode extends BinaryNode {
 		const { val1, val2 } = this.evalHelper()
 
 		return {
-			value: Number(val1 <= val2),
+			value: val1 <= val2 ? 1.0 : 0.0,
 		}
 	}
 }
