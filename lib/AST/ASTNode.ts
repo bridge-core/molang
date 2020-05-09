@@ -1,4 +1,6 @@
 import { ITestResult, createNode } from './create'
+import { NumberNode } from './Nodes/export'
+import { CONFIG } from '../config'
 
 export interface IEvalResult {
 	isReturn?: boolean
@@ -12,7 +14,7 @@ export abstract class ASTNode {
 
 	abstract toString(): string
 	abstract createChildren(
-		expression: string,
+		expression: string | number,
 		getSplitStrings?: () => string[]
 	): ASTNode
 	eval(...args: unknown[]): IEvalResult {
@@ -54,6 +56,9 @@ export abstract class UnaryNode extends ASTNode {
 	}
 
 	test(expression: string): ITestResult {
+		if (expression.length < this.operator.length)
+			return { isCorrectToken: false }
+
 		return {
 			isCorrectToken:
 				this.operator.length === 1
@@ -85,9 +90,26 @@ export abstract class BinaryNode extends ASTNode {
 		return this.collectedIndex
 	}
 
-	createChildren(expression: string, getSplitStrings?: () => string[]) {
+	createChildren(
+		expression: string,
+		getSplitStrings?: () => string[]
+	): ASTNode {
 		this.children =
 			getSplitStrings?.()?.map((expr) => createNode(expr)) ?? []
+
+		if (
+			CONFIG.useOptimizer &&
+			this.children[0].type === 'MoLang.NumberNode' &&
+			this.children[1].type === 'MoLang.NumberNode'
+		)
+			return new NumberNode(<number>this.eval().value)
+		//Strings can currently only be compared, result must be number
+		if (
+			CONFIG.useOptimizer &&
+			this.children[0].type === 'MoLang.StringNode' &&
+			this.children[1].type === 'MoLang.StringNode'
+		)
+			return new NumberNode(<number>this.eval().value)
 		return this
 	}
 
@@ -95,6 +117,13 @@ export abstract class BinaryNode extends ASTNode {
 		return `${this.children[0].toString()} ${
 			this.operator
 		} ${this.children[1].toString()}`
+	}
+
+	eval(): IEvalResult {
+		return {
+			isReturn: false,
+			value: 0,
+		}
 	}
 
 	protected evalHelper() {
@@ -134,37 +163,22 @@ export abstract class BinaryNode extends ASTNode {
 			else if (char === ']') brackets.square--
 			else if (char === '{') brackets.squirly++
 			else if (char === '}') brackets.squirly--
-			else if (
-				i !== 0 &&
-				this.operator.length === 1 &&
-				outsideBrackets() &&
-				char === this.operator
-			)
-				return {
-					isCorrectToken: true,
-					getSplitStrings: () => {
-						return [
-							expression.substring(0, i),
-							expression.substring(i + 1, expression.length),
-						]
-					},
-				}
-			else if (
-				i !== 0 &&
-				this.operator.length === 2 &&
-				outsideBrackets() &&
-				char === this.operator[0] &&
-				expression[i + 1] === this.operator[1]
-			)
-				return {
-					isCorrectToken: true,
-					getSplitStrings: () => {
-						return [
-							expression.substring(0, i),
-							expression.substring(i + 2, expression.length),
-						]
-					},
-				}
+			else if (i !== 0 && outsideBrackets()) {
+				const potentialOp = expression.substr(i, this.operator.length)
+				if (potentialOp === this.operator)
+					return {
+						isCorrectToken: true,
+						getSplitStrings: () => {
+							return [
+								expression.substring(0, i),
+								expression.substring(
+									i + this.operator.length,
+									expression.length
+								),
+							]
+						},
+					}
+			}
 		}
 
 		return {

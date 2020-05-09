@@ -1,5 +1,6 @@
-import { ASTNode } from '../ASTNode'
+import { ASTNode, IEvalResult } from '../ASTNode'
 import { ENV } from '../ENV'
+import { CONFIG } from '../../config'
 
 export class PropertyNode extends ASTNode {
 	type = 'MoLang.PropertyNode'

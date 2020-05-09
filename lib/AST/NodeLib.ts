@@ -23,6 +23,7 @@ import {
 	ReturnNode,
 	MakeNegativeNode,
 } from './Nodes/export'
+import { AssignmentNode } from './Nodes/Binary/Assignment'
 
 export interface ICreateASTNode {
 	new (): ASTNode
@@ -32,6 +33,8 @@ export interface ICreateASTNode {
 export function createNodeLib() {
 	let ASTNodes: [string, ICreateASTNode][] = [
 		['MoLang.NumberNode', NumberNode],
+		['MoLang.ReturnNode', ReturnNode],
+		// ['MoLang.AssignmentNode', AssignmentNode],
 
 		['MoLang.IfElseNode', IfElseNode],
 		['MoLang.IfNode', IfNode],
@@ -51,7 +54,6 @@ export function createNodeLib() {
 		['MoLang.MultiplicationNode', MultiplicationNode],
 		['MoLang.DivisionNode', DivisionNode],
 
-		['MoLang.ReturnNode', ReturnNode],
 		['MoLang.NegationNode', NegationNode],
 		['MoLang.MakeNegativeNode', MakeNegativeNode],
 

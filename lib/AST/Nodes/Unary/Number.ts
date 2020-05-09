@@ -3,6 +3,10 @@ import { ASTNode } from '../../ASTNode'
 export class NumberNode extends ASTNode {
 	type = 'MoLang.NumberNode'
 	protected number = 0
+	constructor(number?: number) {
+		super()
+		if (number) this.number = number
+	}
 
 	createChildren(_: string) {
 		return this

@@ -1,6 +1,8 @@
 import { AST } from '../main'
 import { setENV } from '../main'
+import { CONFIG } from '../config'
 
+CONFIG.useOptimizer = false
 const TESTS: [string, number | string][] = [
 	['1 + 1', 2],
 	['1 + 1 * 2', 3],
@@ -73,9 +75,7 @@ describe('MoLang.AST.create(string)', () => {
 	})
 	TESTS.forEach(([t, res]) =>
 		test(t, () => {
-			const tree = AST.create(t)
-			expect(tree.toString()).toBe(t)
-			expect(tree.eval().value).toBe(res)
+			expect(AST.create(t).eval().value).toBe(res)
 		})
 	)
 })

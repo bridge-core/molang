@@ -17,12 +17,14 @@ export function createNode(
 
 	expression = expression.trim()
 
+	let node
 	for (const [_, Node] of nodeLib.getASTNodes()) {
-		const node = new Node()
+		node = new Node()
 
 		const { isCorrectToken, getSplitStrings } = node.test(expression)
-		if (isCorrectToken)
+		if (isCorrectToken) {
 			return node.createChildren(expression, getSplitStrings)
+		}
 	}
 
 	throw new Error(`Invalid MoLang: "${expression}"`)
