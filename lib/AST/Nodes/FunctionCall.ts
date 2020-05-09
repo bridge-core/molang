@@ -59,7 +59,8 @@ function splitInner(str: string, splitChar: string) {
 	}
 	let lastSplit = 0
 
-	for (let i = 0; i < str.length; i++) {
+	let i = 0
+	while (i < str.length) {
 		const char = str[i]
 
 		if (char === '(') brackets.default++
@@ -72,6 +73,8 @@ function splitInner(str: string, splitChar: string) {
 			res.push(str.substring(lastSplit, i))
 			lastSplit = i + 1
 		}
+
+		i++
 	}
 
 	res.push(str.substring(lastSplit, str.length))

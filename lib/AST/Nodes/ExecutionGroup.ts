@@ -12,7 +12,8 @@ export class ExecutionGroupNode extends ASTNode {
 			return this
 		}
 
-		for (let i = 0; i < split.length; i++) {
+		let i = 0
+		while (i < split.length) {
 			const node = createNode(split[i])
 
 			//All statements that need to be evaluated contain an assignment or are return statements
@@ -25,6 +26,8 @@ export class ExecutionGroupNode extends ASTNode {
 
 			if (CONFIG.useOptimizer && node.type === 'MoLang.ReturnNode')
 				return this
+
+			i++
 		}
 		return this
 	}
@@ -39,13 +42,16 @@ export class ExecutionGroupNode extends ASTNode {
 			return { isReturn, value: isReturn ? 0.0 : value }
 		}
 
-		for (let i = 0; i < this.children.length; i++) {
+		let i = 0
+		while (i < this.children.length) {
 			const { isReturn, value } = this.children[i].eval()
 			if (isReturn)
 				return {
 					isReturn,
 					value,
 				}
+
+			i++
 		}
 
 		//Multiple statements without a return always evaluate to 0

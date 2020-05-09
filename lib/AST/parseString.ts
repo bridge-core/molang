@@ -7,7 +7,8 @@ export function parseString(expression: string) {
 		square: 0,
 	}
 
-	for (let i = 0; i < expression.length; i++) {
+	let i = 0
+	while (i < expression.length) {
 		const char = expression[i]
 		const nextChar = expression[i]
 
@@ -36,6 +37,8 @@ export function parseString(expression: string) {
 				markOps.push(['+', i])
 			}
 		}
+
+		i++
 	}
 
 	return markOps

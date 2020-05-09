@@ -147,7 +147,8 @@ export abstract class BinaryNode extends ASTNode {
 			square: 0,
 		}
 
-		for (let i = 0; i < expression.length; i++) {
+		let i = 0
+		while (i < expression.length) {
 			const char = expression[i]
 
 			if (char === '(') brackets.default++
@@ -177,6 +178,8 @@ export abstract class BinaryNode extends ASTNode {
 						},
 					}
 			}
+
+			i++
 		}
 
 		return {
@@ -202,8 +205,11 @@ export abstract class ChainNode extends ASTNode {
 	toString() {
 		let str = this.children[0].toString()
 
-		for (let i = 0; i < this.operators.length; i++)
+		let i = 0
+		while (i < this.operators.length) {
 			str += ` ${this.operators[i]} ${this.children[i + 1].toString()}`
+			i++
+		}
 
 		return str
 	}
@@ -224,7 +230,8 @@ export abstract class ChainNode extends ASTNode {
 
 		let searchCharIndex = 0
 		let splitPoints = [-1]
-		for (let i = 0; i < expression.length; i++) {
+		let i = 0
+		while (i < expression.length) {
 			const char = expression[i]
 
 			if (char === '(') brackets.default++
@@ -248,17 +255,22 @@ export abstract class ChainNode extends ASTNode {
 						splitPoints.push(expression.length)
 						const res: string[] = []
 
-						for (let j = 1; j < splitPoints.length; j++)
+						let j = 1
+						while (j < splitPoints.length) {
 							res.push(
 								expression.substring(
 									splitPoints[j - 1] + 1,
 									splitPoints[j]
 								)
 							)
+							j++
+						}
 
 						return res
 					},
 				}
+
+			i++
 		}
 
 		return {
