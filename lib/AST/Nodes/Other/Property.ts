@@ -1,14 +1,10 @@
-import { ASTNode, IEvalResult } from '../ASTNode'
-import { ENV } from '../ENV'
-import { CONFIG } from '../../config'
+import { ASTNode } from '../../ASTNode'
+import { ENV } from '../../ENV'
 
 export class PropertyNode extends ASTNode {
 	type = 'MoLang.PropertyNode'
-	protected expression = ''
-
-	createChildren(expression: string) {
-		this.expression = expression
-		return this
+	constructor(protected expression: string) {
+		super()
 	}
 
 	findValue() {
@@ -37,12 +33,9 @@ export class PropertyNode extends ASTNode {
 	toString() {
 		return this.expression
 	}
+}
 
-	test(expression: string) {
-		return {
-			isCorrectToken: /(([aA-zZ]([aA-zZ]|[0-9]|)*)\.?)+/y.test(
-				expression
-			),
-		}
-	}
+export function testProperty(expression: string) {
+	if (/(([aA-zZ]([aA-zZ]|[0-9]|)*)\.?)+/y.test(expression))
+		return new PropertyNode(expression)
 }

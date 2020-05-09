@@ -1,16 +1,25 @@
-import { BinaryNode } from '../../ASTNode'
+import { BinaryNode, testBinaryHelper } from '../../ASTNode'
 
 export class AssignmentNode extends BinaryNode {
 	type = 'MoLang.AssignmentNode'
-	constructor() {
-		super('=')
+	constructor(getSplitStrings: () => string[]) {
+		super('=', getSplitStrings)
 	}
 
 	eval() {
+		const { val1, val2 } = this.evalHelper()
+
 		return {
-			value: Number(
-				this.children[0].eval().value === this.children[1].eval().value
-			),
+			value: val1 + val2,
 		}
 	}
+}
+
+export function testAssignment(expression: string) {
+	const { isCorrectToken, getSplitStrings } = testBinaryHelper(
+		expression,
+		'='
+	)
+	if (isCorrectToken)
+		return new AssignmentNode(<() => string[]>getSplitStrings)
 }

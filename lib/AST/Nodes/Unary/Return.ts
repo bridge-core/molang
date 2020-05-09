@@ -1,10 +1,10 @@
-import { UnaryNode } from '../../ASTNode'
+import { UnaryNode, testUnaryHelper } from '../../ASTNode'
 
 export class ReturnNode extends UnaryNode {
 	type = 'MoLang.ReturnNode'
 
-	constructor() {
-		super('return ')
+	constructor(expression: string) {
+		super('return ', expression)
 	}
 
 	eval() {
@@ -15,4 +15,7 @@ export class ReturnNode extends UnaryNode {
 			value,
 		}
 	}
+}
+export function testReturn(expression: string) {
+	if (testUnaryHelper(expression, 'return')) return new ReturnNode(expression)
 }

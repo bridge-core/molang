@@ -1,9 +1,9 @@
-import { ChainNode } from '../../ASTNode'
+import { ChainNode, testChainHelper } from '../../ASTNode'
 
 export class IfElseNode extends ChainNode {
 	type = 'MoLang.IfElseNode'
-	constructor() {
-		super('?:')
+	constructor(getSplitStrings: () => string[]) {
+		super('?:', getSplitStrings)
 	}
 
 	eval() {
@@ -13,4 +13,12 @@ export class IfElseNode extends ChainNode {
 			return this.children[2].eval()
 		}
 	}
+}
+
+export function testIfElse(expression: string) {
+	const { isCorrectToken, getSplitStrings } = testChainHelper(
+		expression,
+		'?:'
+	)
+	if (isCorrectToken) return new IfElseNode(<() => string[]>getSplitStrings)
 }

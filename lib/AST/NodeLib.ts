@@ -23,6 +23,28 @@ import {
 	ReturnNode,
 	MakeNegativeNode,
 	AssignmentNode,
+	testNumber,
+	testIfElse,
+	testIf,
+	testConjunction,
+	testDisjunction,
+	testSmallerOrEquals,
+	testSmaller,
+	testGreaterOrEquals,
+	testGreater,
+	testEquals,
+	testNotEquals,
+	testAddition,
+	testSubtraction,
+	testMultiplication,
+	testDivision,
+	testGroup,
+	testString,
+	testProperty,
+	testReturn,
+	testNegation,
+	testMakeNegative,
+	testFunctionCall,
 } from './Nodes/export'
 
 export interface ICreateASTNode {
@@ -31,37 +53,37 @@ export interface ICreateASTNode {
 }
 
 export function createNodeLib() {
-	let ASTNodes: [string, ICreateASTNode][] = [
-		['MoLang.NumberNode', NumberNode],
-		['MoLang.ReturnNode', ReturnNode],
+	let ASTNodes: [string, (expression: string) => ASTNode | undefined][] = [
+		['MoLang.NumberNode', testNumber],
+		['MoLang.ReturnNode', testReturn],
 		// ['MoLang.AssignmentNode', AssignmentNode],
 
-		['MoLang.IfElseNode', IfElseNode],
-		['MoLang.IfNode', IfNode],
+		['MoLang.IfElseNode', testIfElse],
+		['MoLang.IfNode', testIf],
 
-		['MoLang.ConjunctionNode', ConjunctionNode],
-		['MoLang.DisjunctionNode', DisjunctionNode],
+		['MoLang.ConjunctionNode', testConjunction],
+		['MoLang.DisjunctionNode', testDisjunction],
 
-		['MoLang.SmallerOrEqualsNode', SmallerOrEqualsNode],
-		['MoLang.SmallerNode', SmallerNode],
-		['MoLang.GreaterOrEqualsNode', GreaterOrEqualsNode],
-		['MoLang.GreaterNode', GreaterNode],
-		['MoLang.EqualsNode', EqualsNode],
-		['MoLang.NotEqualsNode', NotEqualsNode],
+		['MoLang.SmallerOrEqualsNode', testSmallerOrEquals],
+		['MoLang.SmallerNode', testSmaller],
+		['MoLang.GreaterOrEqualsNode', testGreaterOrEquals],
+		['MoLang.GreaterNode', testGreater],
+		['MoLang.EqualsNode', testEquals],
+		['MoLang.NotEqualsNode', testNotEquals],
 
-		['MoLang.AdditionNode', AdditionNode],
-		['MoLang.SubtractionNode', SubtractionNode],
-		['MoLang.MultiplicationNode', MultiplicationNode],
-		['MoLang.DivisionNode', DivisionNode],
+		['MoLang.AdditionNode', testAddition],
+		['MoLang.SubtractionNode', testSubtraction],
+		['MoLang.MultiplicationNode', testMultiplication],
+		['MoLang.DivisionNode', testDivision],
 
-		['MoLang.NegationNode', NegationNode],
-		['MoLang.MakeNegativeNode', MakeNegativeNode],
+		['MoLang.NegationNode', testNegation],
+		['MoLang.MakeNegativeNode', testMakeNegative],
 
-		['MoLang.GroupNode', GroupNode],
-		['MoLang.StringNode', StringNode],
+		['MoLang.GroupNode', testGroup],
+		['MoLang.StringNode', testString],
 
-		['MoLang.FunctionCallNode', FunctionCallNode],
-		['MoLang.PropertyNode', PropertyNode],
+		['MoLang.FunctionCallNode', testFunctionCall],
+		['MoLang.PropertyNode', testProperty],
 		// ['MoLang.UndefinedNode', UndefinedNode],
 	]
 
@@ -71,29 +93,31 @@ export function createNodeLib() {
 		},
 		addNode(
 			nodeName: string,
-			Node: ICreateASTNode,
+			testNode: (expression: string) => ASTNode | undefined,
 			sortAfterInsert = true
 		) {
 			const i = ASTNodes.findIndex(
 				([currNodeName]) => currNodeName === nodeName
 			)
-			if (i !== -1) return (ASTNodes[i][1] = Node)
+			if (i !== -1) return (ASTNodes[i][1] = testNode)
 
-			ASTNodes = ASTNodes.concat([[nodeName, Node]])
+			ASTNodes = ASTNodes.concat([[nodeName, testNode]])
 
 			if (!sortAfterInsert) return
-			ASTNodes = ASTNodes.sort(
-				([_1, n1], [_2, n2]) => n2.priority - n1.priority
-			)
+			// ASTNodes = ASTNodes.sort(
+			// 	([_1, n1], [_2, n2]) => n2.priority - n1.priority
+			// )
 		},
-		addNodes(nodes: [string, ICreateASTNode][]) {
-			nodes.forEach(([nodeName, Node]) =>
-				this.addNode(nodeName, Node, false)
+		addNodes(
+			nodes: [string, (expression: string) => ASTNode | undefined][]
+		) {
+			nodes.forEach(([nodeName, testNode]) =>
+				this.addNode(nodeName, testNode, false)
 			)
 
-			ASTNodes = ASTNodes.sort(
-				([_1, n1], [_2, n2]) => n2.priority - n1.priority
-			)
+			// ASTNodes = ASTNodes.sort(
+			// 	([_1, n1], [_2, n2]) => n2.priority - n1.priority
+			// )
 		},
 	}
 }

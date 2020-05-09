@@ -3,14 +3,11 @@ import { ASTNode } from '../../ASTNode'
 export class NumberNode extends ASTNode {
 	type = 'MoLang.NumberNode'
 	protected number = 0
-	constructor(number?: number) {
+	constructor(number: number) {
 		super()
 		if (number) this.number = number
 	}
 
-	createChildren(_: string) {
-		return this
-	}
 	toString() {
 		return String(this.number)
 	}
@@ -19,10 +16,10 @@ export class NumberNode extends ASTNode {
 			value: this.number,
 		}
 	}
-	test(expression: string) {
-		this.number = Number(expression)
-		return {
-			isCorrectToken: expression !== '' && !Number.isNaN(this.number),
-		}
-	}
+}
+
+export function testNumber(expression: string) {
+	const number = Number(expression)
+	if (expression !== '' && !Number.isNaN(number))
+		return new NumberNode(number)
 }

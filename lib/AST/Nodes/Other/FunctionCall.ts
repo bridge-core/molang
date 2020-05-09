@@ -1,10 +1,11 @@
-import { ASTNode } from '../ASTNode'
-import { createNode } from '../create'
+import { ASTNode } from '../../ASTNode'
+import { createNode } from '../../create'
 
 export class FunctionCallNode extends ASTNode {
 	type = 'MoLang.FunctionCallNode'
+	constructor(expression: string) {
+		super()
 
-	createChildren(expression: string) {
 		const index = expression.indexOf('(')
 		const [body, callSignatures] = [
 			expression.substring(0, index),
@@ -19,7 +20,6 @@ export class FunctionCallNode extends ASTNode {
 				.filter((arg) => arg !== '')
 				.map((arg) => createNode(arg)),
 		]
-		return this
 	}
 
 	eval() {
@@ -33,14 +33,11 @@ export class FunctionCallNode extends ASTNode {
 			.map((c) => c.toString())
 			.join(', ')})`
 	}
+}
 
-	test(expression: string) {
-		return {
-			isCorrectToken: /(([aA-zZ]([aA-zZ]|[0-9]|)*)\.?)+\(.*\)/y.test(
-				expression
-			),
-		}
-	}
+export function testFunctionCall(expression: string) {
+	if (/(([aA-zZ]([aA-zZ]|[0-9]|)*)\.?)+\(.*\)/y.test(expression))
+		return new FunctionCallNode(expression)
 }
 
 function splitInner(str: string, splitChar: string) {

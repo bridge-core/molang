@@ -13,10 +13,6 @@ export abstract class ASTNode {
 	protected children: ASTNode[] = []
 
 	abstract toString(): string
-	abstract createChildren(
-		expression: string | number,
-		getSplitStrings?: () => string[]
-	): ASTNode
 	eval(...args: unknown[]): IEvalResult {
 		return {
 			value: this.toString(),
@@ -34,17 +30,13 @@ export abstract class ASTNode {
  * Parses single character front operator
  */
 export abstract class UnaryNode extends ASTNode {
-	constructor(protected operator: string) {
+	constructor(protected operator: string, expression: string) {
 		super()
-	}
-
-	createChildren(expression: string) {
 		this.children = [
 			createNode(
 				expression.substring(this.operator.length, expression.length)
 			),
 		]
-		return this
 	}
 
 	eval() {
@@ -54,18 +46,13 @@ export abstract class UnaryNode extends ASTNode {
 	toString() {
 		return `${this.operator}${this.children[0].toString()}`
 	}
+}
+export function testUnaryHelper(expression: string, operator: string) {
+	if (expression.length < operator.length) return false
 
-	test(expression: string): ITestResult {
-		if (expression.length < this.operator.length)
-			return { isCorrectToken: false }
-
-		return {
-			isCorrectToken:
-				this.operator.length === 1
-					? expression[0] === this.operator
-					: expression.startsWith(this.operator),
-		}
-	}
+	return operator.length === 1
+		? expression[0] === operator
+		: expression.startsWith(operator)
 }
 
 /**
@@ -73,44 +60,26 @@ export abstract class UnaryNode extends ASTNode {
  */
 export abstract class BinaryNode extends ASTNode {
 	protected collectedIndex: number = -1
-	constructor(protected operator: string) {
+	constructor(protected operator: string, getSplitStrings: () => string[]) {
 		super()
-	}
-	collect(op: string, index: number) {
-		if (
-			this.operator.length === 1 &&
-			op[0] === this.operator &&
-			this.collectedIndex === -1
-		)
-			this.collectedIndex = index
-		else if (op === this.operator && this.collectedIndex === -1)
-			this.collectedIndex = index
-	}
-	getCollected() {
-		return this.collectedIndex
-	}
 
-	createChildren(
-		expression: string,
-		getSplitStrings?: () => string[]
-	): ASTNode {
-		this.children =
-			getSplitStrings?.()?.map((expr) => createNode(expr)) ?? []
+		// if (
+		// 	CONFIG.useOptimizer &&
+		// 	this.children[0].type === 'MoLang.NumberNode' &&
+		// 	this.children[1].type === 'MoLang.NumberNode'
+		// )
+		// 	return new NumberNode(<number>this.eval().value)
+		// //Strings can currently only be compared, result must be number
+		// if (
+		// 	CONFIG.useOptimizer &&
+		// 	this.children[0].type === 'MoLang.StringNode' &&
+		// 	this.children[1].type === 'MoLang.StringNode'
+		// )
+		// 	return new NumberNode(<number>this.eval().value)
 
-		if (
-			CONFIG.useOptimizer &&
-			this.children[0].type === 'MoLang.NumberNode' &&
-			this.children[1].type === 'MoLang.NumberNode'
-		)
-			return new NumberNode(<number>this.eval().value)
-		//Strings can currently only be compared, result must be number
-		if (
-			CONFIG.useOptimizer &&
-			this.children[0].type === 'MoLang.StringNode' &&
-			this.children[1].type === 'MoLang.StringNode'
-		)
-			return new NumberNode(<number>this.eval().value)
-		return this
+		const split = getSplitStrings()
+		this.children.push(createNode(split[0]))
+		this.children.push(createNode(split[1]))
 	}
 
 	toString() {
@@ -139,52 +108,51 @@ export abstract class BinaryNode extends ASTNode {
 			val2,
 		}
 	}
+}
+export function testBinaryHelper(expression: string, operator: string) {
+	const brackets = {
+		default: 0,
+		squirly: 0,
+		square: 0,
+	}
 
-	test(expression: string) {
-		const brackets = {
-			default: 0,
-			squirly: 0,
-			square: 0,
+	let i = 0
+	while (i < expression.length) {
+		const char = expression[i]
+
+		if (char === '(') brackets.default++
+		else if (char === ')') brackets.default--
+		else if (char === '[') brackets.square++
+		else if (char === ']') brackets.square--
+		else if (char === '{') brackets.squirly++
+		else if (char === '}') brackets.squirly--
+		else if (
+			i !== 0 &&
+			brackets.default === 0 &&
+			brackets.square === 0 &&
+			brackets.squirly === 0
+		) {
+			const potentialOp = expression.substr(i, operator.length)
+			if (potentialOp === operator)
+				return {
+					isCorrectToken: true,
+					getSplitStrings: () => {
+						return [
+							expression.substring(0, i),
+							expression.substring(
+								i + operator.length,
+								expression.length
+							),
+						]
+					},
+				}
 		}
 
-		let i = 0
-		while (i < expression.length) {
-			const char = expression[i]
+		i++
+	}
 
-			if (char === '(') brackets.default++
-			else if (char === ')') brackets.default--
-			else if (char === '[') brackets.square++
-			else if (char === ']') brackets.square--
-			else if (char === '{') brackets.squirly++
-			else if (char === '}') brackets.squirly--
-			else if (
-				i !== 0 &&
-				brackets.default === 0 &&
-				brackets.square === 0 &&
-				brackets.squirly === 0
-			) {
-				const potentialOp = expression.substr(i, this.operator.length)
-				if (potentialOp === this.operator)
-					return {
-						isCorrectToken: true,
-						getSplitStrings: () => {
-							return [
-								expression.substring(0, i),
-								expression.substring(
-									i + this.operator.length,
-									expression.length
-								),
-							]
-						},
-					}
-			}
-
-			i++
-		}
-
-		return {
-			isCorrectToken: false,
-		}
+	return {
+		isCorrectToken: false,
 	}
 }
 
@@ -192,14 +160,15 @@ export abstract class BinaryNode extends ASTNode {
  * Parses n* single character operators
  */
 export abstract class ChainNode extends ASTNode {
-	constructor(protected operators: string) {
+	constructor(protected operators: string, getSplitStrings: () => string[]) {
 		super()
-	}
 
-	createChildren(_: string, getSplitStrings?: () => string[]) {
-		this.children =
-			getSplitStrings?.()?.map((expr) => createNode(expr)) ?? []
-		return this
+		const split = getSplitStrings()
+		let i = 0
+		while (i < split.length) {
+			this.children.push(createNode(split[i]))
+			i++
+		}
 	}
 
 	toString() {
@@ -213,68 +182,62 @@ export abstract class ChainNode extends ASTNode {
 
 		return str
 	}
+}
+export function testChainHelper(expression: string, operators: string) {
+	const brackets = {
+		default: 0,
+		squirly: 0,
+		square: 0,
+	}
 
-	test(expression: string) {
-		const brackets = {
-			default: 0,
-			squirly: 0,
-			square: 0,
+	let searchCharIndex = 0
+	let splitPoints = [-1]
+	let i = 0
+	while (i < expression.length) {
+		const char = expression[i]
+
+		if (char === '(') brackets.default++
+		else if (char === ')') brackets.default--
+		else if (char === '[') brackets.square++
+		else if (char === ']') brackets.square--
+		else if (char === '{') brackets.squirly++
+		else if (char === '}') brackets.squirly--
+		else if (
+			brackets.default === 0 &&
+			brackets.square === 0 &&
+			brackets.squirly === 0 &&
+			char === operators[searchCharIndex]
+		) {
+			searchCharIndex++
+			splitPoints.push(i)
 		}
-		const outsideBrackets = () => {
-			return (
-				brackets.default === 0 &&
-				brackets.square === 0 &&
-				brackets.squirly === 0
-			)
-		}
 
-		let searchCharIndex = 0
-		let splitPoints = [-1]
-		let i = 0
-		while (i < expression.length) {
-			const char = expression[i]
+		if (searchCharIndex === operators.length)
+			return {
+				isCorrectToken: true,
+				getSplitStrings: () => {
+					splitPoints.push(expression.length)
+					const res: string[] = []
 
-			if (char === '(') brackets.default++
-			else if (char === ')') brackets.default--
-			else if (char === '[') brackets.square++
-			else if (char === ']') brackets.square--
-			else if (char === '{') brackets.squirly++
-			else if (char === '}') brackets.squirly--
-			else if (
-				outsideBrackets() &&
-				char === this.operators[searchCharIndex]
-			) {
-				searchCharIndex++
-				splitPoints.push(i)
+					let j = 1
+					while (j < splitPoints.length) {
+						res.push(
+							expression.substring(
+								splitPoints[j - 1] + 1,
+								splitPoints[j]
+							)
+						)
+						j++
+					}
+
+					return res
+				},
 			}
 
-			if (searchCharIndex === this.operators.length)
-				return {
-					isCorrectToken: true,
-					getSplitStrings: () => {
-						splitPoints.push(expression.length)
-						const res: string[] = []
+		i++
+	}
 
-						let j = 1
-						while (j < splitPoints.length) {
-							res.push(
-								expression.substring(
-									splitPoints[j - 1] + 1,
-									splitPoints[j]
-								)
-							)
-							j++
-						}
-
-						return res
-					},
-				}
-
-			i++
-		}
-
-		return {
-			isCorrectToken: false,
-		}
+	return {
+		isCorrectToken: false,
 	}
 }

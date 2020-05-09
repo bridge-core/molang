@@ -1,15 +1,11 @@
-import { GroupNode } from './Group'
+import { GroupNode, testGroup, testGroupHelper } from './Group'
 
 export class StringNode extends GroupNode {
 	type = 'MoLang.StringNode'
 	protected expression = ''
-	constructor() {
-		super("''")
-	}
-
-	createChildren(expression: string) {
+	constructor(expression: string) {
+		super("''", expression, false)
 		this.expression = expression.substring(1, expression.length - 1)
-		return this
 	}
 
 	eval() {
@@ -20,4 +16,8 @@ export class StringNode extends GroupNode {
 	toString() {
 		return `'${this.expression}'`
 	}
+}
+
+export function testString(expression: string) {
+	if (testGroupHelper(expression, "''")) return new StringNode(expression)
 }

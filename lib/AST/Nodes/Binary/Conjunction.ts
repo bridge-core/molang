@@ -1,9 +1,9 @@
-import { BinaryNode } from '../../ASTNode'
+import { BinaryNode, testBinaryHelper } from '../../ASTNode'
 
 export class ConjunctionNode extends BinaryNode {
 	type = 'MoLang.ConjunctionNode'
-	constructor() {
-		super('&&')
+	constructor(getSplitStrings: () => string[]) {
+		super('&&', getSplitStrings)
 	}
 
 	eval() {
@@ -13,4 +13,13 @@ export class ConjunctionNode extends BinaryNode {
 			value: Number(Boolean(val1 && val2)),
 		}
 	}
+}
+
+export function testConjunction(expression: string) {
+	const { isCorrectToken, getSplitStrings } = testBinaryHelper(
+		expression,
+		'&&'
+	)
+	if (isCorrectToken)
+		return new ConjunctionNode(<() => string[]>getSplitStrings)
 }

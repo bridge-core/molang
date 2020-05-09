@@ -19,9 +19,7 @@ export function parse(expression: string, useCache = true) {
 	if (useCache && CACHE.has(expression))
 		return (<ASTNode>CACHE.get(expression)).eval()
 
-	const ast = new ExecutionGroupNode().createChildren(
-		expression.toLowerCase()
-	)
+	const ast = new ExecutionGroupNode(expression.toLowerCase())
 	if (useCache) CACHE.set(expression, ast)
 
 	return ast.eval().value
@@ -31,7 +29,7 @@ export { setENV } from './AST/ENV'
 export namespace AST {
 	export const create = (expression: string, nodeLib = defaultLib) => {
 		setNodeLib(nodeLib)
-		return new ExecutionGroupNode().createChildren(expression.toLowerCase())
+		return new ExecutionGroupNode(expression.toLowerCase())
 	}
 	export namespace NodeLib {
 		export const create = createNodeLib

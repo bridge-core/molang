@@ -1,4 +1,5 @@
 import { AST, FunctionCallNode } from '../main'
+import { testFunctionCall } from '../AST/Nodes/export'
 
 describe('MoLang.AST.addNode(string, node)', () => {
 	const functions: { [str: string]: (...args: unknown[]) => string } = {
@@ -12,14 +13,17 @@ describe('MoLang.AST.addNode(string, node)', () => {
 
 	class MyCustomNode extends FunctionCallNode {
 		toString() {
-			return functions[this.children[0].toString()](
+			return functions[this.children[0].toString()]?.(
 				...this.children.slice(1).map((c) => c.toString())
 			)
 		}
 	}
+	function testNode(expression: string) {
+		if (testFunctionCall(expression)) return new MyCustomNode(expression)
+	}
 
 	const myLib = AST.NodeLib.create()
-	myLib.addNode('MoLang.FunctionCallNode', MyCustomNode)
+	myLib.addNode('MoLang.FunctionCallNode', testNode)
 	;[
 		['test.something()', 'It works!'],
 		[

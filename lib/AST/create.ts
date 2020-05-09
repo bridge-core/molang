@@ -20,12 +20,8 @@ export function createNode(
 	const nodes = nodeLib.getASTNodes()
 	let i = 0
 	while (i < nodes.length) {
-		const node = new nodes[i][1]()
-
-		const { isCorrectToken, getSplitStrings } = node.test(expression)
-		if (isCorrectToken) {
-			return node.createChildren(expression, getSplitStrings)
-		}
+		const node = nodes[i][1](expression)
+		if (node) return node
 
 		i++
 	}

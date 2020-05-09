@@ -1,9 +1,9 @@
-import { BinaryNode } from '../../ASTNode'
+import { BinaryNode, testBinaryHelper } from '../../ASTNode'
 
 export class DisjunctionNode extends BinaryNode {
 	type = 'MoLang.DisjunctionNode'
-	constructor() {
-		super('||')
+	constructor(getSplitStrings: () => string[]) {
+		super('||', getSplitStrings)
 	}
 
 	eval() {
@@ -13,4 +13,13 @@ export class DisjunctionNode extends BinaryNode {
 			value: Number(Boolean(val1 || val2)),
 		}
 	}
+}
+
+export function testDisjunction(expression: string) {
+	const { isCorrectToken, getSplitStrings } = testBinaryHelper(
+		expression,
+		'||'
+	)
+	if (isCorrectToken)
+		return new DisjunctionNode(<() => string[]>getSplitStrings)
 }

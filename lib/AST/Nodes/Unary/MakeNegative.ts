@@ -1,10 +1,10 @@
-import { UnaryNode } from '../../ASTNode'
+import { UnaryNode, testUnaryHelper } from '../../ASTNode'
 
 export class MakeNegativeNode extends UnaryNode {
 	type = 'MoLang.MakeNegativeNode'
 
-	constructor() {
-		super('-')
+	constructor(expression: string) {
+		super('-', expression)
 	}
 
 	eval() {
@@ -19,4 +19,9 @@ export class MakeNegativeNode extends UnaryNode {
 			value: -value,
 		}
 	}
+}
+
+export function testMakeNegative(expression: string) {
+	if (testUnaryHelper(expression, '-'))
+		return new MakeNegativeNode(expression)
 }

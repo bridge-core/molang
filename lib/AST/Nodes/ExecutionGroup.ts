@@ -4,12 +4,13 @@ import { CONFIG } from '../../config'
 
 export class ExecutionGroupNode extends ASTNode {
 	type = 'MoLang.ExecutionGroupNode'
+	constructor(expression: string) {
+		super()
 
-	createChildren(expression: string): ASTNode {
 		const split = expression.split(';').filter((expr) => expr !== '')
 		if (split.length === 1) {
 			this.children.push(createNode(split[0]))
-			return this
+			return
 		}
 
 		let i = 0
@@ -29,7 +30,6 @@ export class ExecutionGroupNode extends ASTNode {
 
 			i++
 		}
-		return this
 	}
 
 	eval() {
@@ -68,11 +68,5 @@ export class ExecutionGroupNode extends ASTNode {
 		}
 
 		return `${this.children.map((c) => c.toString()).join('; ')};`
-	}
-
-	test(_: string) {
-		return {
-			isCorrectToken: false,
-		}
 	}
 }

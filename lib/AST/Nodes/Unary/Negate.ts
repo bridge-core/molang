@@ -1,10 +1,10 @@
-import { UnaryNode } from '../../ASTNode'
+import { UnaryNode, testUnaryHelper } from '../../ASTNode'
 
 export class NegationNode extends UnaryNode {
 	type = 'MoLang.NegationNode'
 
-	constructor() {
-		super('!')
+	constructor(expression: string) {
+		super('!', expression)
 	}
 
 	eval() {
@@ -19,4 +19,8 @@ export class NegationNode extends UnaryNode {
 			value: value > 0 ? 0 : 1,
 		}
 	}
+}
+
+export function testNegation(expression: string) {
+	if (testUnaryHelper(expression, '!')) return new NegationNode(expression)
 }
