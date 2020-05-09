@@ -146,13 +146,6 @@ export abstract class BinaryNode extends ASTNode {
 			squirly: 0,
 			square: 0,
 		}
-		const outsideBrackets = () => {
-			return (
-				brackets.default === 0 &&
-				brackets.square === 0 &&
-				brackets.squirly === 0
-			)
-		}
 
 		for (let i = 0; i < expression.length; i++) {
 			const char = expression[i]
@@ -163,7 +156,12 @@ export abstract class BinaryNode extends ASTNode {
 			else if (char === ']') brackets.square--
 			else if (char === '{') brackets.squirly++
 			else if (char === '}') brackets.squirly--
-			else if (i !== 0 && outsideBrackets()) {
+			else if (
+				i !== 0 &&
+				brackets.default === 0 &&
+				brackets.square === 0 &&
+				brackets.squirly === 0
+			) {
 				const potentialOp = expression.substr(i, this.operator.length)
 				if (potentialOp === this.operator)
 					return {

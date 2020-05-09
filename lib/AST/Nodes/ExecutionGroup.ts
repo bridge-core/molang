@@ -12,8 +12,8 @@ export class ExecutionGroupNode extends ASTNode {
 			return this
 		}
 
-		for (let expr of split) {
-			const node = createNode(expr)
+		for (let i = 0; i < split.length; i++) {
+			const node = createNode(split[i])
 
 			//All statements that need to be evaluated contain an assignment or are return statements
 			if (
@@ -39,8 +39,8 @@ export class ExecutionGroupNode extends ASTNode {
 			return { isReturn, value: isReturn ? 0.0 : value }
 		}
 
-		for (let c of this.children) {
-			const { isReturn, value } = c.eval()
+		for (let i = 0; i < this.children.length; i++) {
+			const { isReturn, value } = this.children[i].eval()
 			if (isReturn)
 				return {
 					isReturn,

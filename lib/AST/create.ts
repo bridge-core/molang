@@ -17,9 +17,9 @@ export function createNode(
 
 	expression = expression.trim()
 
-	let node
-	for (const [_, Node] of nodeLib.getASTNodes()) {
-		node = new Node()
+	const nodes = nodeLib.getASTNodes()
+	for (let i = 0; i < nodes.length; i++) {
+		const node = new nodes[i][1]()
 
 		const { isCorrectToken, getSplitStrings } = node.test(expression)
 		if (isCorrectToken) {

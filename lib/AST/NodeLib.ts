@@ -22,8 +22,8 @@ import {
 	NegationNode,
 	ReturnNode,
 	MakeNegativeNode,
+	AssignmentNode,
 } from './Nodes/export'
-import { AssignmentNode } from './Nodes/Binary/Assignment'
 
 export interface ICreateASTNode {
 	new (): ASTNode
