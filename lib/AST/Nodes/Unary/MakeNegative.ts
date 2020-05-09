@@ -1,4 +1,4 @@
-import { UnaryNode, testUnaryHelper } from '../../ASTNode'
+import { UnaryNode, testUnaryHelper, TEvalResult } from '../../ASTNode'
 
 export class MakeNegativeNode extends UnaryNode {
 	type = 'MoLang.MakeNegativeNode'
@@ -8,16 +8,13 @@ export class MakeNegativeNode extends UnaryNode {
 	}
 
 	eval() {
-		const { isReturn, value } = this.children[0].eval()
+		const [isReturn, value] = this.children[0].eval()
 		if (typeof value === 'string')
 			throw new Error(
 				`Cannot use '-' operator on string: "-${this.children[0].toString()}"`
 			)
 
-		return {
-			isReturn,
-			value: -value,
-		}
+		return <TEvalResult>[isReturn, -value]
 	}
 }
 

@@ -2,10 +2,7 @@ import { ITestResult, createNode } from './create'
 import { NumberNode } from './Nodes/export'
 import { CONFIG } from '../config'
 
-export interface IEvalResult {
-	isReturn?: boolean
-	value: number | string
-}
+export type TEvalResult = [boolean, string | number]
 
 export abstract class ASTNode {
 	abstract type: string
@@ -13,10 +10,8 @@ export abstract class ASTNode {
 	protected children: ASTNode[] = []
 
 	abstract toString(): string
-	eval(...args: unknown[]): IEvalResult {
-		return {
-			value: this.toString(),
-		}
+	eval(...args: unknown[]): TEvalResult {
+		return [false, this.toString()]
 	}
 
 	test(_: string): ITestResult {
@@ -88,25 +83,19 @@ export abstract class BinaryNode extends ASTNode {
 		} ${this.children[1].toString()}`
 	}
 
-	eval(): IEvalResult {
-		return {
-			isReturn: false,
-			value: 0,
-		}
+	eval(): TEvalResult {
+		return [false, 0]
 	}
 
 	protected evalHelper() {
-		const { value: val1 } = this.children[0].eval()
-		const { value: val2 } = this.children[1].eval()
+		const [_1, val1] = this.children[0].eval()
+		const [_2, val2] = this.children[1].eval()
 		if (typeof val1 === 'string' || typeof val2 === 'string')
 			throw new Error(
 				`Cannot use '${this.operator}' operator with string "${val1} ${this.operator} ${val2}"`
 			)
 
-		return {
-			val1,
-			val2,
-		}
+		return [val1, val2]
 	}
 }
 export function testBinaryHelper(expression: string, operator: string) {
@@ -116,9 +105,11 @@ export function testBinaryHelper(expression: string, operator: string) {
 		square: 0,
 	}
 
+	const increase = operator.length
 	let i = 0
 	while (i < expression.length) {
 		const char = expression[i]
+		const nextChar = expression[i + 1]
 
 		if (char === '(') brackets.default++
 		else if (char === ')') brackets.default--
@@ -132,20 +123,22 @@ export function testBinaryHelper(expression: string, operator: string) {
 			brackets.square === 0 &&
 			brackets.squirly === 0
 		) {
-			const potentialOp = expression.substr(i, operator.length)
-			if (potentialOp === operator)
+			const potentialOp = expression.substring(i, i + increase)
+
+			if (potentialOp === operator) {
 				return {
 					isCorrectToken: true,
 					getSplitStrings: () => {
 						return [
 							expression.substring(0, i),
 							expression.substring(
-								i + operator.length,
+								i + increase,
 								expression.length
 							),
 						]
 					},
 				}
+			}
 		}
 
 		i++

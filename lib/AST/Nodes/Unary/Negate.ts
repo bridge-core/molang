@@ -1,4 +1,4 @@
-import { UnaryNode, testUnaryHelper } from '../../ASTNode'
+import { UnaryNode, testUnaryHelper, TEvalResult } from '../../ASTNode'
 
 export class NegationNode extends UnaryNode {
 	type = 'MoLang.NegationNode'
@@ -8,16 +8,13 @@ export class NegationNode extends UnaryNode {
 	}
 
 	eval() {
-		const { isReturn, value } = this.children[0].eval()
+		const [isReturn, value] = this.children[0].eval()
 		if (typeof value === 'string')
 			throw new Error(
 				`Cannot negate string: "!${this.children[0].toString()}"`
 			)
 
-		return {
-			isReturn,
-			value: value > 0 ? 0 : 1,
-		}
+		return <TEvalResult>[isReturn, value > 0 ? 0 : 1]
 	}
 }
 

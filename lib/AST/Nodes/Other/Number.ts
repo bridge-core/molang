@@ -1,4 +1,4 @@
-import { ASTNode } from '../../ASTNode'
+import { ASTNode, TEvalResult } from '../../ASTNode'
 
 export class NumberNode extends ASTNode {
 	type = 'MoLang.NumberNode'
@@ -12,9 +12,7 @@ export class NumberNode extends ASTNode {
 		return String(this.number)
 	}
 	eval() {
-		return {
-			value: this.number,
-		}
+		return <TEvalResult>[false, this.number]
 	}
 }
 

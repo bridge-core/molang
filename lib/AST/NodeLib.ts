@@ -79,11 +79,12 @@ export function createNodeLib() {
 		['MoLang.NegationNode', testNegation],
 		['MoLang.MakeNegativeNode', testMakeNegative],
 
-		['MoLang.GroupNode', testGroup],
 		['MoLang.StringNode', testString],
 
 		['MoLang.FunctionCallNode', testFunctionCall],
 		['MoLang.PropertyNode', testProperty],
+		['MoLang.GroupNode', testGroup],
+
 		// ['MoLang.UndefinedNode', UndefinedNode],
 	]
 

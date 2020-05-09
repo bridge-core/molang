@@ -1,4 +1,4 @@
-import { UnaryNode, testUnaryHelper } from '../../ASTNode'
+import { UnaryNode, testUnaryHelper, TEvalResult } from '../../ASTNode'
 
 export class ReturnNode extends UnaryNode {
 	type = 'MoLang.ReturnNode'
@@ -7,13 +7,8 @@ export class ReturnNode extends UnaryNode {
 		super('return ', expression)
 	}
 
-	eval() {
-		const { value } = this.children[0].eval()
-
-		return {
-			isReturn: true,
-			value,
-		}
+	eval(): TEvalResult {
+		return [true, this.children[0].eval()[1]]
 	}
 }
 export function testReturn(expression: string) {

@@ -1,15 +1,18 @@
-import { ASTNode } from '../ASTNode'
+import { ASTNode, TEvalResult } from '../ASTNode'
 import { createNode } from '../create'
 import { CONFIG } from '../../config'
 
 export class ExecutionGroupNode extends ASTNode {
 	type = 'MoLang.ExecutionGroupNode'
+	protected endsWithSemicolon: boolean
 	constructor(expression: string) {
 		super()
+		this.endsWithSemicolon = expression[expression.length - 1] === ';'
 
+		const useOptimizer = CONFIG.get('useOptimizer')
 		const split = expression.split(';').filter((expr) => expr !== '')
 		if (split.length === 1) {
-			this.children.push(createNode(split[0]))
+			this.children.push(createNode(split[0], undefined, useOptimizer))
 			return
 		}
 
@@ -19,45 +22,35 @@ export class ExecutionGroupNode extends ASTNode {
 
 			//All statements that need to be evaluated contain an assignment or are return statements
 			if (
-				!CONFIG.useOptimizer ||
+				!useOptimizer ||
 				node.type === 'MoLang.ReturnNode' ||
 				node.type === 'MoLang.AssignmentNode'
 			)
 				this.children.push(node)
 
-			if (CONFIG.useOptimizer && node.type === 'MoLang.ReturnNode')
-				return this
+			if (useOptimizer && node.type === 'MoLang.ReturnNode') return
 
 			i++
 		}
 	}
 
-	eval() {
-		//If only one statement: Always return
+	eval(): TEvalResult {
+		//If only one statement: Return if semicolon at end of statement
 		if (this.children.length === 1) {
-			if (CONFIG.useOptimizer) return this.children[0].eval()
-
-			//This is normally the correct behavior but it breaks the optimizing parser
-			const { isReturn, value } = this.children[0].eval()
-			return { isReturn, value: isReturn ? 0.0 : value }
+			const [isReturn, value] = this.children[0].eval()
+			return [isReturn, isReturn && !this.endsWithSemicolon ? 0.0 : value]
 		}
 
 		let i = 0
 		while (i < this.children.length) {
-			const { isReturn, value } = this.children[i].eval()
-			if (isReturn)
-				return {
-					isReturn,
-					value,
-				}
+			const [isReturn, value] = this.children[i].eval()
+			if (isReturn) return [isReturn, value]
 
 			i++
 		}
 
 		//Multiple statements without a return always evaluate to 0
-		return {
-			value: 0,
-		}
+		return [false, 0]
 	}
 
 	toString() {

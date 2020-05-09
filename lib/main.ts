@@ -11,18 +11,18 @@ export function resetCache() {
 }
 export function parse(expression: string, useCache = true) {
 	setNodeLib(defaultLib)
-	CONFIG.useCache = useCache
+	CONFIG.set('useCache', useCache)
 
 	const tryCast = Number(expression)
 	if (!Number.isNaN(tryCast)) return tryCast
 
 	if (useCache && CACHE.has(expression))
-		return (<ASTNode>CACHE.get(expression)).eval()
+		return (<ASTNode>CACHE.get(expression)).eval()[1]
 
 	const ast = new ExecutionGroupNode(expression.toLowerCase())
 	if (useCache) CACHE.set(expression, ast)
 
-	return ast.eval().value
+	return ast.eval()[1]
 }
 export { setENV } from './AST/ENV'
 

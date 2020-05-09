@@ -1,4 +1,4 @@
-import { BinaryNode, testBinaryHelper } from '../../ASTNode'
+import { BinaryNode, testBinaryHelper, TEvalResult } from '../../ASTNode'
 
 export class EqualsNode extends BinaryNode {
 	type = 'MoLang.EqualsNode'
@@ -6,13 +6,13 @@ export class EqualsNode extends BinaryNode {
 		super('==', getSplitStrings)
 	}
 
-	eval() {
-		return {
-			value:
-				this.children[0].eval().value == this.children[1].eval().value
-					? 1.0
-					: 0.0,
-		}
+	eval(): TEvalResult {
+		return [
+			false,
+			this.children[0].eval()[1] == this.children[1].eval()[1]
+				? 1.0
+				: 0.0,
+		]
 	}
 }
 

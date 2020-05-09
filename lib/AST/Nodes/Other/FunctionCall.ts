@@ -24,7 +24,7 @@ export class FunctionCallNode extends ASTNode {
 
 	eval() {
 		return this.children[0].eval(
-			...this.children.slice(1).map((c) => c.eval().value)
+			...this.children.slice(1).map((c) => c.eval()[1])
 		)
 	}
 	toString() {
@@ -47,13 +47,6 @@ function splitInner(str: string, splitChar: string) {
 		squirly: 0,
 		square: 0,
 	}
-	const outsideBrackets = () => {
-		return (
-			brackets.default === 0 &&
-			brackets.square === 0 &&
-			brackets.squirly === 0
-		)
-	}
 	let lastSplit = 0
 
 	let i = 0
@@ -66,7 +59,12 @@ function splitInner(str: string, splitChar: string) {
 		else if (char === ']') brackets.square--
 		else if (char === '{') brackets.squirly++
 		else if (char === '}') brackets.squirly--
-		else if (outsideBrackets() && char === splitChar) {
+		else if (
+			brackets.default === 0 &&
+			brackets.square === 0 &&
+			brackets.squirly === 0 &&
+			char === splitChar
+		) {
 			res.push(str.substring(lastSplit, i))
 			lastSplit = i + 1
 		}

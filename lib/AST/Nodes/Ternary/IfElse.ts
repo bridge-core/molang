@@ -7,7 +7,7 @@ export class IfElseNode extends ChainNode {
 	}
 
 	eval() {
-		if (this.children[0].eval().value) {
+		if (this.children[0].eval()[1]) {
 			return this.children[1].eval()
 		} else {
 			return this.children[2].eval()

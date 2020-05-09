@@ -1,4 +1,4 @@
-import { BinaryNode, testBinaryHelper } from '../../ASTNode'
+import { BinaryNode, testBinaryHelper, TEvalResult } from '../../ASTNode'
 
 export class NotEqualsNode extends BinaryNode {
 	type = 'MoLang.NotEqualsNode'
@@ -6,12 +6,11 @@ export class NotEqualsNode extends BinaryNode {
 		super('!=', getSplitStrings)
 	}
 
-	eval() {
-		return {
-			value: Number(
-				this.children[0].eval().value != this.children[1].eval().value
-			),
-		}
+	eval(): TEvalResult {
+		return [
+			false,
+			Number(this.children[0].eval()[1] != this.children[1].eval()[1]),
+		]
 	}
 }
 

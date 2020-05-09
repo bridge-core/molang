@@ -1,16 +1,16 @@
-import { AST } from '../main'
+import { AST, parse } from '../main'
 import { setENV } from '../main'
 import { CONFIG } from '../config'
 
-CONFIG.useOptimizer = false
 const TESTS: [string, number | string][] = [
 	['1 + 1', 2],
 	['1 + 1 * 2', 3],
+	['return 1', 0], //Your typical Minecraft quirk
+	['return 1;', 1],
 	['-(1 + 1)', -2],
 	['(1 + 1) * 2', 4],
 	['(1 + 1) * (1 + 1)', 4],
 	["'test' == 'test2'", 0],
-	['return 1', 0], //This is not a bug - Minecraft doesn't support return statements without semicolon
 	['0 <= 0', 1.0],
 	['0 == 0', 1.0],
 	['0 != 0', 0.0],
@@ -38,13 +38,9 @@ const TESTS: [string, number | string][] = [
 	// ['math.add(rider.get_length(texture.variants[0]) + 5, 6)', 12],
 	['query.get_position(0) >= 0 && query.get_position(0) <= 0', 1.0],
 	// ['!(1 + 3) && query.test_something_else', 0],
-	// [
-	// 	"dragon.get_attack_anim('head') + dragon.test.something_else(0, 4, 66)",
-	// 	0,
-	// ],
 ]
 
-describe('MoLang.AST.create(string)', () => {
+describe('parse(string)', () => {
 	setENV({
 		variable: {},
 		query: {
@@ -73,9 +69,14 @@ describe('MoLang.AST.create(string)', () => {
 			},
 		},
 	})
-	TESTS.forEach(([t, res]) =>
-		test(t, () => {
-			expect(AST.create(t).eval().value).toBe(res)
+	TESTS.forEach(([t, res]) => {
+		test(`Optimizer<true>: "${t}" => ${res}`, () => {
+			CONFIG.set('useOptimizer', true)
+			expect(parse(t)).toBe(res)
 		})
-	)
+		test(`Optimizer<false>: "${t}" => ${res}`, () => {
+			CONFIG.set('useOptimizer', false)
+			expect(parse(t)).toBe(res)
+		})
+	})
 })

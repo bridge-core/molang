@@ -1,4 +1,5 @@
-import { GroupNode, testGroup, testGroupHelper } from './Group'
+import { GroupNode, testGroupHelper } from './Group'
+import { TEvalResult } from '../../ASTNode'
 
 export class StringNode extends GroupNode {
 	type = 'MoLang.StringNode'
@@ -8,10 +9,8 @@ export class StringNode extends GroupNode {
 		this.expression = expression.substring(1, expression.length - 1)
 	}
 
-	eval() {
-		return {
-			value: this.expression,
-		}
+	eval(): TEvalResult {
+		return [false, this.expression]
 	}
 	toString() {
 		return `'${this.expression}'`

@@ -1,4 +1,4 @@
-import { BinaryNode, testBinaryHelper } from '../../ASTNode'
+import { BinaryNode, testBinaryHelper, TEvalResult } from '../../ASTNode'
 
 export class SubtractionNode extends BinaryNode {
 	type = 'MoLang.SubtractionNode'
@@ -6,12 +6,10 @@ export class SubtractionNode extends BinaryNode {
 		super('-', getSplitStrings)
 	}
 
-	eval() {
-		const { val1, val2 } = this.evalHelper()
+	eval(): TEvalResult {
+		const [val1, val2] = this.evalHelper()
 
-		return {
-			value: val1 - val2,
-		}
+		return [false, val1 - val2]
 	}
 }
 

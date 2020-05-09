@@ -1,4 +1,4 @@
-import { ASTNode } from '../../ASTNode'
+import { ASTNode, TEvalResult } from '../../ASTNode'
 import { ENV } from '../../ENV'
 
 export class PropertyNode extends ASTNode {
@@ -15,16 +15,10 @@ export class PropertyNode extends ASTNode {
 
 		return current
 	}
-	eval(...args: unknown[]) {
+	eval(...args: unknown[]): TEvalResult {
 		const value = this.findValue()
-		if (typeof value === 'function')
-			return {
-				value: value(...args),
-			}
-		else if (value !== undefined)
-			return {
-				value,
-			}
+		if (typeof value === 'function') return [false, value(...args)]
+		else if (value !== undefined) return [false, value]
 		else
 			throw new Error(
 				`Undefined property reference: "${this.expression}"`
