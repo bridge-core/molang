@@ -7,9 +7,7 @@ export class ConjunctionNode extends BinaryNode {
 	}
 
 	eval(): TEvalResult {
-		const [val1, val2] = this.evalHelper()
-
-		return [false, val1 && val2]
+		return [false, this.children[0].eval()[1] && this.children[1].eval()[1]]
 	}
 }
 
