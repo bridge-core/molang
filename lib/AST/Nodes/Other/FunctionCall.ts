@@ -42,27 +42,25 @@ export function testFunctionCall(expression: string) {
 
 function splitInner(str: string, splitChar: string) {
 	const res: string[] = []
-	const brackets = {
-		default: 0,
-		squirly: 0,
-		square: 0,
-	}
+	let defaultBracket = 0
+	let squirlyBracket = 0
+	let squareBracket = 0
 	let lastSplit = 0
 
 	let i = 0
 	while (i < str.length) {
 		const char = str[i]
 
-		if (char === '(') brackets.default++
-		else if (char === ')') brackets.default--
-		else if (char === '[') brackets.square++
-		else if (char === ']') brackets.square--
-		else if (char === '{') brackets.squirly++
-		else if (char === '}') brackets.squirly--
+		if (char === '(') defaultBracket++
+		else if (char === ')') defaultBracket--
+		else if (char === '[') squareBracket++
+		else if (char === ']') squareBracket--
+		else if (char === '{') squirlyBracket++
+		else if (char === '}') squirlyBracket--
 		else if (
-			brackets.default === 0 &&
-			brackets.square === 0 &&
-			brackets.squirly === 0 &&
+			defaultBracket === 0 &&
+			squareBracket === 0 &&
+			squirlyBracket === 0 &&
 			char === splitChar
 		) {
 			res.push(str.substring(lastSplit, i))

@@ -14,7 +14,7 @@
     "strict": true,
     "strictFunctionTypes": true,
     "noImplicitAny": true,
-    
+
 
     /* Additional Checks */
     "esModuleInterop": true,

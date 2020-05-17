@@ -99,29 +99,32 @@ export abstract class BinaryNode extends ASTNode {
 	}
 }
 export function testBinaryHelper(expression: string, operator: string) {
-	const brackets = {
-		default: 0,
-		squirly: 0,
-		square: 0,
-	}
+	let defaultBracket = 0
+	let squirlyBracket = 0
+	let squareBracket = 0
 
 	const increase = operator.length
 	let i = 0
 	while (i < expression.length) {
 		const char = expression[i]
-		const nextChar = expression[i + 1]
 
-		if (char === '(') brackets.default++
-		else if (char === ')') brackets.default--
-		else if (char === '[') brackets.square++
-		else if (char === ']') brackets.square--
-		else if (char === '{') brackets.squirly++
-		else if (char === '}') brackets.squirly--
-		else if (
+		if (char === '(') {
+			defaultBracket++
+		} else if (char === ')') {
+			defaultBracket--
+		} else if (char === '[') {
+			squareBracket++
+		} else if (char === ']') {
+			squareBracket--
+		} else if (char === '{') {
+			squirlyBracket++
+		} else if (char === '}') {
+			squirlyBracket--
+		} else if (
 			i !== 0 &&
-			brackets.default === 0 &&
-			brackets.square === 0 &&
-			brackets.squirly === 0
+			defaultBracket === 0 &&
+			squareBracket === 0 &&
+			squirlyBracket === 0
 		) {
 			const potentialOp = expression.substring(i, i + increase)
 
@@ -177,11 +180,9 @@ export abstract class ChainNode extends ASTNode {
 	}
 }
 export function testChainHelper(expression: string, operators: string) {
-	const brackets = {
-		default: 0,
-		squirly: 0,
-		square: 0,
-	}
+	let defaultBracket = 0
+	let squirlyBracket = 0
+	let squareBracket = 0
 
 	let searchCharIndex = 0
 	let splitPoints = [-1]
@@ -189,16 +190,16 @@ export function testChainHelper(expression: string, operators: string) {
 	while (i < expression.length) {
 		const char = expression[i]
 
-		if (char === '(') brackets.default++
-		else if (char === ')') brackets.default--
-		else if (char === '[') brackets.square++
-		else if (char === ']') brackets.square--
-		else if (char === '{') brackets.squirly++
-		else if (char === '}') brackets.squirly--
+		if (char === '(') defaultBracket++
+		else if (char === ')') defaultBracket--
+		else if (char === '[') squareBracket++
+		else if (char === ']') squareBracket--
+		else if (char === '{') squirlyBracket++
+		else if (char === '}') squirlyBracket--
 		else if (
-			brackets.default === 0 &&
-			brackets.square === 0 &&
-			brackets.squirly === 0 &&
+			defaultBracket === 0 &&
+			squareBracket === 0 &&
+			squirlyBracket === 0 &&
 			char === operators[searchCharIndex]
 		) {
 			searchCharIndex++
