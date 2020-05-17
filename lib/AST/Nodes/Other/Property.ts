@@ -17,12 +17,6 @@ export class PropertyNode extends ASTNode {
 				const index = currentFraction.indexOf('[')
 
 				this.path.push(currentFraction.substring(0, index))
-				console.log(
-					currentFraction.substring(
-						index + 1,
-						currentFraction.length - 1
-					)
-				)
 				this.path.push(
 					createNode(
 						currentFraction.substring(
