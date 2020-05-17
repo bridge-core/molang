@@ -17,10 +17,16 @@ export class AssignmentNode extends BinaryNode {
 }
 
 export function testAssignment(expression: string) {
-	const { isCorrectToken, getSplitStrings } = testBinaryHelper(
+	const { isCorrectToken, getSplitStrings, operatorIndex } = testBinaryHelper(
 		expression,
 		'='
 	)
-	if (isCorrectToken)
+	if (
+		isCorrectToken &&
+		expression[<number>operatorIndex + 1] !== '=' &&
+		expression[<number>operatorIndex - 1] !== '<' &&
+		expression[<number>operatorIndex - 1] !== '>' &&
+		expression[<number>operatorIndex - 1] !== '!'
+	)
 		return new AssignmentNode(<() => string[]>getSplitStrings)
 }

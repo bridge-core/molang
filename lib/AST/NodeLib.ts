@@ -57,6 +57,7 @@ export function createNodeLib() {
 	let ASTNodes: [string, (expression: string) => ASTNode | undefined][] = [
 		['MoLang.NumberNode', testNumber],
 		['MoLang.ReturnNode', testReturn],
+		['MoLang.AssignmentNode', testAssignment],
 
 		['MoLang.IfElseNode', testIfElse],
 		['MoLang.IfNode', testIf],
@@ -81,7 +82,6 @@ export function createNodeLib() {
 
 		['MoLang.StringNode', testString],
 
-		['MoLang.AssignmentNode', testAssignment],
 		['MoLang.FunctionCallNode', testFunctionCall],
 		['MoLang.PropertyNode', testProperty],
 		['MoLang.GroupNode', testGroup],

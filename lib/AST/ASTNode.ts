@@ -131,6 +131,7 @@ export function testBinaryHelper(expression: string, operator: string) {
 			if (potentialOp === operator) {
 				return {
 					isCorrectToken: true,
+					operatorIndex: i,
 					getSplitStrings: () => {
 						return [
 							expression.substring(0, i),
