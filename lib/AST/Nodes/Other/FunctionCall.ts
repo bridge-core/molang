@@ -36,7 +36,10 @@ export class FunctionCallNode extends ASTNode {
 }
 
 export function testFunctionCall(expression: string) {
-	if (/(([aA-zZ]([aA-zZ]|[0-9]|)*)\.?)+\(.*\)/y.test(expression))
+	if (
+		/(([aA-zZ]([aA-zZ]|[0-9]|)*)\.?)+\(.*\)/y.test(expression) &&
+		expression[expression.length - 1] === ')'
+	)
 		return new FunctionCallNode(expression)
 }
 

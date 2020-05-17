@@ -27,21 +27,29 @@ const TESTS: [string, number | string][] = [
 	["variable.temp = 'test'", 0],
 	['variable.temp', 'test'],
 	["variable.temp == 'test'", 1],
+	['variable.foo = 1.0 ? 0 : 1', 0],
+	['variable.foo', 0],
 	['query.get_equipped_item_name(0)', 'diamond_sword_0'],
 	['query.get_equipped_item_name(1)', 'diamond_sword_1'],
 	['math.add(1, 5)', 6],
 	['rider.slot', 1],
 	['rider.is(math.add(1, 5))', 6],
+	['texture.variants[0]', '1'],
+	['texture.mark_variants[0] = 2', 0],
+	['texture.mark_variants[0]', 2],
 	// ['texture.variants[texture.variants.length - 1]', 6],
-	// ['texture.variants[1 * 3]', 4],
-	// ['texture.variants[math.add(1, 3)]', 5],
-	// ['math.add(rider.get_length(texture.variants[0]) + 5, 6)', 12],
+	// ['texture.variants[texture.variants[5]]', 6],
+	['texture.variants[math.add(1, 3)]', 5],
+	['math.add(rider.get_length(texture.variants[0]) + 5, 6)', 12],
 	['query.get_position(0) >= 0 && query.get_position(0) <= 0', 1.0],
 	['!(1 + 3) && query.test_something_else', 0],
 ]
 
 describe('parse(string)', () => {
 	setENV({
+		length(arr: unknown[]) {
+			return arr.length
+		},
 		variable: {},
 		query: {
 			get_equipped_item_name(slot: number) {
@@ -52,6 +60,7 @@ describe('parse(string)', () => {
 			},
 		},
 		texture: {
+			mark_variants: [],
 			variants: ['1', 2, 3, 4, 5, 6],
 		},
 		math: {
