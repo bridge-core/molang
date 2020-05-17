@@ -1,15 +1,18 @@
 import { BinaryNode, testBinaryHelper, TEvalResult } from '../../ASTNode'
+import { PropertyNode } from '../Other/Property'
 
 export class AssignmentNode extends BinaryNode {
 	type = 'MoLang.AssignmentNode'
+
 	constructor(getSplitStrings: () => string[]) {
 		super('=', getSplitStrings)
 	}
 
 	eval(): TEvalResult {
-		const [val1, val2] = this.evalHelper()
-
-		return [false, val1 + val2]
+		return [
+			false,
+			(<PropertyNode>this.children[0]).set(this.children[1].eval()),
+		]
 	}
 }
 

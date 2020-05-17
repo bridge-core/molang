@@ -24,9 +24,9 @@ const TESTS: [string, number | string][] = [
 	["!(1 && 0) ? 'true' : 'false'", 'true'],
 	["query.get_position(0) >= 0 ? 'hello'", 'hello'],
 	["query.get_position(0) < 0 ? 'hello'", 0.0],
-	// ["variable.temp = 'test'", 1],
-	// ['variable.temp', 'test'],
-	// ["variable.temp == 'test'", 1],
+	["variable.temp = 'test'", 0],
+	['variable.temp', 'test'],
+	["variable.temp == 'test'", 1],
 	['query.get_equipped_item_name(0)', 'diamond_sword_0'],
 	['query.get_equipped_item_name(1)', 'diamond_sword_1'],
 	['math.add(1, 5)', 6],
@@ -37,7 +37,7 @@ const TESTS: [string, number | string][] = [
 	// ['texture.variants[math.add(1, 3)]', 5],
 	// ['math.add(rider.get_length(texture.variants[0]) + 5, 6)', 12],
 	['query.get_position(0) >= 0 && query.get_position(0) <= 0', 1.0],
-	// ['!(1 + 3) && query.test_something_else', 0],
+	['!(1 + 3) && query.test_something_else', 0],
 ]
 
 describe('parse(string)', () => {

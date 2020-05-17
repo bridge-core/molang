@@ -15,6 +15,15 @@ export class PropertyNode extends ASTNode {
 
 		return current
 	}
+	set([_, val]: TEvalResult) {
+		let path = this.expression.split('.')
+		let current = ENV.value[<string>path.shift()]
+
+		while (path.length > 1) current = current[<string>path.shift()]
+		current[<string>path.shift()] = val
+
+		return 0.0
+	}
 	eval(...args: unknown[]): TEvalResult {
 		const value = this.findValue()
 		if (typeof value === 'function') return [false, value(...args)]
