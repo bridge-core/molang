@@ -13,7 +13,8 @@ export function setNodeLib(lib: ReturnType<typeof createNodeLib>) {
 export function createNode(
 	expression: string,
 	nodeLib?: ReturnType<typeof createNodeLib>,
-	useOptimizer = CONFIG.get('useOptimizer')
+	useOptimizer = CONFIG.get('useOptimizer'),
+	startIndex = 0
 ) {
 	if (!nodeLib) nodeLib = defaultNodeLib
 
@@ -24,12 +25,10 @@ export function createNode(
 		}
 
 	const nodes = defaultNodeLib.getASTNodes()
-	let i = 0
+	let i = startIndex
 	while (i < nodes.length) {
-		const node = nodes[i][1](expression)
+		const node = nodes[i++][1](expression)
 		if (node) return node
-
-		i++
 	}
 
 	throw new Error(`Invalid MoLang: "${expression}"`)

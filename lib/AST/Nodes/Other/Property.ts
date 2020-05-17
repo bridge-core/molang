@@ -11,10 +11,12 @@ export class PropertyNode extends ASTNode {
 
 		let i = 0
 		while (i < rawPath.length) {
-			const currentFraction = rawPath[i]
+			const currentFraction = rawPath[i++]
 
 			if (currentFraction[currentFraction.length - 1] === ']') {
 				const index = currentFraction.indexOf('[')
+				if (index === -1)
+					throw new Error('No matching opening bracket found')
 
 				this.path.push(currentFraction.substring(0, index))
 				this.path.push(
@@ -28,8 +30,6 @@ export class PropertyNode extends ASTNode {
 			} else {
 				this.path.push(currentFraction)
 			}
-
-			i++
 		}
 	}
 
@@ -93,7 +93,7 @@ function parseProperty(str: string) {
 
 	let i = 0
 	while (i < str.length) {
-		const char = str[i]
+		const char = str[i++]
 
 		if (char === '(') defaultBracket++
 		else if (char === ')') defaultBracket--
@@ -107,11 +107,9 @@ function parseProperty(str: string) {
 			squirlyBracket === 0 &&
 			char === '.'
 		) {
-			res.push(str.substring(lastSplit, i))
-			lastSplit = i + 1
+			res.push(str.substring(lastSplit, i - 1))
+			lastSplit = i
 		}
-
-		i++
 	}
 
 	res.push(str.substring(lastSplit, str.length))
