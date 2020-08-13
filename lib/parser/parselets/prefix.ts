@@ -9,7 +9,8 @@ export interface IPrefixParselet {
 }
 
 export class PrefixOperator implements IPrefixParselet {
-	precedence = 0
+	constructor(public precedence = 0) {}
+
 	parse(parser: Parser, token: TToken) {
 		return new PrefixExpression(
 			token[0],

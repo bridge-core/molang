@@ -10,4 +10,5 @@ export const TokenTypes = new Map<string, string>([
 	['?', 'QUESTION'],
 	[':', 'COLON'],
 	['!', 'BANG'],
+	['.', 'PERIOD'],
 ])

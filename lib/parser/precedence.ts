@@ -1,0 +1,10 @@
+export enum EPrecedence {
+	ASSIGNMENT = 1,
+	CONDITIONAL,
+	SUM,
+	PRODUCT,
+	EXPONENT,
+	PREFIX,
+	POSTFIX,
+	CALL,
+}

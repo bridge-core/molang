@@ -2,6 +2,7 @@ import { tokenize, IIterator } from '../tokenizer/tokenize'
 import { TTokenType, TToken } from '../tokenizer/token'
 import { IPrefixParselet } from './parselets/prefix'
 import { IInfixParselet } from './parselets/infix'
+import { IExpression } from './expression'
 
 export class Parser {
 	protected prefixParselets = new Map<TTokenType, IPrefixParselet>()
@@ -10,19 +11,23 @@ export class Parser {
 
 	constructor(protected tokenIterator: IIterator) {}
 
-	parse() {
-		return this.parseExpression(0)
-	}
-
-	parseExpression(precedence: number) {
-		let token = this.tokenIterator.next()
+	parseExpression(precedence = 0) {
+		let token = this.consume()
 
 		const prefix = this.prefixParselets.get(token[0])
-		if (!prefix) throw new Error(`Cannot parse expression "${token[1]}"`)
+		if (!prefix)
+			throw new Error(`Cannot parse ${token[0]} expression "${token[1]}"`)
 
 		let expressionLeft = prefix.parse(this, token)
+		return this.parseInfixExpression(expressionLeft, precedence)
+	}
+
+	parseInfixExpression(expressionLeft: IExpression, precedence = 0) {
+		let token
+
 		while (precedence < this.getPrecedence()) {
 			token = this.consume()
+			console.log(token)
 
 			const infix = <IInfixParselet>this.infixParselets.get(token[0])
 			expressionLeft = infix.parse(this, expressionLeft, token)
@@ -32,18 +37,19 @@ export class Parser {
 	}
 
 	getPrecedence() {
-		const parser = this.infixParselets.get(this.lookAhead(0)[0])
-		if (parser) return parser.precedence
-
-		return 0
+		const parselet = this.infixParselets.get(this.lookAhead(0)?.[0])
+		return parselet?.precedence ?? 0
 	}
 
 	consume(expected?: TTokenType) {
 		const token = this.lookAhead(0)
-		if (expected && token[0] !== expected)
-			throw new Error(
-				`Expected token "${expected}" and found "${token[0]}"`
-			)
+		if (expected) {
+			if (token[0] !== expected)
+				throw new Error(
+					`Expected token "${expected}" and found "${token[0]}"`
+				)
+			else this.consume()
+		}
 
 		return <TToken>this.readTokens.pop()
 	}
@@ -57,7 +63,10 @@ export class Parser {
 	}
 
 	lookAhead(distance: number) {
-		while (distance <= this.readTokens.length)
+		while (
+			distance >= this.readTokens.length &&
+			this.tokenIterator.hasNext()
+		)
 			this.readTokens.push(this.tokenIterator.next())
 
 		return this.readTokens[distance]
