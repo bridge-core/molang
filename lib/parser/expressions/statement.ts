@@ -8,6 +8,10 @@ export class StatementExpression {
 		protected nextExpression: IExpression
 	) {}
 
+	isStatic() {
+		return this.expression.isStatic() && this.nextExpression.isStatic()
+	}
+
 	eval() {
 		let res = this.expression.eval()
 		if (this.expression instanceof ReturnExpression) return res

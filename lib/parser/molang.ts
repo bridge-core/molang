@@ -12,8 +12,8 @@ import { StatementParselet } from './parselets/statement'
 import { StringParselet } from './parselets/string'
 
 export class MoLangParser extends Parser {
-	constructor(tokenIterator: IIterator) {
-		super(tokenIterator)
+	constructor(tokenIterator: IIterator, useOptimizer = true) {
+		super(tokenIterator, useOptimizer)
 
 		//Special parselets
 		this.registerPrefix('NAME', new NameParselet())

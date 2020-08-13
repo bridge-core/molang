@@ -45,7 +45,7 @@ export function tokenize(expression: string) {
 						j++
 					}
 
-					const value = expression.substring(i, j)
+					const value = expression.substring(i, j).toLowerCase()
 					const token = <[string, string]>[
 						KeywordTokens.has(value) ? value.toUpperCase() : 'NAME',
 						value,

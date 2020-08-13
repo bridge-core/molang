@@ -3,15 +3,19 @@ import { MoLangParser } from './parser/molang'
 import { tokenize } from './tokenizer/tokenize'
 
 export const expressionCache = new Map<string, IExpression>()
-export function evalMoLang(expression: string, useCache = true) {
+export function evalMoLang(
+	expression: string,
+	useCache = true,
+	useOptimizer = true
+) {
 	if (useCache) {
 		const expressionObj = expressionCache.get(expression)
 		if (expressionObj) return expressionObj.eval()
 	}
 
-	const parser = new MoLangParser(tokenize(expression))
+	const parser = new MoLangParser(tokenize(expression), useOptimizer)
 	const expressionObj = parser.parseExpression()
-	// console.log(result)
+	// console.log(expressionObj)
 
 	if (useCache) expressionCache.set(expression, expressionObj)
 	const result = expressionObj.eval()

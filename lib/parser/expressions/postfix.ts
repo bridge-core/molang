@@ -7,6 +7,10 @@ export class PostfixExpression {
 		protected tokenType: TTokenType
 	) {}
 
+	isStatic() {
+		return this.expression.isStatic()
+	}
+
 	eval() {
 		switch (this.tokenType) {
 			case 'X': {

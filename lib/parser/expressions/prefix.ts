@@ -7,6 +7,10 @@ export class PrefixExpression {
 		protected expression: IExpression
 	) {}
 
+	isStatic() {
+		return this.expression.isStatic()
+	}
+
 	eval() {
 		const value = this.expression.eval()
 

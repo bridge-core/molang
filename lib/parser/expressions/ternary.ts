@@ -7,6 +7,14 @@ export class TernaryExpression implements IExpression {
 		protected elseExpression: IExpression
 	) {}
 
+	isStatic() {
+		return (
+			this.leftExpression.isStatic() &&
+			this.thenExpression.isStatic() &&
+			this.elseExpression.isStatic()
+		)
+	}
+
 	eval() {
 		return this.leftExpression.eval()
 			? this.thenExpression.eval()

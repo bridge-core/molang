@@ -4,6 +4,7 @@ import { IPrefixParselet } from './parselets/prefix'
 import { IInfixParselet } from './parselets/infix'
 import { IExpression } from './expression'
 import { NumberExpression } from './expressions/number'
+import { ReturnExpression } from './expressions/return'
 
 export class Parser {
 	protected prefixParselets = new Map<TTokenType, IPrefixParselet>()
@@ -11,7 +12,10 @@ export class Parser {
 	protected readTokens: TToken[] = []
 	protected lastConsumed: TToken = ['SOF', '']
 
-	constructor(protected tokenIterator: IIterator) {}
+	constructor(
+		protected tokenIterator: IIterator,
+		public readonly useOptimizer = false
+	) {}
 
 	parseExpression(precedence = 0): IExpression {
 		let token = this.consume()
@@ -22,6 +26,8 @@ export class Parser {
 			throw new Error(`Cannot parse ${token[0]} expression "${token[1]}"`)
 
 		let expressionLeft = prefix.parse(this, token)
+		// console.log(expressionLeft)
+		if (expressionLeft instanceof ReturnExpression) return expressionLeft
 		return this.parseInfixExpression(expressionLeft, precedence)
 	}
 
@@ -48,6 +54,7 @@ export class Parser {
 
 	consume(expected?: TTokenType) {
 		const token = this.lookAhead(0)
+		// console.log(token)
 		if (expected) {
 			if (token[0] !== expected)
 				throw new Error(

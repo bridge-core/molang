@@ -7,6 +7,10 @@ export class OperatorExpression implements IExpression {
 		protected rightExpression: IExpression
 	) {}
 
+	isStatic() {
+		return this.leftExpression.isStatic() && this.rightExpression.isStatic()
+	}
+
 	eval() {
 		switch (this.operator) {
 			case '==':

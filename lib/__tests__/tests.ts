@@ -77,8 +77,11 @@ describe('parse(string)', () => {
 	// 	},
 	// })
 	TESTS.forEach(([t, res]) => {
-		test(`"${t}" => ${res}`, () => {
-			expect(evalMoLang(t)).toBe(res)
+		test(`Optimizer<true>: "${t}" => ${res}`, () => {
+			expect(evalMoLang(t, false, true)).toBe(res)
+		})
+		test(`Optimizer<false>: "${t}" => ${res}`, () => {
+			expect(evalMoLang(t, false, false)).toBe(res)
 		})
 	})
 })
