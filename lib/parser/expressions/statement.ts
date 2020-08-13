@@ -3,22 +3,32 @@ import { IExpression } from '../expression'
 import { ReturnExpression } from './return'
 
 export class StatementExpression {
-	constructor(
-		protected expression: IExpression,
-		protected nextExpression: IExpression
-	) {}
+	constructor(protected expressions: IExpression[]) {}
 
 	isStatic() {
-		return this.expression.isStatic() && this.nextExpression.isStatic()
+		let i = 0
+		while (i < this.expressions.length) {
+			if (!this.expressions[i].isStatic()) return false
+			i++
+		}
+		return true
 	}
 
 	eval() {
-		let res = this.expression.eval()
-		if (this.expression instanceof ReturnExpression) return res
-		return this.nextExpression.eval()
+		let i = 0
+		while (i < this.expressions.length) {
+			let res = this.expressions[i].eval()
+			if (
+				this.expressions[i].isReturn ||
+				this.expressions[i] instanceof ReturnExpression
+			)
+				return res
+			i++
+		}
+		return 0
 	}
 
 	getExpression() {
-		return this.expression
+		return this.expressions[0]
 	}
 }

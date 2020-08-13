@@ -5,12 +5,14 @@ import { IInfixParselet } from './infix'
 import { StatementExpression } from '../expressions/statement'
 import { ReturnExpression } from '../expressions/return'
 import { StaticExpression } from '../expressions/static'
+import { EPrecedence } from '../precedence'
 
 export class StatementParselet implements IInfixParselet {
 	constructor(public precedence = 0) {}
 
 	parse(parser: Parser, left: IExpression, token: TToken) {
-		const expr = parser.parseExpression()
+		let expr = parser.parseExpression()
+
 		const isRightStatic = parser.useOptimizer && expr.isStatic()
 		const isLeftStatic = parser.useOptimizer && left.isStatic()
 
@@ -19,9 +21,11 @@ export class StatementParselet implements IInfixParselet {
 			return left
 		}
 
-		return new StatementExpression(
+		return new StatementExpression([
 			left,
-			isRightStatic ? new StaticExpression(expr.eval()) : expr
-		)
+			isRightStatic
+				? new StaticExpression(expr.eval(), expr.isReturn)
+				: expr,
+		])
 	}
 }
