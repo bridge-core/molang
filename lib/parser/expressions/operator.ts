@@ -15,8 +15,8 @@ export class OperatorExpression implements IExpression {
 				return this.leftExpression.eval() != this.rightExpression.eval()
 		}
 
-		const leftValue = <number | boolean>this.leftExpression.eval()
-		const rightValue = <number | boolean>this.rightExpression.eval()
+		const leftValue = this.leftExpression.eval()
+		const rightValue = this.rightExpression.eval()
 
 		if (
 			!(
@@ -44,9 +44,21 @@ export class OperatorExpression implements IExpression {
 				//@ts-ignore
 				return leftValue / rightValue
 			case '&&':
-				return this.leftExpression.eval() && this.rightExpression.eval()
+				return leftValue && rightValue
 			case '||':
-				return this.leftExpression.eval() || this.rightExpression.eval()
+				return leftValue || rightValue
+			case '<=':
+				//@ts-ignore
+				return leftValue <= rightValue
+			case '<':
+				//@ts-ignore
+				return leftValue < rightValue
+			case '>=':
+				//@ts-ignore
+				return leftValue <= rightValue
+			case '>':
+				//@ts-ignore
+				return leftValue < rightValue
 		}
 	}
 }

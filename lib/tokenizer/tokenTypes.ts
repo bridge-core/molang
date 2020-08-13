@@ -3,7 +3,11 @@ export const TokenTypes = new Map<string, string>([
 	['!=', 'NOT_EQUALS'],
 	['&&', 'AND'],
 	['||', 'OR'],
+	['>=', 'GREATER_OR_EQUALS'],
+	['<=', 'SMALLER_OR_EQUALS'],
 
+	['>', 'GREATER'],
+	['<', 'SMALLER'],
 	['(', 'LEFT_PARENT'],
 	[')', 'RIGHT_PARENT'],
 	[',', 'COMMA'],

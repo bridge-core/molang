@@ -50,6 +50,16 @@ export class MoLangParser extends Parser {
 			'NOT_EQUALS',
 			new BinaryOperator(EPrecedence.COMPARE)
 		)
+		this.registerInfix(
+			'GREATER_OR_EQUALS',
+			new BinaryOperator(EPrecedence.COMPARE)
+		)
+		this.registerInfix('GREATER', new BinaryOperator(EPrecedence.COMPARE))
+		this.registerInfix(
+			'SMALLER_OR_EQUALS',
+			new BinaryOperator(EPrecedence.COMPARE)
+		)
+		this.registerInfix('SMALLER', new BinaryOperator(EPrecedence.COMPARE))
 		this.registerInfix('AND', new BinaryOperator(EPrecedence.AND))
 		this.registerInfix('OR', new BinaryOperator(EPrecedence.OR))
 	}
