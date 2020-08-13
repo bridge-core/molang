@@ -1,9 +1,8 @@
-import { tokenize, IIterator } from '../tokenizer/tokenize'
+import { IIterator } from '../tokenizer/tokenize'
 import { TTokenType, TToken } from '../tokenizer/token'
 import { IPrefixParselet } from './parselets/prefix'
 import { IInfixParselet } from './parselets/infix'
 import { IExpression } from './expression'
-import { StatementExpression } from './expressions/statement'
 import { NumberExpression } from './expressions/number'
 
 export class Parser {

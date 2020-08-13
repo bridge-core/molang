@@ -2,9 +2,16 @@ export enum EPrecedence {
 	STATEMENT = 1,
 	ASSIGNMENT,
 	CONDITIONAL,
+
+	AND,
+	OR,
+
+	COMPARE,
+
 	SUM,
 	PRODUCT,
 	EXPONENT,
+
 	PREFIX,
 	POSTFIX,
 	CALL,

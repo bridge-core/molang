@@ -1,4 +1,9 @@
 export const TokenTypes = new Map<string, string>([
+	['==', 'EQUALS'],
+	['!=', 'NOT_EQUALS'],
+	['&&', 'AND'],
+	['||', 'OR'],
+
 	['(', 'LEFT_PARENT'],
 	[')', 'RIGHT_PARENT'],
 	[',', 'COMMA'],

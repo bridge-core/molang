@@ -1,4 +1,4 @@
-import { IIterator, tokenize } from '../tokenizer/tokenize'
+import { IIterator } from '../tokenizer/tokenize'
 import { Parser } from './parse'
 import { BinaryOperator } from './parselets/binaryOperator'
 import { EPrecedence } from './precedence'
@@ -8,8 +8,8 @@ import { NameParselet } from './parselets/name'
 import { GroupParselet } from './parselets/groupParselet'
 import { TernaryParselet } from './parselets/ternary'
 import { ReturnParselet } from './parselets/Return'
-import { PostfixOperatorParselet } from './parselets/postfix'
 import { StatementParselet } from './parselets/statement'
+import { StringParselet } from './parselets/string'
 
 export class MoLangParser extends Parser {
 	constructor(tokenIterator: IIterator) {
@@ -17,6 +17,7 @@ export class MoLangParser extends Parser {
 
 		//Special parselets
 		this.registerPrefix('NAME', new NameParselet())
+		this.registerPrefix('STRING', new StringParselet())
 		this.registerPrefix('NUMBER', new NumberParselet())
 		this.registerPrefix('RETURN', new ReturnParselet())
 		this.registerInfix(
@@ -27,22 +28,29 @@ export class MoLangParser extends Parser {
 			'LEFT_PARENT',
 			new GroupParselet(EPrecedence.PREFIX)
 		)
+		this.registerInfix(
+			'SEMICOLON',
+			new StatementParselet(EPrecedence.STATEMENT)
+		)
 
 		//Prefix parselets
 		this.registerPrefix('MINUS', new PrefixOperator(EPrecedence.PREFIX))
 		this.registerPrefix('BANG', new PrefixOperator(EPrecedence.PREFIX))
 
 		//Postfix parselets
-		this.registerInfix(
-			'SEMICOLON',
-			new StatementParselet(EPrecedence.STATEMENT)
-		)
+		//Nothing here yet
 
 		//Infix parselets
 		this.registerInfix('PLUS', new BinaryOperator(EPrecedence.SUM))
 		this.registerInfix('MINUS', new BinaryOperator(EPrecedence.SUM))
 		this.registerInfix('ASTERISK', new BinaryOperator(EPrecedence.PRODUCT))
 		this.registerInfix('SLASH', new BinaryOperator(EPrecedence.PRODUCT))
-		this.registerInfix('EQUALS', new BinaryOperator(8))
+		this.registerInfix('EQUALS', new BinaryOperator(EPrecedence.COMPARE))
+		this.registerInfix(
+			'NOT_EQUALS',
+			new BinaryOperator(EPrecedence.COMPARE)
+		)
+		this.registerInfix('AND', new BinaryOperator(EPrecedence.AND))
+		this.registerInfix('OR', new BinaryOperator(EPrecedence.OR))
 	}
 }

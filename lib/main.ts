@@ -10,9 +10,11 @@ export function evalMoLang(expression: string, useCache = true) {
 	}
 
 	const parser = new MoLangParser(tokenize(expression))
-	const result = parser.parseExpression()
+	const expressionObj = parser.parseExpression()
 	// console.log(result)
 
-	if (useCache) expressionCache.set(expression, result)
-	return result.eval()
+	if (useCache) expressionCache.set(expression, expressionObj)
+	const result = expressionObj.eval()
+	if (typeof result === 'boolean') return Number(result)
+	return result
 }

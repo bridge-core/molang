@@ -11,7 +11,17 @@ export function tokenize(expression: string) {
 	return {
 		next(): TToken {
 			while (i < expression.length) {
-				const token = TokenTypes.get(expression[i])
+				let token =
+					i + 1 < expression.length
+						? TokenTypes.get(expression[i] + expression[i + 1])
+						: undefined
+
+				if (token) {
+					i++
+					return [token, expression[i - 1] + expression[i++]]
+				}
+
+				token = TokenTypes.get(expression[i])
 				if (token) {
 					return [token, expression[i++]]
 				} else if (expression[i] === "'") {
@@ -19,7 +29,7 @@ export function tokenize(expression: string) {
 					while (j < expression.length && expression[j] !== "'") {
 						j++
 					}
-
+					j++
 					const token = <[string, string]>[
 						'STRING',
 						expression.substring(i, j),
