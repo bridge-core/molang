@@ -43,10 +43,6 @@ export class MoLangParser extends Parser {
 		//Nothing here yet
 
 		//Infix parselets
-		this.registerInfix(
-			'PERIOD',
-			new BinaryOperator(EPrecedence.PROPERTY_ACCESS)
-		)
 		this.registerInfix('PLUS', new BinaryOperator(EPrecedence.SUM))
 		this.registerInfix('MINUS', new BinaryOperator(EPrecedence.SUM))
 		this.registerInfix('ASTERISK', new BinaryOperator(EPrecedence.PRODUCT))
@@ -72,5 +68,6 @@ export class MoLangParser extends Parser {
 			'NULLISH_COALESCING',
 			new BinaryOperator(EPrecedence.NULLISH_COALESCING)
 		)
+		this.registerInfix('ASSIGN', new BinaryOperator(EPrecedence.ASSIGNMENT))
 	}
 }

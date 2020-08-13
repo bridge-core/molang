@@ -8,7 +8,11 @@ export class NameExpression implements IExpression {
 		return true
 	}
 
+	getName() {
+		return this.name
+	}
+
 	eval() {
-		return getFromEnv(this.name) || this.name
+		return getFromEnv(this.name)
 	}
 }

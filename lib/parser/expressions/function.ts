@@ -8,7 +8,6 @@ export class FunctionExpression implements IExpression {
 	}
 
 	eval() {
-		console.log(this.name.eval())
 		return (<(...args: unknown[]) => unknown>this.name.eval())(
 			...this.args.map((arg) => arg.eval())
 		)

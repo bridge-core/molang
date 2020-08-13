@@ -21,7 +21,6 @@ export const TokenTypes = new Map<string, string>([
 	[':', 'COLON'],
 	[';', 'SEMICOLON'],
 	['!', 'BANG'],
-	['.', 'PERIOD'],
 ])
 
 export const KeywordTokens = new Set(['return'])

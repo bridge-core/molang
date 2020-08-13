@@ -1,5 +1,6 @@
 import { IExpression } from '../expression'
-import { getFromEnv } from '../../env'
+import { getFromEnv, setEnvAt } from '../../env'
+import { NameExpression } from './name'
 
 export class OperatorExpression implements IExpression {
 	constructor(
@@ -14,15 +15,18 @@ export class OperatorExpression implements IExpression {
 
 	eval() {
 		switch (this.operator) {
-			case '.': {
-				console.log(
-					this.leftExpression.eval(),
-					this.rightExpression.eval(),
-					this.rightExpression
-				)
-				return (<any>this.leftExpression.eval())[
-					<any>this.rightExpression.eval()
-				]
+			case '=': {
+				if (this.leftExpression instanceof NameExpression) {
+					setEnvAt(
+						this.leftExpression.getName(),
+						this.rightExpression.eval()
+					)
+					return 0
+				} else {
+					throw Error(
+						`Cannot assign to "${this.leftExpression.eval()}"`
+					)
+				}
 			}
 
 			case '==':

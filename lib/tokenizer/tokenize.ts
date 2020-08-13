@@ -42,7 +42,8 @@ export function tokenize(expression: string) {
 						j < expression.length &&
 						(isLetter(expression[j]) ||
 							isNumber(expression[j]) ||
-							expression[j] === '_')
+							expression[j] === '_' ||
+							expression[j] === '.')
 					) {
 						j++
 					}
