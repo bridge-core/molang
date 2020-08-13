@@ -1,14 +1,13 @@
-import { MoLangParser } from '../parser/molang'
-import { tokenize } from '../tokenizer/tokenize'
+import { evalMoLang } from '../main'
 
 const TESTS: [string, number | string][] = [
 	['1 + 1', 2],
 	['1 + 1 * 2', 3],
 	// ['return 1', 0], //Your typical Minecraft quirk
 	// ['return 1;', 1],
-	// ['-(1 + 1)', -2],
-	// ['(1 + 1) * 2', 4],
-	// ['(1 + 1) * (1 + 1)', 4],
+	['-(1 + 1)', -2],
+	['(1 + 1) * 2', 4],
+	['(1 + 1) * (1 + 1)', 4],
 	// ["'test' == 'test2'", 0],
 	// ['0 <= 0', 1.0],
 	// ['0 == 0', 1.0],
@@ -16,8 +15,8 @@ const TESTS: [string, number | string][] = [
 	// ['((7 * 0) + 1) / 2', 0.5],
 	// ['4 / 2 == 2', 1],
 	// ['1 == 1 && 0 == 0', 1],
-	// ['0 ? 1 : 2', 2],
-	// ['(0 ? 1 : 2) ? 3 : 4', 3],
+	['0 ? 1 : 2', 2],
+	['(0 ? 1 : 2) ? 3 : 4', 3],
 	// ['0 ? 1 : 2; return 1;', 1],
 	// ["(1 && 0) + 1 ? 'true' : 'false'", 'true'],
 	// ["!(1 && 0) ? 'true' : 'false'", 'true'],
@@ -78,9 +77,8 @@ describe('parse(string)', () => {
 	// 	},
 	// })
 	TESTS.forEach(([t, res]) => {
-		test(`Optimizer<true>: "${t}" => ${res}`, () => {
-			const parser = new MoLangParser(tokenize(t))
-			expect(parser.parseExpression().eval()).toBe(res)
+		test(`"${t}" => ${res}`, () => {
+			expect(evalMoLang(t)).toBe(res)
 		})
 	})
 })

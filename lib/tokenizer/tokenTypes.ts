@@ -9,6 +9,9 @@ export const TokenTypes = new Map<string, string>([
 	['/', 'SLASH'],
 	['?', 'QUESTION'],
 	[':', 'COLON'],
+	[';', 'SEMICOLON'],
 	['!', 'BANG'],
 	['.', 'PERIOD'],
 ])
+
+export const KeywordTokens = new Set(['return'])

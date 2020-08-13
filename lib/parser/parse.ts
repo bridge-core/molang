@@ -62,10 +62,7 @@ export class Parser {
 	}
 
 	lookAhead(distance: number) {
-		while (
-			distance >= this.readTokens.length &&
-			this.tokenIterator.hasNext()
-		)
+		while (distance >= this.readTokens.length)
 			this.readTokens.push(this.tokenIterator.next())
 
 		return this.readTokens[distance]
