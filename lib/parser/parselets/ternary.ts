@@ -10,7 +10,7 @@ export class TernaryParselet implements IInfixParselet {
 	parse(parser: Parser, leftExpression: IExpression, token: TToken) {
 		const thenExpr = parser.parseExpression()
 		parser.consume('COLON')
-		const elseExpr = parser.parseExpression()
+		const elseExpr = parser.parseExpression(this.precedence - 1)
 
 		return new TernaryExpression(leftExpression, thenExpr, elseExpr)
 	}

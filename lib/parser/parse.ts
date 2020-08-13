@@ -3,16 +3,20 @@ import { TTokenType, TToken } from '../tokenizer/token'
 import { IPrefixParselet } from './parselets/prefix'
 import { IInfixParselet } from './parselets/infix'
 import { IExpression } from './expression'
+import { StatementExpression } from './expressions/statement'
+import { NumberExpression } from './expressions/number'
 
 export class Parser {
 	protected prefixParselets = new Map<TTokenType, IPrefixParselet>()
 	protected infixParselets = new Map<TTokenType, IInfixParselet>()
 	protected readTokens: TToken[] = []
+	protected lastConsumed: TToken = ['SOF', '']
 
 	constructor(protected tokenIterator: IIterator) {}
 
-	parseExpression(precedence = 0) {
+	parseExpression(precedence = 0): IExpression {
 		let token = this.consume()
+		if (token[0] === 'EOF') return new NumberExpression(0)
 
 		const prefix = this.prefixParselets.get(token[0])
 		if (!prefix)
@@ -39,6 +43,9 @@ export class Parser {
 		const parselet = this.infixParselets.get(this.lookAhead(0)?.[0])
 		return parselet?.precedence ?? 0
 	}
+	getLastConsumed() {
+		return this.lastConsumed
+	}
 
 	consume(expected?: TTokenType) {
 		const token = this.lookAhead(0)
@@ -50,7 +57,8 @@ export class Parser {
 			else this.consume()
 		}
 
-		return <TToken>this.readTokens.pop()
+		this.lastConsumed = <TToken>this.readTokens.pop()
+		return this.lastConsumed
 	}
 
 	match(expected: TTokenType) {

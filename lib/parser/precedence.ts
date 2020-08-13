@@ -1,5 +1,6 @@
 export enum EPrecedence {
-	ASSIGNMENT = 1,
+	STATEMENT = 1,
+	ASSIGNMENT,
 	CONDITIONAL,
 	SUM,
 	PRODUCT,

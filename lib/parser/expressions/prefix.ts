@@ -18,6 +18,13 @@ export class PrefixExpression {
 					)
 				return -value
 			}
+			case 'BANG': {
+				if (typeof value === 'string')
+					throw new Error(
+						`Cannot use "!" operator in front of string: "!${value}"`
+					)
+				return !value
+			}
 		}
 	}
 }

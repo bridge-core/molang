@@ -11,6 +11,7 @@ export function evalMoLang(expression: string, useCache = true) {
 
 	const parser = new MoLangParser(tokenize(expression))
 	const result = parser.parseExpression()
+	// console.log(result)
 
 	if (useCache) expressionCache.set(expression, result)
 	return result.eval()

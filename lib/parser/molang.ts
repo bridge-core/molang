@@ -7,14 +7,18 @@ import { NumberParselet } from './parselets/number'
 import { NameParselet } from './parselets/name'
 import { GroupParselet } from './parselets/groupParselet'
 import { TernaryParselet } from './parselets/ternary'
+import { ReturnParselet } from './parselets/Return'
+import { PostfixOperatorParselet } from './parselets/postfix'
+import { StatementParselet } from './parselets/statement'
 
 export class MoLangParser extends Parser {
 	constructor(tokenIterator: IIterator) {
 		super(tokenIterator)
 
 		//Special parselets
-		this.registerPrefix('NAME', new NameParselet(EPrecedence.PREFIX))
-		this.registerPrefix('NUMBER', new NumberParselet(EPrecedence.PREFIX))
+		this.registerPrefix('NAME', new NameParselet())
+		this.registerPrefix('NUMBER', new NumberParselet())
+		this.registerPrefix('RETURN', new ReturnParselet())
 		this.registerInfix(
 			'QUESTION',
 			new TernaryParselet(EPrecedence.CONDITIONAL)
@@ -26,6 +30,13 @@ export class MoLangParser extends Parser {
 
 		//Prefix parselets
 		this.registerPrefix('MINUS', new PrefixOperator(EPrecedence.PREFIX))
+		this.registerPrefix('BANG', new PrefixOperator(EPrecedence.PREFIX))
+
+		//Postfix parselets
+		this.registerInfix(
+			'SEMICOLON',
+			new StatementParselet(EPrecedence.STATEMENT)
+		)
 
 		//Infix parselets
 		this.registerInfix('PLUS', new BinaryOperator(EPrecedence.SUM))
