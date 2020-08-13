@@ -1,1 +1,3 @@
-export interface IExpression {}
+export interface IExpression {
+	eval(): unknown
+}

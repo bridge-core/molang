@@ -27,7 +27,6 @@ export class Parser {
 
 		while (precedence < this.getPrecedence()) {
 			token = this.consume()
-			console.log(token)
 
 			const infix = <IInfixParselet>this.infixParselets.get(token[0])
 			expressionLeft = infix.parse(this, expressionLeft, token)
