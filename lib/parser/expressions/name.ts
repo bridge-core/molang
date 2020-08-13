@@ -1,4 +1,5 @@
 import { IExpression } from '../expression'
+import { getFromEnv } from '../../env'
 
 export class NameExpression implements IExpression {
 	constructor(protected name: string) {}
@@ -8,6 +9,6 @@ export class NameExpression implements IExpression {
 	}
 
 	eval() {
-		return this.name
+		return getFromEnv(this.name) || this.name
 	}
 }

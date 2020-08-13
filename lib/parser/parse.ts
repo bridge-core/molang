@@ -27,7 +27,7 @@ export class Parser {
 
 		let expressionLeft = prefix.parse(this, token)
 		// console.log(expressionLeft)
-		if (expressionLeft instanceof ReturnExpression) return expressionLeft
+		if (expressionLeft.isReturn) return expressionLeft
 		return this.parseInfixExpression(expressionLeft, precedence)
 	}
 
@@ -67,11 +67,11 @@ export class Parser {
 		return this.lastConsumed
 	}
 
-	match(expected: TTokenType) {
+	match(expected: TTokenType, consume = true) {
 		const token = this.lookAhead(0)
 		if (token[0] !== expected) return false
 
-		this.consume()
+		if (consume) this.consume()
 		return true
 	}
 

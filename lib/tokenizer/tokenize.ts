@@ -40,7 +40,9 @@ export function tokenize(expression: string) {
 					let j = i + 1
 					while (
 						j < expression.length &&
-						(isLetter(expression[j]) || isNumber(expression[j]))
+						(isLetter(expression[j]) ||
+							isNumber(expression[j]) ||
+							expression[j] === '_')
 					) {
 						j++
 					}

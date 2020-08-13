@@ -1,4 +1,5 @@
 import { evalMoLang } from '../main'
+import { setEnv } from '../env'
 
 const TESTS: [string, number | string][] = [
 	['1 + 1', 2],
@@ -16,11 +17,14 @@ const TESTS: [string, number | string][] = [
 	['4 / 2 == 2', 1],
 	['1 == 1 && 0 == 0', 1],
 	['0 ? 1 : 2', 2],
+	['return 0 ? 1;', 0],
+	['return 1 ? 1;', 1],
 	['(0 ? 1 : 2) ? 3 : 4', 3],
 	['0 ? 1 : 2; return 1;', 1],
 	["(1 && 0) + 1 ? 'true' : 'false'", 'true'],
 	["!(1 && 0) ? 'true' : 'false'", 'true'],
-	// ["query.get_position(0) >= 0 ? 'hello'", 'hello'],
+	['test(1+1, 3+3)', 8],
+	// ["query.get_position(0) >= 0 ? 'hello' : 'test'", 'hello'],
 	// ["query.get_position(0) < 0 ? 'hello'", 0.0],
 	// ["variable.temp = 'test'", 0],
 	// ['variable.temp', 'test'],
@@ -44,38 +48,41 @@ const TESTS: [string, number | string][] = [
 ]
 
 describe('parse(string)', () => {
-	// setENV({
-	// 	length(arr: unknown[]) {
-	// 		return arr.length
-	// 	},
-	// 	variable: {},
-	// 	query: {
-	// 		get_equipped_item_name(slot: number) {
-	// 			return 'diamond_sword_' + slot
-	// 		},
-	// 		get_position() {
-	// 			return 0
-	// 		},
-	// 	},
-	// 	texture: {
-	// 		mark_variants: [],
-	// 		variants: ['1', 2, 3, 4, 5, 6],
-	// 	},
-	// 	math: {
-	// 		add(a: number, b: number) {
-	// 			return a + b
-	// 		},
-	// 	},
-	// 	rider: {
-	// 		slot: 1,
-	// 		is(id: number) {
-	// 			return id
-	// 		},
-	// 		get_length(str: string) {
-	// 			return str.length
-	// 		},
-	// 	},
-	// })
+	setEnv({
+		test(n1: number, n2: number) {
+			return n1 + n2
+		},
+		length(arr: unknown[]) {
+			return arr.length
+		},
+		variable: {},
+		query: {
+			get_equipped_item_name(slot: number) {
+				return 'diamond_sword_' + slot
+			},
+			get_position() {
+				return 0
+			},
+		},
+		texture: {
+			mark_variants: [],
+			variants: ['1', 2, 3, 4, 5, 6],
+		},
+		math: {
+			add(a: number, b: number) {
+				return a + b
+			},
+		},
+		rider: {
+			slot: 1,
+			is(id: number) {
+				return id
+			},
+			get_length(str: string) {
+				return str.length
+			},
+		},
+	})
 	TESTS.forEach(([t, res]) => {
 		test(`Optimizer<true>: "${t}" => ${res}`, () => {
 			expect(evalMoLang(t, false, true)).toBe(res)

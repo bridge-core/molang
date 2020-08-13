@@ -1,4 +1,5 @@
 import { IExpression } from '../expression'
+import { getFromEnv } from '../../env'
 
 export class OperatorExpression implements IExpression {
 	constructor(
@@ -13,10 +14,23 @@ export class OperatorExpression implements IExpression {
 
 	eval() {
 		switch (this.operator) {
+			case '.': {
+				console.log(
+					this.leftExpression.eval(),
+					this.rightExpression.eval(),
+					this.rightExpression
+				)
+				return (<any>this.leftExpression.eval())[
+					<any>this.rightExpression.eval()
+				]
+			}
+
 			case '==':
 				return this.leftExpression.eval() == this.rightExpression.eval()
 			case '!=':
 				return this.leftExpression.eval() != this.rightExpression.eval()
+			case '??':
+				return this.leftExpression.eval() ?? this.rightExpression.eval()
 		}
 
 		const leftValue = this.leftExpression.eval()

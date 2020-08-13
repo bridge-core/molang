@@ -10,6 +10,7 @@ import { TernaryParselet } from './parselets/ternary'
 import { ReturnParselet } from './parselets/Return'
 import { StatementParselet } from './parselets/statement'
 import { StringParselet } from './parselets/string'
+import { FunctionParselet } from './parselets/function'
 
 export class MoLangParser extends Parser {
 	constructor(tokenIterator: IIterator, useOptimizer = true) {
@@ -24,9 +25,10 @@ export class MoLangParser extends Parser {
 			'QUESTION',
 			new TernaryParselet(EPrecedence.CONDITIONAL)
 		)
-		this.registerPrefix(
+		this.registerPrefix('LEFT_PARENT', new GroupParselet())
+		this.registerInfix(
 			'LEFT_PARENT',
-			new GroupParselet(EPrecedence.PREFIX)
+			new FunctionParselet(EPrecedence.FUNCTION)
 		)
 		this.registerInfix(
 			'SEMICOLON',
@@ -41,6 +43,10 @@ export class MoLangParser extends Parser {
 		//Nothing here yet
 
 		//Infix parselets
+		this.registerInfix(
+			'PERIOD',
+			new BinaryOperator(EPrecedence.PROPERTY_ACCESS)
+		)
 		this.registerInfix('PLUS', new BinaryOperator(EPrecedence.SUM))
 		this.registerInfix('MINUS', new BinaryOperator(EPrecedence.SUM))
 		this.registerInfix('ASTERISK', new BinaryOperator(EPrecedence.PRODUCT))
@@ -62,5 +68,9 @@ export class MoLangParser extends Parser {
 		this.registerInfix('SMALLER', new BinaryOperator(EPrecedence.COMPARE))
 		this.registerInfix('AND', new BinaryOperator(EPrecedence.AND))
 		this.registerInfix('OR', new BinaryOperator(EPrecedence.OR))
+		this.registerInfix(
+			'NULLISH_COALESCING',
+			new BinaryOperator(EPrecedence.NULLISH_COALESCING)
+		)
 	}
 }

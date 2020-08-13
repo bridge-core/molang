@@ -1,6 +1,7 @@
 export const TokenTypes = new Map<string, string>([
 	['==', 'EQUALS'],
 	['!=', 'NOT_EQUALS'],
+	['??', 'NULLISH_COALESCING'],
 	['&&', 'AND'],
 	['||', 'OR'],
 	['>=', 'GREATER_OR_EQUALS'],
