@@ -11,6 +11,8 @@ export const TokenTypes = new Map<string, string>([
 	['<', 'SMALLER'],
 	['(', 'LEFT_PARENT'],
 	[')', 'RIGHT_PARENT'],
+	['[', 'ARRAY_LEFT'],
+	[']', 'ARRAY_RIGHT'],
 	[',', 'COMMA'],
 	['=', 'ASSIGN'],
 	['+', 'PLUS'],

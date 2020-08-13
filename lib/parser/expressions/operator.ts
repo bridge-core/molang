@@ -1,6 +1,7 @@
 import { IExpression } from '../expression'
 import { getFromEnv, setEnvAt } from '../../env'
 import { NameExpression } from './name'
+import { ArrayAccessExpression } from './arrayAccess'
 
 export class OperatorExpression implements IExpression {
 	constructor(
@@ -16,7 +17,10 @@ export class OperatorExpression implements IExpression {
 	eval() {
 		switch (this.operator) {
 			case '=': {
-				if (this.leftExpression instanceof NameExpression) {
+				if (
+					this.leftExpression instanceof NameExpression ||
+					this.leftExpression instanceof ArrayAccessExpression
+				) {
 					setEnvAt(
 						this.leftExpression.getName(),
 						this.rightExpression.eval()

@@ -11,6 +11,7 @@ import { ReturnParselet } from './parselets/Return'
 import { StatementParselet } from './parselets/statement'
 import { StringParselet } from './parselets/string'
 import { FunctionParselet } from './parselets/function'
+import { ArrayAccessParselet } from './parselets/arrayAccess'
 
 export class MoLangParser extends Parser {
 	constructor(tokenIterator: IIterator, useOptimizer = true) {
@@ -29,6 +30,10 @@ export class MoLangParser extends Parser {
 		this.registerInfix(
 			'LEFT_PARENT',
 			new FunctionParselet(EPrecedence.FUNCTION)
+		)
+		this.registerInfix(
+			'ARRAY_LEFT',
+			new ArrayAccessParselet(EPrecedence.FUNCTION)
 		)
 		this.registerInfix(
 			'SEMICOLON',
