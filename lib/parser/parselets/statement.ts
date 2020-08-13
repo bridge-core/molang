@@ -11,21 +11,28 @@ export class StatementParselet implements IInfixParselet {
 	constructor(public precedence = 0) {}
 
 	parse(parser: Parser, left: IExpression, token: TToken) {
-		let expr = parser.parseExpression()
-
-		const isRightStatic = parser.useOptimizer && expr.isStatic()
 		const isLeftStatic = parser.useOptimizer && left.isStatic()
-
-		if (parser.useOptimizer && left instanceof ReturnExpression) {
-			if (isLeftStatic) return new StaticExpression(left.eval())
+		if (parser.useOptimizer && left.isReturn) {
+			if (isLeftStatic) left = new StaticExpression(left.eval())
 			return left
 		}
 
-		return new StatementExpression([
-			left,
-			isRightStatic
-				? new StaticExpression(expr.eval(), expr.isReturn)
-				: expr,
-		])
+		let expr = parser.parseExpression(EPrecedence.STATEMENT)
+		let expressions: IExpression[] = [left]
+		while (parser.match('SEMICOLON') || expr.isReturn) {
+			if (parser.useOptimizer) {
+				if (expr.isStatic())
+					expr = new StaticExpression(expr.eval(), expr.isReturn)
+				if (expr.isReturn) {
+					expressions.push(expr)
+					break
+				}
+			}
+
+			expressions.push(expr)
+			expr = parser.parseExpression(EPrecedence.STATEMENT)
+		}
+
+		return new StatementExpression(expressions)
 	}
 }

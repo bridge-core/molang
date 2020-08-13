@@ -18,11 +18,7 @@ export class StatementExpression {
 		let i = 0
 		while (i < this.expressions.length) {
 			let res = this.expressions[i].eval()
-			if (
-				this.expressions[i].isReturn ||
-				this.expressions[i] instanceof ReturnExpression
-			)
-				return res
+			if (this.expressions[i].isReturn) return res
 			i++
 		}
 		return 0
