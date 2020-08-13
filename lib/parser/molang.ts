@@ -33,7 +33,7 @@ export class MoLangParser extends Parser {
 		)
 		this.registerInfix(
 			'ARRAY_LEFT',
-			new ArrayAccessParselet(EPrecedence.FUNCTION)
+			new ArrayAccessParselet(EPrecedence.ARRAY_ACCESS)
 		)
 		this.registerInfix(
 			'SEMICOLON',

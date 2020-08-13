@@ -13,6 +13,8 @@ export const TokenTypes = new Map<string, string>([
 	[')', 'RIGHT_PARENT'],
 	['[', 'ARRAY_LEFT'],
 	[']', 'ARRAY_RIGHT'],
+	['{', 'CURLY_LEFT'],
+	['}', 'CURLY_RIGHT'],
 	[',', 'COMMA'],
 	['=', 'ASSIGN'],
 	['+', 'PLUS'],

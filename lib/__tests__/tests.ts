@@ -24,7 +24,7 @@ const TESTS: [string, number | string][] = [
 	["(1 && 0) + 1 ? 'true' : 'false'", 'true'],
 	["!(1 && 0) ? 'true' : 'false'", 'true'],
 	['test(1+1, 3+3)', 8],
-	["query.get_position(0) >= 0 ? 'hello' : 'test'", 'hello'],
+	["query.get_position >= 0 ? 'hello' : 'test'", 'hello'],
 	["return query.get_position(0) < 0 ? 'hello';", 0.0],
 	["variable.temp = 'test'", 0],
 	['variable.temp', 'test'],

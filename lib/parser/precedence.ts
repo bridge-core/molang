@@ -1,7 +1,8 @@
 export enum EPrecedence {
 	STATEMENT = 1,
 	PROPERTY_ACCESS,
-	FUNCTION,
+	ARRAY_ACCESS,
+
 	ASSIGNMENT,
 	CONDITIONAL,
 
@@ -18,5 +19,5 @@ export enum EPrecedence {
 
 	PREFIX,
 	POSTFIX,
-	CALL,
+	FUNCTION,
 }
