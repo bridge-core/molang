@@ -2,14 +2,17 @@ import { IExpression } from './parser/expression'
 import { MoLangParser } from './parser/molang'
 import { tokenize } from './tokenizer/tokenize'
 
-export const expressionCache = new Map<string, IExpression>()
+export let expressionCache: any = {}
+export function clearCache() {
+	expressionCache = {}
+}
 export function execute(
 	expression: string,
 	useCache = true,
 	useOptimizer = true
 ) {
 	if (useCache) {
-		const expressionObj = expressionCache.get(expression)
+		const expressionObj = expressionCache[expression]
 		if (expressionObj) return expressionObj.eval()
 	}
 
@@ -17,7 +20,7 @@ export function execute(
 	const expressionObj = parser.parseExpression()
 	// console.log(expressionObj)
 
-	if (useCache) expressionCache.set(expression, expressionObj)
+	if (useCache) expressionCache[expression] = expressionObj
 	const result = expressionObj.eval()
 	if (typeof result === 'boolean') return Number(result)
 	return result
