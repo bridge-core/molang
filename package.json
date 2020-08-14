@@ -1,6 +1,6 @@
 {
 	"name": "molang",
-	"version": "1.0.1",
+	"version": "1.1.0",
 	"description": "A fast parser for Minecraft's MoLang",
 	"main": "dist/main.js",
 	"directories": {
