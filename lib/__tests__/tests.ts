@@ -39,7 +39,6 @@ const TESTS: [string, number | string][] = [
 	['texture.variants[0]', '1'],
 	['texture.mark_variants[0] = 2', 0],
 	['texture.mark_variants[0]', 2],
-	['texture.variants[texture.variants.length - 1]', 6],
 	['texture.variants[texture.variants[5]]', 6],
 	['texture.variants[math.add(1, 3)]', 5],
 	['math.add(rider.get_length(texture.variants[0]) + 5, 6)', 12],

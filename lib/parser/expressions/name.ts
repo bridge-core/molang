@@ -1,5 +1,5 @@
 import { IExpression } from '../expression'
-import { getFromEnv } from '../../env'
+import { getFromEnv, setEnvAt } from '../../env'
 
 export class NameExpression implements IExpression {
 	constructor(protected name: string, protected isFunctionCall = false) {}
@@ -8,8 +8,8 @@ export class NameExpression implements IExpression {
 		return false
 	}
 
-	getName() {
-		return this.name
+	setPointer(value: unknown) {
+		setEnvAt(this.name, value)
 	}
 
 	setFunctionCall(value = true) {

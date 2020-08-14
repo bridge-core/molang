@@ -8,12 +8,8 @@ export class ArrayAccessExpression implements IExpression {
 		return false
 	}
 
-	getName() {
-		if (!(this.name instanceof NameExpression))
-			throw new Error(
-				`Expected NameExpression, found ${this.name.eval()}`
-			)
-		return `${this.name.getName()}.${this.lookup.eval()}`
+	setPointer(value: unknown) {
+		;(<any>this.name.eval())[<number>this.lookup.eval()] = value
 	}
 
 	eval() {

@@ -17,14 +17,8 @@ export class OperatorExpression implements IExpression {
 	eval() {
 		switch (this.operator) {
 			case '=': {
-				if (
-					this.leftExpression instanceof NameExpression ||
-					this.leftExpression instanceof ArrayAccessExpression
-				) {
-					setEnvAt(
-						this.leftExpression.getName(),
-						this.rightExpression.eval()
-					)
+				if (this.leftExpression.setPointer) {
+					this.leftExpression.setPointer(this.rightExpression.eval())
 					return 0
 				} else {
 					throw Error(

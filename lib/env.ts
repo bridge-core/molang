@@ -1,26 +1,54 @@
-let env: any = {}
+let env: Record<string, any> = {}
 
-export function setEnv(newEnv: any) {
-	env = newEnv
+function flattenEnv(
+	newEnv: Record<string, any>,
+	addKey = '',
+	current: any = {}
+) {
+	for (let key in newEnv) {
+		if (typeof newEnv[key] === 'object' && !Array.isArray(newEnv[key])) {
+			flattenEnv(newEnv[key], `${addKey}${key}.`, current)
+		} else {
+			current[`${addKey}${key}`] = newEnv[key]
+		}
+	}
+
+	return current
+}
+
+export function setEnv(newEnv: Record<string, any>) {
+	env = flattenEnv(newEnv)
 }
 
 export function getFromEnv(lookup: string) {
-	const arr = lookup.split('.')
-	let current = env
-
-	let i = 0
-	while (i < arr.length) {
-		current = current[arr[i++]]
+	if (lookup[1] === '.') {
+		switch (lookup[0]) {
+			case 'q':
+				lookup = 'query' + lookup.substring(1, lookup.length)
+			case 't':
+				lookup = 'temp' + lookup.substring(1, lookup.length)
+			case 'v':
+				lookup = 'variable' + lookup.substring(1, lookup.length)
+			case 'c':
+				lookup = 'context' + lookup.substring(1, lookup.length)
+		}
 	}
-	return current
+
+	return env[lookup]
 }
 export function setEnvAt(lookup: string, value: unknown) {
-	const arr = lookup.split('.')
-	let current = env
-
-	let i = 0
-	while (i < arr.length - 1) {
-		current = current[arr[i++]]
+	if (lookup[1] === '.') {
+		switch (lookup[0]) {
+			case 'q':
+				lookup = 'query' + lookup.substring(1, lookup.length)
+			case 't':
+				lookup = 'temp' + lookup.substring(1, lookup.length)
+			case 'v':
+				lookup = 'variable' + lookup.substring(1, lookup.length)
+			case 'c':
+				lookup = 'context' + lookup.substring(1, lookup.length)
+		}
 	}
-	return (current[arr[i]] = value)
+
+	return (env[lookup] = value)
 }
