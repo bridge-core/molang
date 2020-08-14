@@ -27,4 +27,10 @@ export const TokenTypes = new Map<string, string>([
 	['!', 'BANG'],
 ])
 
-export const KeywordTokens = new Set(['return'])
+export const KeywordTokens = new Set([
+	'return',
+	'continue',
+	'break',
+	'for_each',
+	'loop',
+])

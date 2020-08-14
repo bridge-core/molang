@@ -3,7 +3,7 @@ import { MoLangParser } from './parser/molang'
 import { tokenize } from './tokenizer/tokenize'
 
 export const expressionCache = new Map<string, IExpression>()
-export function evalMoLang(
+export function execute(
 	expression: string,
 	useCache = true,
 	useOptimizer = true

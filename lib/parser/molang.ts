@@ -13,6 +13,10 @@ import { StringParselet } from './parselets/string'
 import { FunctionParselet } from './parselets/function'
 import { ArrayAccessParselet } from './parselets/arrayAccess'
 import { ScopeParselet } from './parselets/scope'
+import { LoopParselet } from './parselets/loop'
+import { ForEachParselet } from './parselets/forEach'
+import { ContinueParselet } from './parselets/continue'
+import { BreakParselet } from './parselets/break'
 
 export class MoLangParser extends Parser {
 	constructor(tokenIterator: IIterator, useOptimizer = true) {
@@ -23,6 +27,10 @@ export class MoLangParser extends Parser {
 		this.registerPrefix('STRING', new StringParselet())
 		this.registerPrefix('NUMBER', new NumberParselet())
 		this.registerPrefix('RETURN', new ReturnParselet())
+		this.registerPrefix('CONTINUE', new ContinueParselet())
+		this.registerPrefix('BREAK', new BreakParselet())
+		this.registerPrefix('LOOP', new LoopParselet())
+		this.registerPrefix('FOR_EACH', new ForEachParselet())
 		this.registerInfix(
 			'QUESTION',
 			new TernaryParselet(EPrecedence.CONDITIONAL)

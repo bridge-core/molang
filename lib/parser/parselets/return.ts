@@ -13,11 +13,7 @@ export class ReturnParselet implements IPrefixParselet {
 		const expr = parser.parseExpression(EPrecedence.STATEMENT)
 
 		return new ReturnExpression(
-			expr instanceof StatementExpression
-				? expr.getExpression()
-				: parser.match('SEMICOLON')
-				? expr
-				: new NumberExpression(0)
+			parser.match('SEMICOLON') ? expr : new NumberExpression(0)
 		)
 	}
 }

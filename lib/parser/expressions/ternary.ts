@@ -14,6 +14,16 @@ export class TernaryExpression implements IExpression {
 			? this.thenExpression.isReturn
 			: this.elseExpression.isReturn
 	}
+	get isContinue() {
+		return this.leftResult
+			? this.thenExpression.isContinue
+			: this.elseExpression.isContinue
+	}
+	get isBreak() {
+		return this.leftResult
+			? this.thenExpression.isBreak
+			: this.elseExpression.isBreak
+	}
 
 	isStatic() {
 		return (

@@ -4,7 +4,6 @@ import { IPrefixParselet } from './parselets/prefix'
 import { IInfixParselet } from './parselets/infix'
 import { IExpression } from './expression'
 import { NumberExpression } from './expressions/number'
-import { ReturnExpression } from './expressions/return'
 
 export class Parser {
 	protected prefixParselets = new Map<TTokenType, IPrefixParselet>()

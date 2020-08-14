@@ -1,4 +1,4 @@
-import { evalMoLang } from '../main'
+import { execute } from '../main'
 import { setEnv } from '../env'
 
 const TESTS: [string, number | string][] = [
@@ -46,6 +46,22 @@ const TESTS: [string, number | string][] = [
 	['!(1 + 3) && query.test_something_else', 0],
 	['1.0 ? { return 1; };', 1],
 	['1.0 ? { variable.scope_test = 1; return variable.scope_test; };', 1],
+	['v.x = 0; loop(10, v.x = v.x + 1); return v.x;', 10],
+	['v.x = 0; loop(10, { v.x = v.x + 1; }); return v.x;', 10],
+	['v.x = 2; loop(10, { return 1; }); return v.x;', 1],
+	[
+		't.total = 0; for_each(t.current, texture.skin_id, { t.total = t.total + t.current; }); return t.total;',
+		55,
+	],
+	[
+		't.total = 0; for_each(t.current, texture.skin_id, { loop(10, t.total = t.total + t.current); }); return t.total;',
+		550,
+	],
+	[
+		't.total = 0; for_each(t.current, texture.skin_id, { math.mod(t.current, 2) ? continue; t.total = t.total + t.current; }); return t.total;',
+		30,
+	],
+	['v.x = 2; loop(10, { break; return 1; }); return v.x;', 2],
 ]
 
 describe('parse(string)', () => {
@@ -68,10 +84,14 @@ describe('parse(string)', () => {
 		texture: {
 			mark_variants: [],
 			variants: ['1', 2, 3, 4, 5, 6, 6],
+			skin_id: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
 		},
 		math: {
 			add(a: number, b: number) {
 				return a + b
+			},
+			mod(a: number, b: number) {
+				return a % b
 			},
 		},
 		rider: {
@@ -85,11 +105,11 @@ describe('parse(string)', () => {
 		},
 	})
 	TESTS.forEach(([t, res]) => {
-		test(`Optimizer<true>: "${t}" => ${res}`, () => {
-			expect(evalMoLang(t, false, true)).toBe(res)
-		})
 		test(`Optimizer<false>: "${t}" => ${res}`, () => {
-			expect(evalMoLang(t, false, false)).toBe(res)
+			expect(execute(t, false, false)).toBe(res)
+		})
+		test(`Optimizer<true>: "${t}" => ${res}`, () => {
+			expect(execute(t, false, true)).toBe(res)
 		})
 	})
 })

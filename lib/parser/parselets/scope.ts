@@ -6,6 +6,7 @@ import { IExpression } from '../expression'
 import { EPrecedence } from '../precedence'
 import { StaticExpression } from '../expressions/static'
 import { StatementExpression } from '../expressions/statement'
+import { ReturnExpression } from '../expressions/return'
 
 export class ScopeParselet implements IPrefixParselet {
 	constructor(public precedence = 0) {}
@@ -15,7 +16,13 @@ export class ScopeParselet implements IPrefixParselet {
 		let hadClosingBracket = false
 		let expressions: IExpression[] = []
 		do {
+			if (parser.match('CURLY_RIGHT')) {
+				hadClosingBracket = true
+				break
+			}
+
 			expr = parser.parseExpression(EPrecedence.STATEMENT)
+
 			if (parser.useOptimizer) {
 				if (expr.isStatic())
 					expr = new StaticExpression(expr.eval(), expr.isReturn)
@@ -26,11 +33,6 @@ export class ScopeParselet implements IPrefixParselet {
 			}
 
 			expressions.push(expr)
-
-			if (parser.match('CURLY_RIGHT')) {
-				hadClosingBracket = true
-				break
-			}
 		} while (parser.match('SEMICOLON') || expr.isReturn)
 
 		if (!hadClosingBracket && !parser.match('CURLY_RIGHT'))
