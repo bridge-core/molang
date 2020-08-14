@@ -2,7 +2,7 @@ import { IExpression } from './parser/expression'
 import { MoLangParser } from './parser/molang'
 import { tokenize } from './tokenizer/tokenize'
 
-export let expressionCache: any = {}
+let expressionCache: any = {}
 export function clearCache() {
 	expressionCache = {}
 }

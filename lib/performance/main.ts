@@ -1,4 +1,4 @@
-import { execute, expressionCache } from '../main'
+import { execute, clearCache } from '../main'
 import { setEnv } from '../env'
 
 const iterations = 10000
@@ -37,7 +37,7 @@ testPerf(
 			'[PARSE & EXECUTE] Default Performance',
 			true,
 			() => {
-				expressionCache.clear()
+				clearCache()
 			},
 			() => {}
 		)
