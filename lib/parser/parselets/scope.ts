@@ -1,12 +1,10 @@
 import { Parser } from '../parse'
 import { TToken } from '../../tokenizer/token'
 import { IPrefixParselet } from './prefix'
-import { StatementParselet } from './statement'
 import { IExpression } from '../expression'
 import { EPrecedence } from '../precedence'
 import { StaticExpression } from '../expressions/static'
 import { StatementExpression } from '../expressions/statement'
-import { ReturnExpression } from '../expressions/return'
 
 export class ScopeParselet implements IPrefixParselet {
 	constructor(public precedence = 0) {}

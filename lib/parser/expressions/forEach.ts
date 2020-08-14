@@ -1,11 +1,18 @@
 import { IExpression } from '../expression'
+import { NameExpression } from './name'
+import { ArrayAccessExpression } from './arrayAccess'
 
 export class ForEachExpression implements IExpression {
 	constructor(
 		protected variable: IExpression,
 		protected arrayExpression: IExpression,
 		protected expression: IExpression
-	) {}
+	) {
+		if (!this.variable.setPointer)
+			throw new Error(
+				`First for_each() argument must be a variable, received "${typeof this.variable.eval()}"`
+			)
+	}
 
 	get isReturn() {
 		return this.expression.isReturn
@@ -16,10 +23,6 @@ export class ForEachExpression implements IExpression {
 	}
 
 	eval() {
-		if (!this.variable.setPointer)
-			throw new Error(
-				`First for_each() argument must be a variable, received "${typeof this.variable.eval()}"`
-			)
 		const array = this.arrayExpression.eval()
 		if (!Array.isArray(array))
 			throw new Error(
@@ -28,7 +31,10 @@ export class ForEachExpression implements IExpression {
 
 		let i = 0
 		while (i < array.length) {
-			this.variable.setPointer(array[i++])
+			// Error detection for this.variable is part of the constructor
+			;(<NameExpression | ArrayAccessExpression>this.variable).setPointer(
+				array[i++]
+			)
 
 			const res = this.expression.eval()
 

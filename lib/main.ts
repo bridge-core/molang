@@ -1,6 +1,7 @@
 import { IExpression } from './parser/expression'
 import { MoLangParser } from './parser/molang'
 import { tokenize } from './tokenizer/tokenize'
+import { StaticExpression } from './parser/expressions/static'
 
 let expressionCache: Record<string, IExpression> = {}
 export function clearCache() {
@@ -33,7 +34,11 @@ export function parse(
 	const abstractSyntaxTree = parser.parseExpression()
 	// console.log(abstractSyntaxTree)
 
-	if (useCache) expressionCache[expression] = abstractSyntaxTree
+	if (useCache)
+		expressionCache[expression] =
+			useOptimizer && abstractSyntaxTree.isStatic()
+				? new StaticExpression(abstractSyntaxTree.eval())
+				: abstractSyntaxTree
 	return abstractSyntaxTree
 }
 
