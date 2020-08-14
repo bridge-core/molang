@@ -2,6 +2,8 @@ import { execute } from '../main'
 import { setEnv } from '../env'
 
 const TESTS: [string, number | string][] = [
+	['true', 1.0],
+	['false', 0.0],
 	['1 + 1', 2],
 	['1 + 1 * 2', 3],
 	['return 1', 0], //Your typical Minecraft quirk

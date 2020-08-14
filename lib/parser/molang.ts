@@ -17,6 +17,7 @@ import { LoopParselet } from './parselets/loop'
 import { ForEachParselet } from './parselets/forEach'
 import { ContinueParselet } from './parselets/continue'
 import { BreakParselet } from './parselets/break'
+import { BooleanParselet } from './parselets/boolean'
 
 export class MoLangParser extends Parser {
 	constructor(tokenIterator: IIterator, useOptimizer = true) {
@@ -26,6 +27,8 @@ export class MoLangParser extends Parser {
 		this.registerPrefix('NAME', new NameParselet())
 		this.registerPrefix('STRING', new StringParselet())
 		this.registerPrefix('NUMBER', new NumberParselet())
+		this.registerPrefix('TRUE', new BooleanParselet(EPrecedence.PREFIX))
+		this.registerPrefix('FALSE', new BooleanParselet(EPrecedence.PREFIX))
 		this.registerPrefix('RETURN', new ReturnParselet())
 		this.registerPrefix('CONTINUE', new ContinueParselet())
 		this.registerPrefix('BREAK', new BreakParselet())

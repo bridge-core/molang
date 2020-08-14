@@ -33,4 +33,6 @@ export const KeywordTokens = new Set([
 	'break',
 	'for_each',
 	'loop',
+	'false',
+	'true',
 ])
