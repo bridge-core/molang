@@ -3,6 +3,7 @@ export interface IExpression {
 	readonly isBreak?: boolean
 	readonly isContinue?: boolean
 
+	setFunctionCall?: (value: boolean) => void
 	setPointer?: (value: unknown) => void
 	eval(): unknown
 	isStatic(): boolean

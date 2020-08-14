@@ -12,7 +12,9 @@ export function execute(
 	useOptimizer = true
 ) {
 	const abstractSyntaxTree = parse(expression, useCache, useOptimizer)
+	// console.log(abstractSyntaxTree)
 	const result = abstractSyntaxTree.eval()
+	if (result === undefined) return 0
 	if (typeof result === 'boolean') return Number(result)
 	return result
 }

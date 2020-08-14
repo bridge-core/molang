@@ -3,7 +3,6 @@ import { Parser } from '../parse'
 import { IInfixParselet } from './infix'
 import { IExpression } from '../expression'
 import { FunctionExpression } from '../expressions/function'
-import { NameExpression } from '../expressions/name'
 
 export class FunctionParselet implements IInfixParselet {
 	constructor(public precedence = 0) {}
@@ -11,7 +10,7 @@ export class FunctionParselet implements IInfixParselet {
 	parse(parser: Parser, left: IExpression, token: TToken) {
 		const args: IExpression[] = []
 
-		if (!(left instanceof NameExpression))
+		if (!left.setFunctionCall)
 			throw new Error(`Expression "${left.eval()}" is not callable!`)
 		left.setFunctionCall(true)
 
