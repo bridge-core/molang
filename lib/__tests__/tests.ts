@@ -45,6 +45,8 @@ const TESTS: [string, number | string][] = [
 	['math.add(rider.get_length(texture.variants[0]) + 5, 6)', 12],
 	['query.get_position(0) >= 0 && query.get_position(0) <= 0', 1.0],
 	['!(1 + 3) && query.test_something_else', 0],
+	['1.0 ? { return 1; };', 1],
+	['1.0 ? { variable.scope_test = 1; return variable.scope_test; };', 1],
 ]
 
 describe('parse(string)', () => {

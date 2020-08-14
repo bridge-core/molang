@@ -5,7 +5,7 @@ export class NameExpression implements IExpression {
 	constructor(protected name: string, protected isFunctionCall = false) {}
 
 	isStatic() {
-		return true
+		return false
 	}
 
 	getName() {

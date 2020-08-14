@@ -3,23 +3,22 @@ import { IExpression } from '../expression'
 import { TToken } from '../../tokenizer/token'
 import { IInfixParselet } from './infix'
 import { StatementExpression } from '../expressions/statement'
-import { ReturnExpression } from '../expressions/return'
 import { StaticExpression } from '../expressions/static'
-import { EPrecedence } from '../precedence'
 
 export class StatementParselet implements IInfixParselet {
 	constructor(public precedence = 0) {}
 
 	parse(parser: Parser, left: IExpression, token: TToken) {
-		const isLeftStatic = parser.useOptimizer && left.isStatic()
-		if (parser.useOptimizer && left.isReturn) {
-			if (isLeftStatic) left = new StaticExpression(left.eval())
-			return left
+		if (parser.useOptimizer) {
+			if (left.isStatic())
+				left = new StaticExpression(left.eval(), left.isReturn)
+			if (left.isReturn) return left
 		}
 
-		let expr = parser.parseExpression(EPrecedence.STATEMENT)
+		let expr
 		let expressions: IExpression[] = [left]
-		while (parser.match('SEMICOLON') || expr.isReturn) {
+		do {
+			expr = parser.parseExpression(this.precedence)
 			if (parser.useOptimizer) {
 				if (expr.isStatic())
 					expr = new StaticExpression(expr.eval(), expr.isReturn)
@@ -30,8 +29,7 @@ export class StatementParselet implements IInfixParselet {
 			}
 
 			expressions.push(expr)
-			expr = parser.parseExpression(EPrecedence.STATEMENT)
-		}
+		} while (parser.match('SEMICOLON') || expr.isReturn)
 
 		return new StatementExpression(expressions)
 	}

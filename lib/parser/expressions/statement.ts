@@ -5,6 +5,15 @@ import { ReturnExpression } from './return'
 export class StatementExpression {
 	constructor(protected expressions: IExpression[]) {}
 
+	get isReturn() {
+		let i = 0
+		while (i < this.expressions.length) {
+			if (this.expressions[i].isReturn) return true
+			i++
+		}
+		return false
+	}
+
 	isStatic() {
 		let i = 0
 		while (i < this.expressions.length) {

@@ -12,6 +12,7 @@ import { StatementParselet } from './parselets/statement'
 import { StringParselet } from './parselets/string'
 import { FunctionParselet } from './parselets/function'
 import { ArrayAccessParselet } from './parselets/arrayAccess'
+import { ScopeParselet } from './parselets/scope'
 
 export class MoLangParser extends Parser {
 	constructor(tokenIterator: IIterator, useOptimizer = true) {
@@ -35,6 +36,7 @@ export class MoLangParser extends Parser {
 			'ARRAY_LEFT',
 			new ArrayAccessParselet(EPrecedence.ARRAY_ACCESS)
 		)
+		this.registerPrefix('CURLY_LEFT', new ScopeParselet(EPrecedence.SCOPE))
 		this.registerInfix(
 			'SEMICOLON',
 			new StatementParselet(EPrecedence.STATEMENT)

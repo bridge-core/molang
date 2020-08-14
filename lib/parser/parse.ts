@@ -88,4 +88,11 @@ export class Parser {
 	registerPrefix(tokenType: TTokenType, prefixParselet: IPrefixParselet) {
 		this.prefixParselets.set(tokenType, prefixParselet)
 	}
+
+	getInfix(tokenType: TTokenType) {
+		return this.infixParselets.get(tokenType)
+	}
+	getPrefix(tokenType: TTokenType) {
+		return this.prefixParselets.get(tokenType)
+	}
 }

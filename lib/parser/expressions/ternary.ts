@@ -7,6 +7,10 @@ export class TernaryExpression implements IExpression {
 		protected elseExpression: IExpression
 	) {}
 
+	get isReturn() {
+		return this.thenExpression.isReturn || this.elseExpression.isReturn
+	}
+
 	isStatic() {
 		return (
 			this.leftExpression.isStatic() &&
@@ -16,6 +20,11 @@ export class TernaryExpression implements IExpression {
 	}
 
 	eval() {
+		console.log(
+			this.leftExpression.eval(),
+			this.thenExpression,
+			this.thenExpression.eval()
+		)
 		return this.leftExpression.eval()
 			? this.thenExpression.eval()
 			: this.elseExpression.eval()
