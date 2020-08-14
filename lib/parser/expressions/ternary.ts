@@ -1,6 +1,8 @@
 import { IExpression } from '../expression'
 
 export class TernaryExpression implements IExpression {
+	protected leftResult: unknown
+
 	constructor(
 		protected leftExpression: IExpression,
 		protected thenExpression: IExpression,
@@ -8,7 +10,9 @@ export class TernaryExpression implements IExpression {
 	) {}
 
 	get isReturn() {
-		return this.thenExpression.isReturn || this.elseExpression.isReturn
+		return this.leftResult
+			? this.thenExpression.isReturn
+			: this.elseExpression.isReturn
 	}
 
 	isStatic() {
@@ -20,12 +24,8 @@ export class TernaryExpression implements IExpression {
 	}
 
 	eval() {
-		console.log(
-			this.leftExpression.eval(),
-			this.thenExpression,
-			this.thenExpression.eval()
-		)
-		return this.leftExpression.eval()
+		this.leftResult = this.leftExpression.eval()
+		return this.leftResult
 			? this.thenExpression.eval()
 			: this.elseExpression.eval()
 	}
