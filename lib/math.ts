@@ -23,8 +23,19 @@ const lerp = (start: number, end: number, amount: number) => {
 
 	return start + (end - start) * amount
 }
+// Written by @JannisX11 (https://github.com/JannisX11/MolangJS/blob/master/molang.js#L383); modified for usage inside of this MoLang parser
 const lerprotate = (start: number, end: number, amount: number) => {
-	// TODO
+	const radify = (n: number) => (((n + 180) % 360) + 180) % 360
+	start = radify(start)
+	end = radify(end)
+	if (start > end) {
+		let tmp = start
+		start = end
+		end = tmp
+	}
+
+	if (end - start > 180) return radify(end + amount * (360 - (end - start)))
+	else return start + amount * (end - start)
 }
 const mod = (value: number, denominator: number) => value % denominator
 const random = (low: number, high: number) => low + Math.random() * (high - low)
@@ -46,7 +57,7 @@ export const MoLangMathLib = {
 	'math.floor': Math.floor,
 	'math.hermite_blend': hermiteBlend,
 	'math.lerp': lerp,
-	// 'math.lerp_rotate': lerprotate,
+	'math.lerp_rotate': lerprotate,
 	'math.ln': Math.log,
 	'math.max': Math.max,
 	'math.min': Math.min,
