@@ -13,7 +13,8 @@
     /* Strict Type-Checking Options */
     "strict": true,
     "strictFunctionTypes": true,
-    
+    "noImplicitAny": true,
+
 
     /* Additional Checks */
     "esModuleInterop": true,

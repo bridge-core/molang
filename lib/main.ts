@@ -1,23 +1,25 @@
-import { Store, IStore } from "./Store";
-import { Tokenizer } from "./Tokenizer";
+import { IExpression } from './parser/expression'
+import { MoLangParser } from './parser/molang'
+import { tokenize } from './tokenizer/tokenize'
 
-namespace MoLang {
-    export class Interpreter {
-        private store: Store;
+export const expressionCache = new Map<string, IExpression>()
+export function execute(
+	expression: string,
+	useCache = true,
+	useOptimizer = true
+) {
+	if (useCache) {
+		const expressionObj = expressionCache.get(expression)
+		if (expressionObj) return expressionObj.eval()
+	}
 
-        constructor(env: any) {
-            this.store = new Store(this, env);
-        }
-        parse(str: string) {
-            let res = Tokenizer.parse(str).eval(this.store);
-            if(typeof res === "boolean") return Number(res);
-            return res;
-        }
+	const parser = new MoLangParser(tokenize(expression), useOptimizer)
+	const expressionObj = parser.parseExpression()
+	// console.log(expressionObj)
 
-        getStore() {
-            return this.store;
-        }
-    }
+	if (useCache) expressionCache.set(expression, expressionObj)
+	const result = expressionObj.eval()
+	if (typeof result === 'boolean') return Number(result)
+	return result
 }
-
-export default MoLang;
+export { setEnv } from './env'
