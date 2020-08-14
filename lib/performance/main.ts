@@ -1,45 +1,44 @@
+//@ts-ignore
+import Molang from 'molangjs'
 import { execute, clearCache } from '../main'
 import { setEnv } from '../env'
 
 const iterations = 10000
 const expression =
-	"variable.test = 'hello_world'; temp.i = 0; temp.i = temp.i + 10; temp.i = temp.i + 10; temp.i = temp.i + 10; 1 + 1 * 10 + 4;  1 + 1 * 10 + 4; return temp.i;"
+	'variable.hand_bob = query.life_time < 0.01 ? 0.0 : variable.hand_bob + ((query.is_on_ground && query.is_alive ? math.clamp(math.sqrt(math.pow(query.position_delta(0), 2.0) + math.pow(query.position_delta(2), 2.0)), 0.0, 0.1) : 0.0) - variable.hand_bob) * 0.02;'
 
-function testPerf(
-	testName: string,
-	useCache: boolean,
-	before: () => void,
-	after?: () => void
-) {
-	before()
-	console.time(testName)
-	for (let i = 0; i < iterations; i++) {
-		execute(expression, useCache, true)
-	}
-	console.timeEnd(testName)
-
-	if (after) setTimeout(after, 200)
+const env = {
+	'variable.hand_bob': 0,
+	'query.life_time': () => 0.1,
+	'query.is_on_ground': () => true,
+	'query.is_alive': () => true,
+	'query.position_delta': () => 2,
 }
 
+setEnv(env)
 console.log('-- MOLANG --')
-testPerf(
-	'[PARSE & EXECUTE] Raw Performance',
-	false,
-	() => {
-		setEnv({
-			temp: {},
-			variable: {},
-		})
-	},
+console.time('[PARSE & EXECUTE] Raw Performance')
+for (let i = 0; i < iterations; i++) {
+	execute(expression, false, true)
+}
+console.timeEnd('[PARSE & EXECUTE] Raw Performance')
+clearCache()
+console.time('[PARSE & EXECUTE] Default Performance')
+for (let i = 0; i < iterations; i++) {
+	execute(expression, true, true)
+}
+console.timeEnd('[PARSE & EXECUTE] Default Performance')
 
-	() => {
-		testPerf(
-			'[PARSE & EXECUTE] Default Performance',
-			true,
-			() => {
-				clearCache()
-			},
-			() => {}
-		)
-	}
-)
+console.log('-- MOLANGJS --')
+Molang.cache_enabled = false
+console.time('[PARSE & EXECUTE] Raw Performance')
+for (let i = 0; i < iterations; i++) {
+	Molang.parse(expression, env)
+}
+console.timeEnd('[PARSE & EXECUTE] Raw Performance')
+Molang.cache_enabled = true
+console.time('[PARSE & EXECUTE] Default Performance')
+for (let i = 0; i < iterations; i++) {
+	Molang.parse(expression, env)
+}
+console.timeEnd('[PARSE & EXECUTE] Default Performance')
