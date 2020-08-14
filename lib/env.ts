@@ -1,3 +1,5 @@
+import { MoLangMathLib } from './math'
+
 let env: Record<string, any> = {}
 
 function flattenEnv(
@@ -17,7 +19,10 @@ function flattenEnv(
 }
 
 export function setEnv(newEnv: Record<string, any>) {
-	env = flattenEnv(newEnv)
+	env = {
+		...MoLangMathLib,
+		...flattenEnv(newEnv),
+	}
 }
 
 export function getFromEnv(lookup: string) {
