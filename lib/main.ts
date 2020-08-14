@@ -22,3 +22,4 @@ export function execute(
 	if (typeof result === 'boolean') return Number(result)
 	return result
 }
+export { setEnv } from './env'
