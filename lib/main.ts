@@ -32,7 +32,7 @@ export function parse(
 
 	const parser = new MoLangParser(tokenize(expression), useOptimizer)
 	const abstractSyntaxTree = parser.parseExpression()
-	// console.log(abstractSyntaxTree)
+	// console.log(JSON.stringify(abstractSyntaxTree, null, '  '))
 
 	if (useCache)
 		expressionCache[expression] =

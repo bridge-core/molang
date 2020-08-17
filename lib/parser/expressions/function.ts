@@ -8,8 +8,10 @@ export class FunctionExpression implements IExpression {
 	}
 
 	eval() {
-		return (<(...args: unknown[]) => unknown>this.name.eval())(
-			...this.args.map((arg) => arg.eval())
-		)
+		const args: unknown[] = []
+		let i = 0
+		while (i < this.args.length) args.push(this.args[i++].eval())
+
+		return (<(...args: unknown[]) => unknown>this.name.eval())(...args)
 	}
 }
