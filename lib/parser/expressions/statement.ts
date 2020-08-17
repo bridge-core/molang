@@ -1,8 +1,6 @@
-import { TTokenType } from '../../tokenizer/token'
 import { IExpression } from '../expression'
-import { ReturnExpression } from './return'
 
-export class StatementExpression {
+export class StatementExpression implements IExpression {
 	protected didReturn = false
 	protected wasLoopBroken = false
 	protected wasLoopContinued = false

@@ -19,7 +19,11 @@ export class ForEachExpression implements IExpression {
 	}
 
 	isStatic() {
-		return false
+		return (
+			this.variable.isStatic() &&
+			this.arrayExpression.isStatic() &&
+			this.expression.isStatic()
+		)
 	}
 
 	eval() {

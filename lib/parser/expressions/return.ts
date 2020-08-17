@@ -6,7 +6,7 @@ export class ReturnExpression {
 	constructor(protected expression: IExpression) {}
 
 	isStatic() {
-		return this.expression.isStatic()
+		return false
 	}
 
 	eval() {

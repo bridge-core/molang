@@ -20,8 +20,12 @@ export class StatementParselet implements IInfixParselet {
 		do {
 			expr = parser.parseExpression(this.precedence)
 			if (parser.useOptimizer) {
-				if (expr.isStatic())
-					expr = new StaticExpression(expr.eval(), expr.isReturn)
+				if (expr.isStatic()) {
+					if (!expr.isReturn && parser.agressiveStaticOptimizer)
+						continue
+					else expr = new StaticExpression(expr.eval(), expr.isReturn)
+				}
+
 				if (expr.isReturn) {
 					expressions.push(expr)
 					break

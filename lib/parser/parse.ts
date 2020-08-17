@@ -13,7 +13,8 @@ export class Parser {
 
 	constructor(
 		protected tokenIterator: IIterator,
-		public readonly useOptimizer = false
+		public readonly useOptimizer = false,
+		public readonly agressiveStaticOptimizer = true
 	) {}
 
 	parseExpression(precedence = 0): IExpression {

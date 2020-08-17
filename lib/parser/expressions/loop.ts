@@ -11,7 +11,7 @@ export class LoopExpression implements IExpression {
 	}
 
 	isStatic() {
-		return false
+		return this.count.isStatic() && this.expression.isStatic()
 	}
 
 	eval() {
