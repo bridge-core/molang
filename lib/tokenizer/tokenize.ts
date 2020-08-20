@@ -4,11 +4,33 @@ import { TToken } from './token'
 export interface IIterator {
 	next: () => TToken
 	hasNext: () => boolean
+	step: () => void
+	getPosition: () => {
+		startLineNumber: number
+		endLineNumber: number
+		startColumn: number
+		endColumn: number
+	}
 }
-export function tokenize(expression: string) {
+export function tokenize(expression: string): IIterator {
 	let i = 0
+	let lastStep = 0
+	let currentLine = 0
+	let lastStepLine = 0
 
 	return {
+		getPosition() {
+			return {
+				startLineNumber: lastStepLine,
+				endLineNumber: currentLine,
+				startColumn: lastStep,
+				endColumn: i,
+			}
+		},
+		step() {
+			lastStep = i
+			lastStepLine = currentLine
+		},
 		next(): TToken {
 			while (i < expression.length) {
 				let token =
@@ -73,6 +95,8 @@ export function tokenize(expression: string) {
 					]
 					i = j
 					return token
+				} else if (expression[i] === '\n' || expression[i] === '\r') {
+					currentLine++
 				} else {
 					//IGNORE CHARACTER
 				}

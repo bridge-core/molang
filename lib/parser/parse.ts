@@ -53,8 +53,12 @@ export class Parser {
 	}
 
 	consume(expected?: TTokenType) {
+		//Sets the lastLineNumber & startColumn before consuming next token
+		//Used for getting the exact location an error occurs
+		this.tokenIterator.step()
+
 		const token = this.lookAhead(0)
-		// console.log(token)
+
 		if (expected) {
 			if (token[0] !== expected)
 				throw new Error(
@@ -94,5 +98,9 @@ export class Parser {
 	}
 	getPrefix(tokenType: TTokenType) {
 		return this.prefixParselets.get(tokenType)
+	}
+
+	getTokenizerPosition() {
+		return this.tokenIterator.getPosition()
 	}
 }
