@@ -22,8 +22,10 @@ export class BinaryOperator implements IInfixParselet {
 						if (
 							!(
 								typeof leftValue === 'number' ||
+								typeof leftValue === 'boolean'
+							) ||
+							!(
 								typeof rightValue === 'number' ||
-								typeof leftValue === 'boolean' ||
 								typeof rightValue === 'boolean'
 							)
 						)
@@ -44,8 +46,10 @@ export class BinaryOperator implements IInfixParselet {
 						if (
 							!(
 								typeof leftValue === 'number' ||
+								typeof leftValue === 'boolean'
+							) ||
+							!(
 								typeof rightValue === 'number' ||
-								typeof leftValue === 'boolean' ||
 								typeof rightValue === 'boolean'
 							)
 						)
@@ -66,8 +70,10 @@ export class BinaryOperator implements IInfixParselet {
 						if (
 							!(
 								typeof leftValue === 'number' ||
+								typeof leftValue === 'boolean'
+							) ||
+							!(
 								typeof rightValue === 'number' ||
-								typeof leftValue === 'boolean' ||
 								typeof rightValue === 'boolean'
 							)
 						)
@@ -89,8 +95,10 @@ export class BinaryOperator implements IInfixParselet {
 						if (
 							!(
 								typeof leftValue === 'number' ||
+								typeof leftValue === 'boolean'
+							) ||
+							!(
 								typeof rightValue === 'number' ||
-								typeof leftValue === 'boolean' ||
 								typeof rightValue === 'boolean'
 							)
 						)
