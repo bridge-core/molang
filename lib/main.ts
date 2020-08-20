@@ -13,7 +13,7 @@ export function execute(
 	useOptimizer = true
 ) {
 	const abstractSyntaxTree = parse(expression, useCache, useOptimizer)
-	// console.log(abstractSyntaxTree)
+	// console.log(JSON.stringify(abstractSyntaxTree, null, '  '))
 	const result = abstractSyntaxTree.eval()
 	if (result === undefined) return 0
 	if (typeof result === 'boolean') return Number(result)

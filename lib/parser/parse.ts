@@ -26,7 +26,6 @@ export class Parser {
 			throw new Error(`Cannot parse ${token[0]} expression "${token[1]}"`)
 
 		let expressionLeft = prefix.parse(this, token)
-		// console.log(expressionLeft)
 		if (expressionLeft.isReturn) return expressionLeft
 		return this.parseInfixExpression(expressionLeft, precedence)
 	}
