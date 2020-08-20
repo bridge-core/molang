@@ -16,7 +16,6 @@ export class BinaryOperator implements IInfixParselet {
 				return new GenericOperatorExpression(
 					leftExpression,
 					rightExpression,
-					//@ts-ignore
 					() => {
 						const leftValue = leftExpression.eval()
 						const rightValue = rightExpression.eval()
@@ -39,7 +38,6 @@ export class BinaryOperator implements IInfixParselet {
 				return new GenericOperatorExpression(
 					leftExpression,
 					rightExpression,
-					//@ts-ignore
 					() => {
 						const leftValue = leftExpression.eval()
 						const rightValue = rightExpression.eval()
@@ -62,7 +60,6 @@ export class BinaryOperator implements IInfixParselet {
 				return new GenericOperatorExpression(
 					leftExpression,
 					rightExpression,
-					//@ts-ignore
 					() => {
 						const leftValue = leftExpression.eval()
 						const rightValue = rightExpression.eval()
@@ -171,7 +168,6 @@ export class BinaryOperator implements IInfixParselet {
 				return new GenericOperatorExpression(
 					leftExpression,
 					rightExpression,
-					//@ts-ignore
 					() => {
 						if (leftExpression.setPointer) {
 							leftExpression.setPointer(rightExpression.eval())
