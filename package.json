@@ -15,7 +15,7 @@
 		"url": "git+https://github.com/solvedDev/MoLang.git"
 	},
 	"author": "",
-	"license": "ISC",
+	"license": "MIT",
 	"bugs": {
 		"url": "https://github.com/solvedDev/MoLang/issues"
 	},
