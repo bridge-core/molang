@@ -43,3 +43,4 @@ export function parse(
 }
 
 export { setEnv } from './env'
+export { IExpression } from './parser/expression'
