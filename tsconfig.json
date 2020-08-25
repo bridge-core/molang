@@ -3,9 +3,9 @@
 	"compilerOptions": {
 		/* Basic Options */
 		"target": "ESNext",
-		"module": "ESNext",
+		"module": "CommonJS",
 		"moduleResolution": "node",
-		"outDir": "./dist/",
+		"outDir": "./perf/",
 		"rootDir": "./lib/",
 		"composite": true,
 		"removeComments": true,

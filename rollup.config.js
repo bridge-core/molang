@@ -24,6 +24,13 @@ export default [
 		plugins: [
 			typescript({
 				typescript: require('typescript'),
+
+				tsconfigOverride: {
+					compilerOptions: {
+						outDir: 'dist',
+						module: 'ESNext',
+					},
+				},
 			}),
 			commonjs(),
 			terser(),

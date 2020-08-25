@@ -1,4 +1,5 @@
 node_modules
+perf/*
 dist/*
 !dist/main.esm.js
 !dist/main.cjs.js
