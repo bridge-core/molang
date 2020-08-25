@@ -11,7 +11,8 @@
 	},
 	"scripts": {
 		"test": "jest",
-		"perf": "tsc && node ./dist/performance/main.js"
+		"perf": "tsc && node ./dist/performance/main.js",
+		"build": "rollup -c"
 	},
 	"repository": {
 		"type": "git",
