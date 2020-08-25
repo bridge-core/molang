@@ -2,9 +2,12 @@ import pkg from './package.json'
 import commonjs from '@rollup/plugin-commonjs'
 import typescript from 'rollup-plugin-typescript2'
 import { terser } from 'rollup-plugin-terser'
+import performanceConfig from './rollup.config.perf'
 
-export default [
-	{
+export default (commandLineArgs) => {
+	if (commandLineArgs.configPerf) return performanceConfig
+
+	return {
 		input: 'lib/main.ts',
 		output: [
 			{
@@ -35,5 +38,5 @@ export default [
 			commonjs(),
 			terser(),
 		],
-	},
-]
+	}
+}
