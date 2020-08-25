@@ -4,27 +4,72 @@ import { tokenize } from './tokenizer/tokenize'
 import { StaticExpression } from './parser/expressions/static'
 import { setEnv } from './env'
 
-// Cache
+/**
+ *  Cache functionality
+ */
+
 let expressionCache: Record<string, IExpression> = {}
 let totalCacheEntries = 0
+/**
+ * Clears the MoLang expression cache
+ */
 export function clearCache() {
 	expressionCache = {}
 }
 
-// Parser config
+/**
+ * How the parser and interpreter should handle your MoLang expression
+ */
+
 export interface IParserConfig {
+	/**
+	 * Whether a cache should be used to speed up executing MoLang.
+	 * The cache saves an AST for every parsed expression.
+	 * This allows us to skip the tokenization & parsing step before executing known MoLang expressions
+	 *
+	 * Default: `true`
+	 */
 	useCache: boolean
-	useOptimizer: boolean
-	useAgressiveStaticOptimizer: boolean
+	/**
+	 * How many expressions can be cached. After reaching `maxCacheSize`, the whole cache is cleared automatically.
+	 * Can be set to `Infinity` to remove the limit completely
+	 *
+	 * Default: `256`
+	 */
 	maxCacheSize: number
+	/**
+	 * The optimizer can drastically speed up parsing & executing MoLang.
+	 * It enables skipping of unreachable statements, pre-evaluating static expressions and skipping of statements with no effect
+	 * when used together with the `useAgressiveStaticOptimizer` option
+	 *
+	 * Default: `true`
+	 */
+	useOptimizer: boolean
+	/**
+	 * Skip execution of statements with no effect
+	 * when used together with the `useOptimizer` option
+	 *
+	 * Default: `true`
+	 */
+	useAgressiveStaticOptimizer: boolean
 }
 
+/**
+ * Execute the given MoLang string `expression`
+ * @param expression The MoLang string to execute
+ * @param env (Optional) The environment to execute the MoLang expression with
+ * @param config (Optional) Configure how the expression gets executed
+ *
+ * @returns The value the MoLang expression corresponds to
+ */
 export function execute(
 	expression: string,
 	env?: Record<string, unknown> | undefined,
 	config: Partial<IParserConfig> = {}
 ) {
-	const abstractSyntaxTree = parse(expression, env, config)
+	if (env) setEnv(env)
+
+	const abstractSyntaxTree = parse(expression, config)
 	// console.log(JSON.stringify(abstractSyntaxTree, null, '  '))
 	const result = abstractSyntaxTree.eval()
 	if (result === undefined) return 0
@@ -32,9 +77,15 @@ export function execute(
 	return result
 }
 
+/**
+ * Parse the given MoLang string `expression`
+ * @param expression The MoLang string to parse
+ * @param config (Optional) Configure how the expression gets parsed
+ *
+ * @returns An AST that corresponds to the MoLang expression
+ */
 export function parse(
 	expression: string,
-	env?: Record<string, unknown> | undefined,
 	{
 		useCache = true,
 		useOptimizer = true,
@@ -42,7 +93,6 @@ export function parse(
 		maxCacheSize = 256,
 	}: Partial<IParserConfig> = {}
 ): IExpression {
-	if (env) setEnv(env)
 	if (useCache) {
 		const abstractSyntaxTree = expressionCache[expression]
 		if (abstractSyntaxTree) return abstractSyntaxTree

@@ -1,3 +1,6 @@
+/**
+ * Interface that describes an AST Expression
+ */
 export interface IExpression {
 	readonly isReturn?: boolean
 	readonly isBreak?: boolean

@@ -18,6 +18,11 @@ function flattenEnv(
 	return current
 }
 
+/**
+ * The environment to execute all following MoLang expression without a given environment
+ *
+ * Once an `execute` call with a provided environment happens, the default environment gets overwritten
+ */
 export function setEnv(newEnv: Record<string, any>) {
 	env = {
 		...MoLangMathLib,
