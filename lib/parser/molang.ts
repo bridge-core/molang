@@ -20,8 +20,12 @@ import { BreakParselet } from './parselets/break'
 import { BooleanParselet } from './parselets/boolean'
 
 export class MoLangParser extends Parser {
-	constructor(tokenIterator: IIterator, useOptimizer = true) {
-		super(tokenIterator, useOptimizer)
+	constructor(
+		tokenIterator: IIterator,
+		useOptimizer = true,
+		agressiveStaticOptimizer = true
+	) {
+		super(tokenIterator, useOptimizer, agressiveStaticOptimizer)
 
 		//Special parselets
 		this.registerPrefix('NAME', new NameParselet())

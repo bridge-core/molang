@@ -19,18 +19,18 @@ setEnv(env)
 console.log('-- MOLANG --')
 console.time('[PARSE & EXECUTE] Raw Performance')
 for (let i = 0; i < iterations; i++) {
-	execute(expression, false, true)
+	execute(expression, undefined, { useCache: false, useOptimizer: true })
 }
 console.timeEnd('[PARSE & EXECUTE] Raw Performance')
 clearCache()
 console.time('[PARSE & EXECUTE] Default Performance')
 for (let i = 0; i < iterations; i++) {
-	execute(expression, true, true)
+	execute(expression, undefined, { useCache: true, useOptimizer: true })
 }
 console.timeEnd('[PARSE & EXECUTE] Default Performance')
 console.time('[EXECUTE] Performance')
 for (let i = 0; i < iterations; i++) {
-	execute(expression, true, true)
+	execute(expression, undefined, { useCache: true, useOptimizer: true })
 }
 console.timeEnd('[EXECUTE] Performance')
 

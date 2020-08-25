@@ -19,9 +19,9 @@ A fast MoLang parser used and developed by the bridge. team.
 ## Usage
 
 ```javascript
-import { execute, setEnv } from 'molang'
+import { execute } from 'molang'
 
-setEnv({
+execute('query.x + query.get(3) == 7', {
 	query: {
 		x: 0,
 		get(val) {
@@ -29,6 +29,4 @@ setEnv({
 		},
 	},
 })
-
-execute('query.x + query.get(3) == 7')
 ```
