@@ -108,10 +108,10 @@ describe('parse(string)', () => {
 	})
 	TESTS.forEach(([t, res]) => {
 		test(`Optimizer<false>: "${t}" => ${res}`, () => {
-			expect(execute(t, {}, { useOptimizer: false })).toBe(res)
+			expect(execute(t, undefined, { useOptimizer: false })).toBe(res)
 		})
 		test(`Optimizer<true>: "${t}" => ${res}`, () => {
-			expect(execute(t, {}, { useOptimizer: true })).toBe(res)
+			expect(execute(t, undefined, { useOptimizer: true })).toBe(res)
 		})
 	})
 })
