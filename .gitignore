@@ -1,3 +1,7 @@
 node_modules
-dist
+dist/*
+!dist/main.esm.js
+!dist/main.cjs.js
+!dist/main.web.js
+
 tsconfig.tsbuildinfo
