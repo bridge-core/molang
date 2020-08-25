@@ -10,7 +10,11 @@ A fast MoLang parser used and developed by the bridge. team.
 
 ## Installation
 
-`npm i molang` or download the `dist/main.web.js` file and add the script to your HTML page (library access via global `MoLang` object).
+-   `npm i molang`
+
+    **or**
+
+-   Download the `dist/main.web.js` file and add the script to your HTML page (library access via global `MoLang` object).
 
 ## Usage
 
