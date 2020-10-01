@@ -35,12 +35,19 @@ export function getFromEnv(lookup: string) {
 		switch (lookup[0]) {
 			case 'q':
 				lookup = 'query' + lookup.substring(1, lookup.length)
+				break
 			case 't':
 				lookup = 'temp' + lookup.substring(1, lookup.length)
+				break
 			case 'v':
 				lookup = 'variable' + lookup.substring(1, lookup.length)
+				break
 			case 'c':
 				lookup = 'context' + lookup.substring(1, lookup.length)
+				break
+			case 'f':
+				lookup = 'function' + lookup.substring(1, lookup.length)
+				break
 		}
 	}
 
@@ -51,12 +58,19 @@ export function setEnvAt(lookup: string, value: unknown) {
 		switch (lookup[0]) {
 			case 'q':
 				lookup = 'query' + lookup.substring(1, lookup.length)
+				break
 			case 't':
 				lookup = 'temp' + lookup.substring(1, lookup.length)
+				break
 			case 'v':
 				lookup = 'variable' + lookup.substring(1, lookup.length)
+				break
 			case 'c':
 				lookup = 'context' + lookup.substring(1, lookup.length)
+				break
+			case 'f':
+				lookup = 'function' + lookup.substring(1, lookup.length)
+				break
 		}
 	}
 
