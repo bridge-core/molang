@@ -14,7 +14,8 @@ export class Parser {
 	constructor(
 		protected tokenIterator: IIterator,
 		public readonly useOptimizer = false,
-		public readonly agressiveStaticOptimizer = true
+		public readonly agressiveStaticOptimizer = true,
+		public readonly partialResolveOnParse = false
 	) {}
 
 	parseExpression(precedence = 0): IExpression {

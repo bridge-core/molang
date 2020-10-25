@@ -12,11 +12,19 @@ export interface IIterator {
 		endColumn: number
 	}
 }
-export function tokenize(expression: string): IIterator {
+export function tokenize(
+	expression: string,
+	addKeywords?: Set<string>
+): IIterator {
 	let i = 0
 	let lastStep = 0
 	let currentLine = 0
 	let lastStepLine = 0
+
+	let localKeywordTokens: Set<string>
+	if (addKeywords)
+		localKeywordTokens = new Set([...KeywordTokens, ...addKeywords])
+	else localKeywordTokens = new Set([...KeywordTokens])
 
 	return {
 		getPosition() {
@@ -72,7 +80,9 @@ export function tokenize(expression: string): IIterator {
 
 					const value = expression.substring(i, j).toLowerCase()
 					const token = <[string, string]>[
-						KeywordTokens.has(value) ? value.toUpperCase() : 'NAME',
+						localKeywordTokens.has(value)
+							? value.toUpperCase()
+							: 'NAME',
 						value,
 					]
 					i = j
@@ -112,10 +122,10 @@ export function tokenize(expression: string): IIterator {
 	}
 }
 
-export function isLetter(char: string) {
+function isLetter(char: string) {
 	return char >= 'a' && char <= 'z'
 }
 
-export function isNumber(char: string) {
+function isNumber(char: string) {
 	return char >= '0' && char <= '9'
 }

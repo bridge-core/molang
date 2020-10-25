@@ -10,6 +10,4 @@ export interface IIterator {
         endColumn: number;
     };
 }
-export declare function tokenize(expression: string): IIterator;
-export declare function isLetter(char: string): boolean;
-export declare function isNumber(char: string): boolean;
+export declare function tokenize(expression: string, addKeywords?: Set<string>): IIterator;

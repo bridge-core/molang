@@ -1,8 +1,11 @@
-import { IExpression } from '../expression'
+import { Expression, IExpression } from '../expression'
 import { NameExpression } from './name'
 
-export class ArrayAccessExpression implements IExpression {
-	constructor(protected name: IExpression, protected lookup: IExpression) {}
+export class ArrayAccessExpression extends Expression {
+	type = 'ArrayAccessExpression'
+	constructor(protected name: IExpression, protected lookup: IExpression) {
+		super()
+	}
 
 	isStatic() {
 		return false

@@ -1,13 +1,16 @@
-import { IExpression } from '../expression'
+import { Expression, IExpression } from '../expression'
 
-export class TernaryExpression implements IExpression {
+export class TernaryExpression extends Expression {
+	type = 'TernaryExpression'
 	protected leftResult: unknown
 
 	constructor(
 		protected leftExpression: IExpression,
 		protected thenExpression: IExpression,
 		protected elseExpression: IExpression
-	) {}
+	) {
+		super()
+	}
 
 	get isReturn() {
 		return this.leftResult

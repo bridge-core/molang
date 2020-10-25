@@ -1,7 +1,11 @@
-import { IExpression } from '../expression'
+import { Expression, IExpression } from '../expression'
 
-export class NumberExpression implements IExpression {
-	constructor(protected value: number) {}
+export class NumberExpression extends Expression {
+	type = 'NumberExpression'
+
+	constructor(protected value: number) {
+		super()
+	}
 
 	isStatic() {
 		return true

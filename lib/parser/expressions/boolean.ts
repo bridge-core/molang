@@ -1,7 +1,10 @@
-import { IExpression } from '../expression'
+import { Expression, IExpression } from '../expression'
 
-export class BooleanExpression implements IExpression {
-	constructor(protected value: boolean) {}
+export class BooleanExpression extends Expression {
+	type = 'BooleanExpression'
+	constructor(protected value: boolean) {
+		super()
+	}
 
 	isStatic() {
 		return true

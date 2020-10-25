@@ -7,11 +7,12 @@ export declare class Parser {
     protected tokenIterator: IIterator;
     readonly useOptimizer: boolean;
     readonly agressiveStaticOptimizer: boolean;
+    readonly partialResolveOnParse: boolean;
     protected prefixParselets: Map<string, IPrefixParselet>;
     protected infixParselets: Map<string, IInfixParselet>;
     protected readTokens: TToken[];
     protected lastConsumed: TToken;
-    constructor(tokenIterator: IIterator, useOptimizer?: boolean, agressiveStaticOptimizer?: boolean);
+    constructor(tokenIterator: IIterator, useOptimizer?: boolean, agressiveStaticOptimizer?: boolean, partialResolveOnParse?: boolean);
     parseExpression(precedence?: number): IExpression;
     parseInfixExpression(expressionLeft: IExpression, precedence?: number): IExpression;
     getPrecedence(): number;

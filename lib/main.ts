@@ -52,6 +52,16 @@ export interface IParserConfig {
 	 * Default: `true`
 	 */
 	useAgressiveStaticOptimizer: boolean
+
+	/**
+	 * Partially resolve variables upon parsing if they're defined inside of the provided environment
+	 */
+	partialResolveOnParse: boolean
+
+	/**
+	 * Tokenizer to use for tokenizing the expression
+	 */
+	tokenizer: ReturnType<typeof tokenize>
 }
 
 /**
@@ -91,6 +101,7 @@ export function parse(
 		useOptimizer = true,
 		useAgressiveStaticOptimizer = true,
 		maxCacheSize = 256,
+		tokenizer = tokenize(expression),
 	}: Partial<IParserConfig> = {}
 ): IExpression {
 	if (useCache) {
@@ -99,7 +110,7 @@ export function parse(
 	}
 
 	const parser = new MoLangParser(
-		tokenize(expression),
+		tokenizer,
 		useOptimizer,
 		useAgressiveStaticOptimizer
 	)
@@ -119,5 +130,6 @@ export function parse(
 	return abstractSyntaxTree
 }
 
+export { tokenize } from './tokenizer/tokenize'
 export { setEnv } from './env'
 export { IExpression } from './parser/expression'

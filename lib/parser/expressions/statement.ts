@@ -1,11 +1,14 @@
-import { IExpression } from '../expression'
+import { Expression, IExpression } from '../expression'
 
-export class StatementExpression implements IExpression {
+export class StatementExpression extends Expression {
+	type = 'StatementExpression'
 	protected didReturn = false
 	protected wasLoopBroken = false
 	protected wasLoopContinued = false
 
-	constructor(protected expressions: IExpression[]) {}
+	constructor(protected expressions: IExpression[]) {
+		super()
+	}
 
 	get isReturn() {
 		return this.didReturn

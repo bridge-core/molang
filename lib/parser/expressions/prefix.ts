@@ -1,11 +1,15 @@
 import { TTokenType } from '../../tokenizer/token'
-import { IExpression } from '../expression'
+import { Expression, IExpression } from '../expression'
 
-export class PrefixExpression {
+export class PrefixExpression extends Expression {
+	type = 'PrefixExpression'
+
 	constructor(
 		protected tokenType: TTokenType,
 		protected expression: IExpression
-	) {}
+	) {
+		super()
+	}
 
 	isStatic() {
 		return this.expression.isStatic()

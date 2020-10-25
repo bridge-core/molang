@@ -1,13 +1,16 @@
-import { IExpression } from '../expression'
+import { Expression, IExpression } from '../expression'
 import { NameExpression } from './name'
 import { ArrayAccessExpression } from './arrayAccess'
 
-export class ForEachExpression implements IExpression {
+export class ForEachExpression extends Expression {
+	type = 'ForEachExpression'
+
 	constructor(
 		protected variable: IExpression,
 		protected arrayExpression: IExpression,
 		protected expression: IExpression
 	) {
+		super()
 		if (!this.variable.setPointer)
 			throw new Error(
 				`First for_each() argument must be a variable, received "${typeof this.variable.eval()}"`

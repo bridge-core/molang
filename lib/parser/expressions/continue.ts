@@ -1,9 +1,12 @@
-import { IExpression } from '../expression'
+import { Expression, IExpression } from '../expression'
 
-export class ContinueExpression {
+export class ContinueExpression extends Expression {
+	type = 'ContinueExpression'
 	isContinue = true
 
-	constructor() {}
+	constructor() {
+		super()
+	}
 
 	isStatic() {
 		return false

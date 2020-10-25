@@ -1,7 +1,11 @@
-import { IExpression } from '../expression'
+import { Expression, IExpression } from '../expression'
 
-export class FunctionExpression implements IExpression {
-	constructor(protected name: IExpression, protected args: IExpression[]) {}
+export class FunctionExpression extends Expression {
+	type = 'FunctionExpression'
+
+	constructor(protected name: IExpression, protected args: IExpression[]) {
+		super()
+	}
 
 	isStatic() {
 		return false

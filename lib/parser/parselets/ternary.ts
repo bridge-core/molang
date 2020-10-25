@@ -7,6 +7,7 @@ import { NumberExpression } from '../expressions/number'
 import { StatementExpression } from '../expressions/statement'
 
 export class TernaryParselet implements IInfixParselet {
+	exprName = 'Ternary'
 	constructor(public precedence = 0) {}
 
 	parse(parser: Parser, leftExpression: IExpression, token: TToken) {

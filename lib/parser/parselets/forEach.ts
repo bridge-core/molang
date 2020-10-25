@@ -21,7 +21,7 @@ export class ForEachParselet implements IPrefixParselet {
 
 		if (args.length !== 3)
 			throw new Error(
-				`There must be exactly three loop() arguments; found ${args.length}`
+				`There must be exactly three for_each() arguments; found ${args.length}`
 			)
 
 		return new ForEachExpression(args[0], args[1], args[2])

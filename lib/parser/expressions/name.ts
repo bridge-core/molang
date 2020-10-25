@@ -1,8 +1,12 @@
-import { IExpression } from '../expression'
+import { Expression, IExpression } from '../expression'
 import { getFromEnv, setEnvAt } from '../../env'
 
-export class NameExpression implements IExpression {
-	constructor(protected name: string, protected isFunctionCall = false) {}
+export class NameExpression extends Expression {
+	type = 'NameExpression'
+
+	constructor(protected name: string, protected isFunctionCall = false) {
+		super()
+	}
 
 	isStatic() {
 		return false
