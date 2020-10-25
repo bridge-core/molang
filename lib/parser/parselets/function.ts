@@ -11,11 +11,7 @@ export class FunctionParselet implements IInfixParselet {
 		const args: IExpression[] = []
 
 		if (!left.setFunctionCall)
-			throw new Error(
-				`${left.type ? left.type + ' ' : ''}Expression ${
-					!left.type ? `"${left.eval()}" ` : ''
-				}is not callable!`
-			)
+			throw new Error(`${left.type} is not callable!`)
 		left.setFunctionCall(true)
 
 		if (!parser.match('RIGHT_PARENT')) {

@@ -1,7 +1,7 @@
 import { Parser } from '../parser/parse'
 import { TToken } from '../parser/../tokenizer/token'
 import { IPrefixParselet } from '../parser/parselets/prefix'
-import { IExpression } from '../parser/expression'
+import { Expression, IExpression } from '../parser/expression'
 import { setEnvAt } from '../env'
 import { StringExpression } from '../parser/expressions/string'
 import { StatementExpression } from '../parser/expressions/statement'
@@ -45,12 +45,15 @@ export class CustomFunctionParselet implements IPrefixParselet {
 	}
 }
 
-class CustomFunctionExpression implements IExpression {
+class CustomFunctionExpression extends Expression {
+	type = 'CustomFunctionExpression'
 	constructor(
 		protected functionName: string,
 		protected args: string[],
 		protected functionBody: IExpression
-	) {}
+	) {
+		super()
+	}
 
 	get isReturn() {
 		// Scopes inside of functions may use return statements

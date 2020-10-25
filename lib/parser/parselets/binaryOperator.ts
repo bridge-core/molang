@@ -182,7 +182,7 @@ export class BinaryOperator implements IInfixParselet {
 							return 0
 						} else {
 							throw Error(
-								`Cannot assign to "${leftExpression.eval()}"`
+								`Cannot assign to ${leftExpression.type}`
 							)
 						}
 					}
