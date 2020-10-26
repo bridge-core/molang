@@ -123,7 +123,7 @@ export function tokenize(
 }
 
 function isLetter(char: string) {
-	return char >= 'a' && char <= 'z'
+	return (char >= 'a' && char <= 'z') || (char >= 'A' && char <= 'Z')
 }
 
 function isNumber(char: string) {

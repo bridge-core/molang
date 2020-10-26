@@ -64,6 +64,7 @@ const TESTS: [string, number | string][] = [
 		30,
 	],
 	['v.x = 2; loop(10, { break; return 1; }); return v.x;', 2],
+	['(Math.Random(0,0))', 0],
 ]
 
 describe('parse(string)', () => {
@@ -114,6 +115,4 @@ describe('parse(string)', () => {
 			expect(execute(t, undefined, { useOptimizer: true })).toBe(res)
 		})
 	})
-
-	// test('nothing', () => expect(1).toBe(1))
 })
