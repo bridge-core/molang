@@ -1,4 +1,4 @@
-import { Expression, IExpression } from '../expression'
+import { Expression } from '../expression'
 import { getFromEnv, setEnvAt } from '../../env'
 
 export class NameExpression extends Expression {

@@ -96,32 +96,28 @@ export function execute(
  */
 export function parse(
 	expression: string,
-	{
-		useCache = true,
-		useOptimizer = true,
-		useAgressiveStaticOptimizer = true,
-		maxCacheSize = 256,
-		tokenizer = tokenize(expression),
-	}: Partial<IParserConfig> = {}
+	config: Partial<IParserConfig> = {}
 ): IExpression {
-	if (useCache) {
+	if (config.useCache ?? true) {
 		const abstractSyntaxTree = expressionCache[expression]
 		if (abstractSyntaxTree) return abstractSyntaxTree
 	}
 
+	if (!config.tokenizer) config.tokenizer = tokenize(expression)
+
 	const parser = new MoLangParser(
-		tokenizer,
-		useOptimizer,
-		useAgressiveStaticOptimizer
+		config.tokenizer,
+		config.useOptimizer,
+		config.useAgressiveStaticOptimizer
 	)
 	const abstractSyntaxTree = parser.parseExpression()
 	// console.log(JSON.stringify(abstractSyntaxTree, null, '  '))
 
-	if (useCache) {
-		if (totalCacheEntries > maxCacheSize) clearCache()
+	if (config.useCache ?? true) {
+		if (totalCacheEntries > (config.maxCacheSize ?? 256)) clearCache()
 
 		expressionCache[expression] =
-			useOptimizer && abstractSyntaxTree.isStatic()
+			(config.useOptimizer ?? true) && abstractSyntaxTree.isStatic()
 				? new StaticExpression(abstractSyntaxTree.eval())
 				: abstractSyntaxTree
 		totalCacheEntries++

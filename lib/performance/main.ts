@@ -23,11 +23,11 @@ for (let i = 0; i < iterations; i++) {
 }
 console.timeEnd('[PARSE & EXECUTE] Raw Performance')
 clearCache()
-console.time('[PARSE & EXECUTE] Default Performance')
+console.time('[PARSE & EXECUTE] Cached Performance')
 for (let i = 0; i < iterations; i++) {
 	execute(expression, undefined, { useCache: true, useOptimizer: true })
 }
-console.timeEnd('[PARSE & EXECUTE] Default Performance')
+console.timeEnd('[PARSE & EXECUTE] Cached Performance')
 console.time('[EXECUTE] Performance')
 for (let i = 0; i < iterations; i++) {
 	execute(expression, undefined, { useCache: true, useOptimizer: true })
@@ -35,15 +35,21 @@ for (let i = 0; i < iterations; i++) {
 console.timeEnd('[EXECUTE] Performance')
 
 console.log('-- MOLANGJS --')
-Molang.cache_enabled = false
+let molang = new Molang()
+molang.cache_enabled = false
 console.time('[PARSE & EXECUTE] Raw Performance')
 for (let i = 0; i < iterations; i++) {
-	Molang.parse(expression, env)
+	molang.parse(expression, env)
 }
 console.timeEnd('[PARSE & EXECUTE] Raw Performance')
-Molang.cache_enabled = true
-console.time('[PARSE & EXECUTE] Default Performance')
+molang.cache_enabled = true
+console.time('[PARSE & EXECUTE] Cached Performance')
 for (let i = 0; i < iterations; i++) {
-	Molang.parse(expression, env)
+	molang.parse(expression, env)
 }
-console.timeEnd('[PARSE & EXECUTE] Default Performance')
+console.timeEnd('[PARSE & EXECUTE] Cached Performance')
+console.time('[EXECUTE] Performance')
+for (let i = 0; i < iterations; i++) {
+	molang.parse(expression, env)
+}
+console.timeEnd('[EXECUTE] Performance')
