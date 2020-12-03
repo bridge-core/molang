@@ -2,6 +2,9 @@ import { execute } from '../main'
 import { setEnv } from '../env'
 
 const TESTS: [string, number | string][] = [
+	/**
+	 * Basic tests
+	 */
 	['true', 1.0],
 	['false', 0.0],
 	['1 + 1', 2],
@@ -25,6 +28,34 @@ const TESTS: [string, number | string][] = [
 	['0 ? 1 : 2; return 1;', 1],
 	["(1 && 0) + 1 ? 'true' : 'false'", 'true'],
 	["!(1 && 0) ? 'true' : 'false'", 'true'],
+
+	/**
+	 * Advanced syntax: Loops, break, continue & scope
+	 */
+	['1.0 ? { return 1; };', 1],
+	['1.0 ? { variable.scope_test = 1; return variable.scope_test; };', 1],
+	['v.x = 0; loop(10, v.x = v.x + 1); return v.x;', 10],
+	['v.x = 0; loop(10, { v.x = v.x + 1; }); return v.x;', 10],
+	['v.x = 2; loop(10, { return 1; }); return v.x;', 1],
+	[
+		't.total = 0; for_each(t.current, texture.skin_id, { t.total = t.total + t.current; }); return t.total;',
+		55,
+	],
+	[
+		't.total = 0; for_each(t.current, texture.skin_id, { loop(10, t.total = t.total + t.current); }); return t.total;',
+		550,
+	],
+	[
+		't.total = 0; for_each(t.current, texture.skin_id, { math.mod(t.current, 2) ? continue; t.total = t.total + t.current; }); return t.total;',
+		30,
+	],
+	['v.x = 2; loop(10, { break; return 1; }); return v.x;', 2],
+
+	/**
+	 * Function calls & variable lookups
+	 */
+	['(Math.Random(0,0))', 0],
+	['2 + Math.pow(2, 3)', 10],
 	['test(1+1, 3+3)', 8],
 	["query.get_position >= 0 ? 'hello' : 'test'", 'hello'],
 	["return query.get_position(0) < 0 ? 'hello';", 0.0],
@@ -46,25 +77,6 @@ const TESTS: [string, number | string][] = [
 	['math.add(rider.get_length(texture.variants[0]) + 5, 6)', 12],
 	['query.get_position(0) >= 0 && query.get_position(0) <= 0', 1.0],
 	['!(1 + 3) && query.test_something_else', 0],
-	['1.0 ? { return 1; };', 1],
-	['1.0 ? { variable.scope_test = 1; return variable.scope_test; };', 1],
-	['v.x = 0; loop(10, v.x = v.x + 1); return v.x;', 10],
-	['v.x = 0; loop(10, { v.x = v.x + 1; }); return v.x;', 10],
-	['v.x = 2; loop(10, { return 1; }); return v.x;', 1],
-	[
-		't.total = 0; for_each(t.current, texture.skin_id, { t.total = t.total + t.current; }); return t.total;',
-		55,
-	],
-	[
-		't.total = 0; for_each(t.current, texture.skin_id, { loop(10, t.total = t.total + t.current); }); return t.total;',
-		550,
-	],
-	[
-		't.total = 0; for_each(t.current, texture.skin_id, { math.mod(t.current, 2) ? continue; t.total = t.total + t.current; }); return t.total;',
-		30,
-	],
-	['v.x = 2; loop(10, { break; return 1; }); return v.x;', 2],
-	['(Math.Random(0,0))', 0],
 ]
 
 describe('parse(string)', () => {
@@ -93,9 +105,6 @@ describe('parse(string)', () => {
 			add(a: number, b: number) {
 				return a + b
 			},
-			mod(a: number, b: number) {
-				return a % b
-			},
 		},
 		rider: {
 			slot: 1,
@@ -107,6 +116,7 @@ describe('parse(string)', () => {
 			},
 		},
 	})
+
 	TESTS.forEach(([t, res]) => {
 		test(`Optimizer<false>: "${t}" => ${res}`, () => {
 			expect(execute(t, undefined, { useOptimizer: false })).toBe(res)
