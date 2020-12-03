@@ -20,8 +20,9 @@ export declare class MoLang {
     updateConfig(newConfig: Partial<IParserConfig>): void;
     clearCache(): void;
     execute(expression: string): unknown;
-    forgivingExecute(expression: string): unknown;
+    executeAndCatch(expression: string): unknown;
     parse(expression: string): IExpression;
 }
+export default MoLang;
 export { tokenize } from './tokenizer/tokenize';
 export { IExpression } from './parser/expression';

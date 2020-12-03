@@ -106,7 +106,7 @@ export class MoLang {
 	 *
 	 * @returns The value the MoLang expression corresponds to and 0 if the statement is invalid
 	 */
-	forgivingExecute(expression: string) {
+	executeAndCatch(expression: string) {
 		try {
 			return this.execute(expression)
 		} catch {
@@ -145,6 +145,8 @@ export class MoLang {
 		return abstractSyntaxTree
 	}
 }
+
+export default MoLang
 
 export { tokenize } from './tokenizer/tokenize'
 export { IExpression } from './parser/expression'
