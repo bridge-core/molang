@@ -88,6 +88,27 @@ export function execute(
 }
 
 /**
+ * Execute the given MoLang string `expression`
+ * In case of errors, return 0
+ * @param expression The MoLang string to execute
+ * @param env (Optional) The environment to execute the MoLang expression with
+ * @param config (Optional) Configure how the expression gets executed
+ *
+ * @returns The value the MoLang expression corresponds to and 0 if the statement is invalid
+ */
+export function forgivingExecute(
+	expression: string,
+	env?: Record<string, unknown> | undefined,
+	config: Partial<IParserConfig> = {}
+) {
+	try {
+		return execute(expression, env, config)
+	} catch {
+		return 0
+	}
+}
+
+/**
  * Parse the given MoLang string `expression`
  * @param expression The MoLang string to parse
  * @param config (Optional) Configure how the expression gets parsed
