@@ -6,6 +6,8 @@ const TESTS: [string, number | string][] = [
 	 */
 	['true', 1.0],
 	['false', 0.0],
+	['false ? 5', 0],
+	['true ? 5', 5],
 	['1 + 1', 2],
 	['1 + 1 * 2', 3],
 	['return 1', 0], //Your typical Minecraft quirk

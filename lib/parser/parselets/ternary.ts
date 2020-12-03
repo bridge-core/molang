@@ -16,12 +16,8 @@ export class TernaryParselet implements IInfixParselet {
 
 		if (parser.match('COLON')) {
 			elseExpr = parser.parseExpression(this.precedence - 1)
-		} else if (parser.match('SEMICOLON', false)) {
-			elseExpr = new NumberExpression(0)
 		} else {
-			throw new Error(
-				`Binary conditional operator without ending semicolon.`
-			)
+			elseExpr = new NumberExpression(0)
 		}
 
 		return new TernaryExpression(leftExpression, thenExpr, elseExpr)
