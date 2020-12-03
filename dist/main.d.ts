@@ -1,6 +1,7 @@
 import { IExpression } from './parser/expression';
+import { MoLangParser } from './parser/molang';
 import { tokenize } from './tokenizer/tokenize';
-export declare function clearCache(): void;
+import { ExecutionEnvironment } from './env';
 export interface IParserConfig {
     useCache: boolean;
     maxCacheSize: number;
@@ -9,8 +10,18 @@ export interface IParserConfig {
     partialResolveOnParse: boolean;
     tokenizer: ReturnType<typeof tokenize>;
 }
-export declare function execute(expression: string, env?: Record<string, unknown> | undefined, config?: Partial<IParserConfig>): unknown;
-export declare function parse(expression: string, config?: Partial<IParserConfig>): IExpression;
+export declare class MoLang {
+    protected config: Partial<IParserConfig>;
+    protected expressionCache: Record<string, IExpression>;
+    protected totalCacheEntries: number;
+    protected executionEnvironment: ExecutionEnvironment;
+    protected parser: MoLangParser;
+    constructor(env?: Record<string, unknown>, config?: Partial<IParserConfig>);
+    updateConfig(newConfig: Partial<IParserConfig>): void;
+    clearCache(): void;
+    execute(expression: string): unknown;
+    forgivingExecute(expression: string): unknown;
+    parse(expression: string): IExpression;
+}
 export { tokenize } from './tokenizer/tokenize';
-export { setEnv } from './env';
 export { IExpression } from './parser/expression';
