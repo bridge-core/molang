@@ -1,5 +1,4 @@
-import { execute } from '../main'
-import { setEnv } from '../env'
+import { MoLang } from '../main'
 
 const TESTS: [string, number | string][] = [
 	/**
@@ -80,49 +79,53 @@ const TESTS: [string, number | string][] = [
 ]
 
 describe('parse(string)', () => {
-	setEnv({
-		test(n1: number, n2: number) {
-			return n1 + n2
-		},
-		length(arr: unknown[]) {
-			return arr.length
-		},
-		variable: {},
-		query: {
-			get_equipped_item_name(slot: number) {
-				return 'diamond_sword_' + slot
+	const molang = new MoLang(
+		{
+			test(n1: number, n2: number) {
+				return n1 + n2
 			},
-			get_position() {
-				return 0
+			length(arr: unknown[]) {
+				return arr.length
+			},
+			variable: {},
+			query: {
+				get_equipped_item_name(slot: number) {
+					return 'diamond_sword_' + slot
+				},
+				get_position() {
+					return 0
+				},
+			},
+			texture: {
+				mark_variants: [],
+				variants: ['1', 2, 3, 4, 5, 6, 6],
+				skin_id: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+			},
+			math: {
+				add(a: number, b: number) {
+					return a + b
+				},
+			},
+			rider: {
+				slot: 1,
+				is(id: number) {
+					return id
+				},
+				get_length(str: string) {
+					return str.length
+				},
 			},
 		},
-		texture: {
-			mark_variants: [],
-			variants: ['1', 2, 3, 4, 5, 6, 6],
-			skin_id: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-		},
-		math: {
-			add(a: number, b: number) {
-				return a + b
-			},
-		},
-		rider: {
-			slot: 1,
-			is(id: number) {
-				return id
-			},
-			get_length(str: string) {
-				return str.length
-			},
-		},
-	})
+		{ useOptimizer: false }
+	)
 
 	TESTS.forEach(([t, res]) => {
 		test(`Optimizer<false>: "${t}" => ${res}`, () => {
-			expect(execute(t, undefined, { useOptimizer: false })).toBe(res)
+			expect(molang.execute(t)).toBe(res)
 		})
+		molang.updateConfig({ useOptimizer: true })
 		test(`Optimizer<true>: "${t}" => ${res}`, () => {
-			expect(execute(t, undefined, { useOptimizer: true })).toBe(res)
+			expect(molang.execute(t)).toBe(res)
 		})
 	})
 })

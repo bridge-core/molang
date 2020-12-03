@@ -1,7 +1,6 @@
 //@ts-ignore
-import Molang from 'molangjs'
-import { execute, clearCache } from '../main'
-import { setEnv } from '../env'
+import MolangJS from 'molangjs'
+import { MoLang } from '../main'
 
 const iterations = 10000
 const expression =
@@ -15,41 +14,42 @@ const env = {
 	'query.position_delta': () => 2,
 }
 
-setEnv(env)
+const molang = new MoLang(env, { useCache: false, useOptimizer: true })
 console.log('-- MOLANG --')
 console.time('[PARSE & EXECUTE] Raw Performance')
 for (let i = 0; i < iterations; i++) {
-	execute(expression, undefined, { useCache: false, useOptimizer: true })
+	molang.execute(expression)
 }
 console.timeEnd('[PARSE & EXECUTE] Raw Performance')
-clearCache()
+molang.clearCache()
+molang.updateConfig({ useCache: true })
 console.time('[PARSE & EXECUTE] Cached Performance')
 for (let i = 0; i < iterations; i++) {
-	execute(expression, undefined, { useCache: true, useOptimizer: true })
+	molang.execute(expression)
 }
 console.timeEnd('[PARSE & EXECUTE] Cached Performance')
 console.time('[EXECUTE] Performance')
 for (let i = 0; i < iterations; i++) {
-	execute(expression, undefined, { useCache: true, useOptimizer: true })
+	molang.execute(expression)
 }
 console.timeEnd('[EXECUTE] Performance')
 
 console.log('-- MOLANGJS --')
-let molang = new Molang()
-molang.cache_enabled = false
+const molangjs = new MolangJS()
+molangjs.cache_enabled = false
 console.time('[PARSE & EXECUTE] Raw Performance')
 for (let i = 0; i < iterations; i++) {
-	molang.parse(expression, env)
+	molangjs.parse(expression, env)
 }
 console.timeEnd('[PARSE & EXECUTE] Raw Performance')
-molang.cache_enabled = true
+molangjs.cache_enabled = true
 console.time('[PARSE & EXECUTE] Cached Performance')
 for (let i = 0; i < iterations; i++) {
-	molang.parse(expression, env)
+	molangjs.parse(expression, env)
 }
 console.timeEnd('[PARSE & EXECUTE] Cached Performance')
 console.time('[EXECUTE] Performance')
 for (let i = 0; i < iterations; i++) {
-	molang.parse(expression, env)
+	molangjs.parse(expression, env)
 }
 console.timeEnd('[EXECUTE] Performance')

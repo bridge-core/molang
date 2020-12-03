@@ -1,22 +1,22 @@
+import { ExecutionEnvironment } from '../env'
 import { MoLangParser } from '../parser/molang'
 import { IIterator, tokenize } from '../tokenizer/tokenize'
 import { CustomFunctionParselet } from './function'
 
 export class CustomMoLangParser extends MoLangParser {
-	constructor(
-		tokenIterator: IIterator,
-		useOptimizer = true,
-		agressiveStaticOptimizer = true
-	) {
-		super(tokenIterator, useOptimizer, agressiveStaticOptimizer)
+	constructor(useOptimizer = true, agressiveStaticOptimizer = true) {
+		super(useOptimizer, agressiveStaticOptimizer)
 
 		this.registerPrefix('FUNCTION', new CustomFunctionParselet())
 	}
 }
 
+const parser = new CustomMoLangParser()
+parser.setExecutionEnvironment(new ExecutionEnvironment({}))
+
 export function parseCustomSyntax(expression: string) {
-	const parser = new CustomMoLangParser(
-		tokenize(expression, new Set(['function']))
-	)
-	return parser.parseExpression().eval()
+	parser.setTokenizer(tokenize(expression, new Set(['function'])))
+	const abstractSyntaxTree = parser.parseExpression()
+
+	return abstractSyntaxTree.eval()
 }

@@ -4,19 +4,42 @@ import { IPrefixParselet } from './parselets/prefix'
 import { IInfixParselet } from './parselets/infix'
 import { IExpression } from './expression'
 import { NumberExpression } from './expressions/number'
+import { ExecutionEnvironment } from '../env'
 
 export class Parser {
 	protected prefixParselets = new Map<TTokenType, IPrefixParselet>()
 	protected infixParselets = new Map<TTokenType, IInfixParselet>()
 	protected readTokens: TToken[] = []
 	protected lastConsumed: TToken = ['SOF', '']
+	protected tokenIterator!: IIterator
+	executionEnv!: ExecutionEnvironment
 
 	constructor(
-		protected tokenIterator: IIterator,
-		public readonly useOptimizer = false,
-		public readonly agressiveStaticOptimizer = true,
-		public readonly partialResolveOnParse = false
+		public useOptimizer = false,
+		public agressiveStaticOptimizer = true,
+		public partialResolveOnParse = false
 	) {}
+
+	updateConfig(
+		useOptimizer?: boolean,
+		agressiveStaticOptimizer?: boolean,
+		partialResolveOnParse?: boolean
+	) {
+		if (useOptimizer !== undefined) this.useOptimizer = useOptimizer
+		if (agressiveStaticOptimizer !== undefined)
+			this.agressiveStaticOptimizer = agressiveStaticOptimizer
+		if (partialResolveOnParse !== undefined)
+			this.partialResolveOnParse = partialResolveOnParse
+	}
+
+	setTokenizer(tokenIterator: IIterator) {
+		this.tokenIterator = tokenIterator
+		this.lastConsumed = ['SOF', '']
+		this.readTokens = []
+	}
+	setExecutionEnvironment(executionEnv: ExecutionEnvironment) {
+		this.executionEnv = executionEnv
+	}
 
 	parseExpression(precedence = 0): IExpression {
 		let token = this.consume()

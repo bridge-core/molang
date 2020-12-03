@@ -2,20 +2,7 @@ import { IExpression } from './parser/expression'
 import { MoLangParser } from './parser/molang'
 import { tokenize } from './tokenizer/tokenize'
 import { StaticExpression } from './parser/expressions/static'
-import { setEnv } from './env'
-
-/**
- *  Cache functionality
- */
-
-let expressionCache: Record<string, IExpression> = {}
-let totalCacheEntries = 0
-/**
- * Clears the MoLang expression cache
- */
-export function clearCache() {
-	expressionCache = {}
-}
+import { ExecutionEnvironment } from './env'
 
 /**
  * How the parser and interpreter should handle your MoLang expression
@@ -64,89 +51,100 @@ export interface IParserConfig {
 	tokenizer: ReturnType<typeof tokenize>
 }
 
-/**
- * Execute the given MoLang string `expression`
- * @param expression The MoLang string to execute
- * @param env (Optional) The environment to execute the MoLang expression with
- * @param config (Optional) Configure how the expression gets executed
- *
- * @returns The value the MoLang expression corresponds to
- */
-export function execute(
-	expression: string,
-	env?: Record<string, unknown> | undefined,
-	config: Partial<IParserConfig> = {}
-) {
-	if (env) setEnv(env)
+export class MoLang {
+	protected expressionCache: Record<string, IExpression> = {}
+	protected totalCacheEntries = 0
+	protected executionEnvironment: ExecutionEnvironment
 
-	const abstractSyntaxTree = parse(expression, config)
-	// console.log(JSON.stringify(abstractSyntaxTree, null, '  '))
-	const result = abstractSyntaxTree.eval()
-	if (result === undefined) return 0
-	if (typeof result === 'boolean') return Number(result)
-	return result
-}
-
-/**
- * Execute the given MoLang string `expression`
- * In case of errors, return 0
- * @param expression The MoLang string to execute
- * @param env (Optional) The environment to execute the MoLang expression with
- * @param config (Optional) Configure how the expression gets executed
- *
- * @returns The value the MoLang expression corresponds to and 0 if the statement is invalid
- */
-export function forgivingExecute(
-	expression: string,
-	env?: Record<string, unknown> | undefined,
-	config: Partial<IParserConfig> = {}
-) {
-	try {
-		return execute(expression, env, config)
-	} catch {
-		return 0
-	}
-}
-
-/**
- * Parse the given MoLang string `expression`
- * @param expression The MoLang string to parse
- * @param config (Optional) Configure how the expression gets parsed
- *
- * @returns An AST that corresponds to the MoLang expression
- */
-export function parse(
-	expression: string,
-	config: Partial<IParserConfig> = {}
-): IExpression {
-	if (config.useCache ?? true) {
-		const abstractSyntaxTree = expressionCache[expression]
-		if (abstractSyntaxTree) return abstractSyntaxTree
-	}
-
-	if (!config.tokenizer) config.tokenizer = tokenize(expression)
-
-	const parser = new MoLangParser(
-		config.tokenizer,
-		config.useOptimizer,
-		config.useAgressiveStaticOptimizer
+	protected parser = new MoLangParser(
+		this.config.useOptimizer,
+		this.config.useAgressiveStaticOptimizer
 	)
-	const abstractSyntaxTree = parser.parseExpression()
-	// console.log(JSON.stringify(abstractSyntaxTree, null, '  '))
 
-	if (config.useCache ?? true) {
-		if (totalCacheEntries > (config.maxCacheSize ?? 256)) clearCache()
-
-		expressionCache[expression] =
-			(config.useOptimizer ?? true) && abstractSyntaxTree.isStatic()
-				? new StaticExpression(abstractSyntaxTree.eval())
-				: abstractSyntaxTree
-		totalCacheEntries++
+	constructor(
+		env: Record<string, unknown> = {},
+		protected config: Partial<IParserConfig> = {}
+	) {
+		this.executionEnvironment = new ExecutionEnvironment(env)
 	}
 
-	return abstractSyntaxTree
+	updateConfig(newConfig: Partial<IParserConfig>) {
+		this.config = Object.assign(this.config, newConfig)
+		this.parser.updateConfig(
+			newConfig.useOptimizer,
+			newConfig.useAgressiveStaticOptimizer,
+			newConfig.partialResolveOnParse
+		)
+	}
+	/**
+	 * Clears the MoLang expression cache
+	 */
+	clearCache() {
+		this.expressionCache = {}
+		this.totalCacheEntries = 0
+	}
+
+	/**
+	 * Execute the given MoLang string `expression`
+	 * @param expression The MoLang string to execute
+	 *
+	 * @returns The value the MoLang expression corresponds to
+	 */
+	execute(expression: string) {
+		this.parser.setExecutionEnvironment(this.executionEnvironment)
+		const abstractSyntaxTree = this.parse(expression)
+
+		const result = abstractSyntaxTree.eval()
+		if (result === undefined) return 0
+		if (typeof result === 'boolean') return Number(result)
+		return result
+	}
+	/**
+	 * Execute the given MoLang string `expression`
+	 * In case of errors, return 0
+	 * @param expression The MoLang string to execute
+	 *
+	 * @returns The value the MoLang expression corresponds to and 0 if the statement is invalid
+	 */
+	forgivingExecute(expression: string) {
+		try {
+			return this.execute(expression)
+		} catch {
+			return 0
+		}
+	}
+
+	/**
+	 * Parse the given MoLang string `expression`
+	 * @param expression The MoLang string to parse
+	 *
+	 * @returns An AST that corresponds to the MoLang expression
+	 */
+	parse(expression: string): IExpression {
+		if (this.config.useCache ?? true) {
+			const abstractSyntaxTree = this.expressionCache[expression]
+			if (abstractSyntaxTree) return abstractSyntaxTree
+		}
+
+		this.parser.setTokenizer(this.config.tokenizer || tokenize(expression))
+		const abstractSyntaxTree = this.parser.parseExpression()
+		// console.log(JSON.stringify(abstractSyntaxTree, null, '  '))
+
+		if (this.config.useCache ?? true) {
+			if (this.totalCacheEntries > (this.config.maxCacheSize ?? 256))
+				this.clearCache()
+
+			this.expressionCache[expression] =
+				(this.config.useOptimizer ?? true) &&
+				abstractSyntaxTree.isStatic()
+					? new StaticExpression(abstractSyntaxTree.eval())
+					: abstractSyntaxTree
+			this.totalCacheEntries++
+		}
+
+		return abstractSyntaxTree
+	}
 }
 
 export { tokenize } from './tokenizer/tokenize'
-export { setEnv } from './env'
 export { IExpression } from './parser/expression'

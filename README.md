@@ -18,38 +18,19 @@ A fast MoLang parser used and developed by the bridge. team.
 
 ## Usage
 
-For simple scripts, you can pass the execution environment to the `execute` function.
-
 ```javascript
-import { execute } from 'molang'
+import { MoLang } from 'molang'
 
-execute('query.x + query.get(3) == 7', {
-	query: {
-		x: 0,
-		get(val) {
-			return val + 4
+const molang = new MoLang(
+	{
+		query: {
+			x: 0,
+			get(val) {
+				return val + 4
+			},
 		},
 	},
-})
+	{ useCache: true }
+)
+molang.execute('query.x + query.get(3) == 7')
 ```
-
-Some scripts may need to persist variable data defined by users at runtime. In order to support that, use the `setEnv` function once to define the base environment.
-
-```javascript
-import { execute, setEnv } from 'molang'
-
-setEnv({
-	query: {
-		x: 0,
-		get(val) {
-			return val + 4
-		},
-	},
-})
-execute('query.x + query.get(3) == 7')
-```
-
-## Important
-
-We are going to change the API surface to a class-based solution relatively soon to support better handling of multiple execution environments.
-This should reduce the current overhead of calling `setEnv`.

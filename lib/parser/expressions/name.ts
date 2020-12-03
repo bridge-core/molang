@@ -1,10 +1,14 @@
 import { Expression } from '../expression'
-import { getFromEnv, setEnvAt } from '../../env'
+import { ExecutionEnvironment } from '../../env'
 
 export class NameExpression extends Expression {
 	type = 'NameExpression'
 
-	constructor(protected name: string, protected isFunctionCall = false) {
+	constructor(
+		protected env: ExecutionEnvironment,
+		protected name: string,
+		protected isFunctionCall = false
+	) {
 		super()
 	}
 
@@ -13,7 +17,7 @@ export class NameExpression extends Expression {
 	}
 
 	setPointer(value: unknown) {
-		setEnvAt(this.name, value)
+		this.env.setAt(this.name, value)
 	}
 
 	setFunctionCall(value = true) {
@@ -21,7 +25,7 @@ export class NameExpression extends Expression {
 	}
 
 	eval() {
-		const value = getFromEnv(this.name)
+		const value = this.env.getFrom(this.name)
 		if (!this.isFunctionCall && typeof value === 'function') return value()
 		return value
 	}

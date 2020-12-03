@@ -2,7 +2,7 @@ import { Parser } from '../parser/parse'
 import { TToken } from '../parser/../tokenizer/token'
 import { IPrefixParselet } from '../parser/parselets/prefix'
 import { Expression, IExpression } from '../parser/expression'
-import { setEnvAt } from '../env'
+import { ExecutionEnvironment } from '../env'
 import { StringExpression } from '../parser/expressions/string'
 import { StatementExpression } from '../parser/expressions/statement'
 
@@ -41,13 +41,19 @@ export class CustomFunctionParselet implements IPrefixParselet {
 				`Missing function() body (argument ${args.length + 2})`
 			)
 
-		return new CustomFunctionExpression(functionName, args, functionBody)
+		return new CustomFunctionExpression(
+			parser.executionEnv,
+			functionName,
+			args,
+			functionBody
+		)
 	}
 }
 
 class CustomFunctionExpression extends Expression {
 	type = 'CustomFunctionExpression'
 	constructor(
+		protected env: ExecutionEnvironment,
 		protected functionName: string,
 		protected args: string[],
 		protected functionBody: IExpression
@@ -65,30 +71,33 @@ class CustomFunctionExpression extends Expression {
 	}
 
 	eval() {
-		setEnvAt(`function.${this.functionName}`, (...args: unknown[]) => {
-			//Handle arguments
-			if (args.length !== this.args.length)
-				throw new Error(
-					`Argument count mismatch for "function.${this.functionName}": Expected ${this.args.length} arguments; received ${args.length}`
-				)
+		this.env.setAt(
+			`function.${this.functionName}`,
+			(...args: unknown[]) => {
+				//Handle arguments
+				if (args.length !== this.args.length)
+					throw new Error(
+						`Argument count mismatch for "function.${this.functionName}": Expected ${this.args.length} arguments; received ${args.length}`
+					)
 
-			let i = 0
-			while (i < this.args.length) {
-				setEnvAt(`arg.${this.args[i]}`, args[i])
-				i++
+				let i = 0
+				while (i < this.args.length) {
+					this.env.setAt(`arg.${this.args[i]}`, args[i])
+					i++
+				}
+
+				const result = this.functionBody.eval()
+
+				//Cleanup env
+				i = 0
+				while (i < this.args.length) {
+					this.env.setAt(`arg.${this.args[i]}`, undefined)
+					i++
+				}
+
+				return result
 			}
-
-			const result = this.functionBody.eval()
-
-			//Cleanup env
-			i = 0
-			while (i < this.args.length) {
-				setEnvAt(`arg.${this.args[i]}`, undefined)
-				i++
-			}
-
-			return result
-		})
+		)
 
 		return 0
 	}

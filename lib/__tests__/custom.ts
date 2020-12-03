@@ -1,8 +1,6 @@
 import { parseCustomSyntax } from '../custom/main'
-import { getFromEnv, setEnv } from '../env'
 
 test('Custom syntax', () => {
-	setEnv({})
 	parseCustomSyntax(
 		"function('sq', 'base', { return math.pow(arg.base, 2); })"
 	)

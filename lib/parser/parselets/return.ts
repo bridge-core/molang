@@ -3,7 +3,6 @@ import { TToken } from '../../tokenizer/token'
 import { IPrefixParselet } from './prefix'
 import { NumberExpression } from '../expressions/number'
 import { ReturnExpression } from '../expressions/return'
-import { StatementExpression } from '../expressions/statement'
 import { EPrecedence } from '../precedence'
 
 export class ReturnParselet implements IPrefixParselet {

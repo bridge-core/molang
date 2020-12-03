@@ -7,6 +7,6 @@ export class NameParselet implements IPrefixParselet {
 	constructor(public precedence = 0) {}
 
 	parse(parser: Parser, token: TToken) {
-		return new NameExpression(token[1])
+		return new NameExpression(parser.executionEnv, token[1])
 	}
 }
