@@ -1,6 +1,6 @@
 import { IExpression } from './parser/expression'
 import { MoLangParser } from './parser/molang'
-import { tokenize } from './tokenizer/tokenize'
+import { Tokenizer } from './tokenizer/tokenize'
 import { StaticExpression } from './parser/expressions/static'
 import { ExecutionEnvironment } from './env'
 
@@ -48,7 +48,7 @@ export interface IParserConfig {
 	/**
 	 * Tokenizer to use for tokenizing the expression
 	 */
-	tokenizer: ReturnType<typeof tokenize>
+	tokenizer: Tokenizer
 }
 
 export class MoLang {
@@ -70,6 +70,8 @@ export class MoLang {
 
 	updateConfig(newConfig: Partial<IParserConfig>) {
 		this.config = Object.assign(this.config, newConfig)
+
+		if (newConfig.tokenizer) this.parser.setTokenizer(newConfig.tokenizer)
 		this.parser.updateConfig(
 			newConfig.useOptimizer,
 			newConfig.useAgressiveStaticOptimizer,
@@ -126,12 +128,12 @@ export class MoLang {
 			if (abstractSyntaxTree) return abstractSyntaxTree
 		}
 
-		this.parser.setTokenizer(this.config.tokenizer || tokenize(expression))
+		this.parser.init(expression)
 		const abstractSyntaxTree = this.parser.parseExpression()
 		// console.log(JSON.stringify(abstractSyntaxTree, null, '  '))
 
 		if (this.config.useCache ?? true) {
-			if (this.totalCacheEntries > (this.config.maxCacheSize ?? 256))
+			if (this.totalCacheEntries > (this.config.maxCacheSize || 256))
 				this.clearCache()
 
 			this.expressionCache[expression] =
@@ -148,5 +150,5 @@ export class MoLang {
 
 export default MoLang
 
-export { tokenize } from './tokenizer/tokenize'
+export { Tokenizer } from './tokenizer/tokenize'
 export { IExpression } from './parser/expression'

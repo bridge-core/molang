@@ -1,4 +1,4 @@
-import { IIterator } from '../tokenizer/tokenize'
+import { IIterator, Tokenizer } from '../tokenizer/tokenize'
 import { TTokenType, TToken } from '../tokenizer/token'
 import { IPrefixParselet } from './parselets/prefix'
 import { IInfixParselet } from './parselets/infix'
@@ -11,7 +11,7 @@ export class Parser {
 	protected infixParselets = new Map<TTokenType, IInfixParselet>()
 	protected readTokens: TToken[] = []
 	protected lastConsumed: TToken = ['SOF', '']
-	protected tokenIterator!: IIterator
+	protected tokenIterator = new Tokenizer()
 	executionEnv!: ExecutionEnvironment
 
 	constructor(
@@ -32,10 +32,13 @@ export class Parser {
 			this.partialResolveOnParse = partialResolveOnParse
 	}
 
-	setTokenizer(tokenIterator: IIterator) {
-		this.tokenIterator = tokenIterator
+	init(expression: string) {
+		this.tokenIterator.init(expression)
 		this.lastConsumed = ['SOF', '']
 		this.readTokens = []
+	}
+	setTokenizer(tokenizer: Tokenizer) {
+		this.tokenIterator = tokenizer
 	}
 	setExecutionEnvironment(executionEnv: ExecutionEnvironment) {
 		this.executionEnv = executionEnv
@@ -78,7 +81,7 @@ export class Parser {
 	consume(expected?: TTokenType) {
 		//Sets the lastLineNumber & startColumn before consuming next token
 		//Used for getting the exact location an error occurs
-		this.tokenIterator.step()
+		// this.tokenIterator.step()
 
 		const token = this.lookAhead(0)
 

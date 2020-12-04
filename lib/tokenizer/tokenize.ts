@@ -12,120 +12,137 @@ export interface IIterator {
 		endColumn: number
 	}
 }
-export function tokenize(
-	expression: string,
-	addKeywords?: Set<string>
-): IIterator {
-	let i = 0
-	let lastStep = 0
-	let currentLine = 0
-	let lastStepLine = 0
 
-	let localKeywordTokens: Set<string>
-	if (addKeywords)
-		localKeywordTokens = new Set([...KeywordTokens, ...addKeywords])
-	else localKeywordTokens = new Set([...KeywordTokens])
+export class Tokenizer {
+	protected keywordTokens: Set<string>
+	protected i = 0
+	protected lastStep = 0
+	protected currentLine = 0
+	protected lastStepLine = 0
+	protected expression!: string
 
-	return {
-		getPosition() {
-			return {
-				startLineNumber: lastStepLine,
-				endLineNumber: currentLine,
-				startColumn: lastStep,
-				endColumn: i,
-			}
-		},
-		step() {
-			lastStep = i
-			lastStepLine = currentLine
-		},
-		next(): TToken {
-			while (i < expression.length) {
-				let token =
-					i + 1 < expression.length
-						? TokenTypes.get(expression[i] + expression[i + 1])
-						: undefined
-
-				if (token) {
-					i++
-					return [token, expression[i - 1] + expression[i++]]
-				}
-
-				token = TokenTypes.get(expression[i])
-				if (token) {
-					return [token, expression[i++]]
-				} else if (expression[i] === "'") {
-					let j = i + 1
-					while (j < expression.length && expression[j] !== "'") {
-						j++
-					}
-					j++
-					const token = <[string, string]>[
-						'STRING',
-						expression.substring(i, j),
-					]
-					i = j
-					return token
-				} else if (isLetter(expression[i])) {
-					let j = i + 1
-					while (
-						j < expression.length &&
-						(isLetter(expression[j]) ||
-							isNumber(expression[j]) ||
-							expression[j] === '_' ||
-							expression[j] === '.')
-					) {
-						j++
-					}
-
-					const value = expression.substring(i, j).toLowerCase()
-					const token = <[string, string]>[
-						localKeywordTokens.has(value)
-							? value.toUpperCase()
-							: 'NAME',
-						value,
-					]
-					i = j
-					return token
-				} else if (isNumber(expression[i])) {
-					let j = i + 1
-					let hasDecimal = false
-					while (
-						j < expression.length &&
-						(isNumber(expression[j]) ||
-							(expression[j] === '.' && !hasDecimal))
-					) {
-						if (expression[j] === '.') hasDecimal = true
-						j++
-					}
-
-					const token = <[string, string]>[
-						'NUMBER',
-						expression.substring(i, j),
-					]
-					i = j
-					return token
-				} else if (expression[i] === '\n' || expression[i] === '\r') {
-					currentLine++
-				} else {
-					//IGNORE CHARACTER
-				}
-
-				i++
-			}
-
-			return ['EOF', '']
-		},
-		hasNext() {
-			return i < expression.length
-		},
+	constructor(addKeywords?: Set<string>) {
+		if (addKeywords)
+			this.keywordTokens = new Set([...KeywordTokens, ...addKeywords])
+		else this.keywordTokens = KeywordTokens
 	}
-}
 
-function isLetter(char: string) {
-	return (char >= 'a' && char <= 'z') || (char >= 'A' && char <= 'Z')
-}
+	init(expression: string) {
+		this.expression = expression
+		this.i = 0
+		this.lastStep = 0
+		this.currentLine = 0
+		this.lastStepLine = 0
+	}
 
-function isNumber(char: string) {
-	return char >= '0' && char <= '9'
+	getPosition() {
+		return {
+			startLineNumber: this.lastStepLine,
+			endLineNumber: this.currentLine,
+			startColumn: this.lastStep,
+			endColumn: this.i,
+		}
+	}
+	step() {
+		this.lastStep = this.i
+		this.lastStepLine = this.currentLine
+	}
+
+	next(): TToken {
+		while (this.i < this.expression.length) {
+			let token =
+				this.i + 1 < this.expression.length
+					? TokenTypes[
+							this.expression[this.i] +
+								this.expression[this.i + 1]
+					  ]
+					: undefined
+
+			if (token) {
+				this.i++
+				return [
+					token,
+					this.expression[this.i - 1] + this.expression[this.i++],
+				]
+			}
+
+			token = TokenTypes[this.expression[this.i]]
+			if (token) {
+				return [token, this.expression[this.i++]]
+			} else if (this.expression[this.i] === "'") {
+				let j = this.i + 1
+				while (
+					j < this.expression.length &&
+					this.expression[j] !== "'"
+				) {
+					j++
+				}
+				j++
+				const token = <[string, string]>[
+					'STRING',
+					this.expression.substring(this.i, j),
+				]
+				this.i = j
+				return token
+			} else if (this.isLetter(this.expression[this.i])) {
+				let j = this.i + 1
+				while (
+					j < this.expression.length &&
+					(this.isLetter(this.expression[j]) ||
+						this.isNumber(this.expression[j]) ||
+						this.expression[j] === '_' ||
+						this.expression[j] === '.')
+				) {
+					j++
+				}
+
+				const value = this.expression.substring(this.i, j).toLowerCase()
+				const token = <[string, string]>[
+					this.keywordTokens.has(value)
+						? value.toUpperCase()
+						: 'NAME',
+					value,
+				]
+				this.i = j
+				return token
+			} else if (this.isNumber(this.expression[this.i])) {
+				let j = this.i + 1
+				let hasDecimal = false
+				while (
+					j < this.expression.length &&
+					(this.isNumber(this.expression[j]) ||
+						(this.expression[j] === '.' && !hasDecimal))
+				) {
+					if (this.expression[j] === '.') hasDecimal = true
+					j++
+				}
+
+				const token = <[string, string]>[
+					'NUMBER',
+					this.expression.substring(this.i, j),
+				]
+				this.i = j
+				return token
+			} else if (this.expression[this.i] === '\n') {
+				this.currentLine++
+			} else {
+				//IGNORE CHARACTER
+			}
+
+			this.i++
+		}
+
+		return ['EOF', '']
+	}
+	hasNext() {
+		return this.i < this.expression.length
+	}
+
+	protected isLetter(char: string) {
+		return (char >= 'a' && char <= 'z') || (char >= 'A' && char <= 'Z')
+	}
+
+	protected isNumber(char: string) {
+		return char >= '0' && char <= '9'
+	}
 }
