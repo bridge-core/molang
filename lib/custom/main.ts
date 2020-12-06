@@ -1,6 +1,6 @@
 import { ExecutionEnvironment } from '../env'
 import { MoLangParser } from '../parser/molang'
-import { IIterator, tokenize } from '../tokenizer/tokenize'
+import { Tokenizer } from '../tokenizer/tokenize'
 import { CustomFunctionParselet } from './function'
 
 export class CustomMoLangParser extends MoLangParser {
@@ -13,9 +13,10 @@ export class CustomMoLangParser extends MoLangParser {
 
 const parser = new CustomMoLangParser()
 parser.setExecutionEnvironment(new ExecutionEnvironment({}))
+parser.setTokenizer(new Tokenizer(new Set(['function'])))
 
 export function parseCustomSyntax(expression: string) {
-	parser.setTokenizer(tokenize(expression, new Set(['function'])))
+	parser.init(expression)
 	const abstractSyntaxTree = parser.parseExpression()
 
 	return abstractSyntaxTree.eval()
