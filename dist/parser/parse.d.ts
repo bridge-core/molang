@@ -1,4 +1,4 @@
-import { IIterator } from '../tokenizer/tokenize';
+import { Tokenizer } from '../tokenizer/tokenize';
 import { TTokenType, TToken } from '../tokenizer/token';
 import { IPrefixParselet } from './parselets/prefix';
 import { IInfixParselet } from './parselets/infix';
@@ -12,11 +12,12 @@ export declare class Parser {
     protected infixParselets: Map<string, IInfixParselet>;
     protected readTokens: TToken[];
     protected lastConsumed: TToken;
-    protected tokenIterator: IIterator;
+    protected tokenIterator: Tokenizer;
     executionEnv: ExecutionEnvironment;
     constructor(useOptimizer?: boolean, agressiveStaticOptimizer?: boolean, partialResolveOnParse?: boolean);
     updateConfig(useOptimizer?: boolean, agressiveStaticOptimizer?: boolean, partialResolveOnParse?: boolean): void;
-    setTokenizer(tokenIterator: IIterator): void;
+    init(expression: string): void;
+    setTokenizer(tokenizer: Tokenizer): void;
     setExecutionEnvironment(executionEnv: ExecutionEnvironment): void;
     parseExpression(precedence?: number): IExpression;
     parseInfixExpression(expressionLeft: IExpression, precedence?: number): IExpression;

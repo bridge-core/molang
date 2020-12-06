@@ -1,9 +1,9 @@
-import { Expression, IExpression } from '../expression';
+import { Expression } from '../expression';
 export declare class FunctionExpression extends Expression {
-    protected name: IExpression;
-    protected args: IExpression[];
+    protected name: Expression;
+    protected args: Expression[];
     type: string;
-    constructor(name: IExpression, args: IExpression[]);
+    constructor(name: Expression, args: Expression[]);
     isStatic(): boolean;
     eval(): unknown;
 }

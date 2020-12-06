@@ -1,6 +1,6 @@
 import { IExpression } from './parser/expression';
 import { MoLangParser } from './parser/molang';
-import { tokenize } from './tokenizer/tokenize';
+import { Tokenizer } from './tokenizer/tokenize';
 import { ExecutionEnvironment } from './env';
 export interface IParserConfig {
     useCache: boolean;
@@ -8,7 +8,7 @@ export interface IParserConfig {
     useOptimizer: boolean;
     useAgressiveStaticOptimizer: boolean;
     partialResolveOnParse: boolean;
-    tokenizer: ReturnType<typeof tokenize>;
+    tokenizer: Tokenizer;
 }
 export declare class MoLang {
     protected config: Partial<IParserConfig>;
@@ -24,5 +24,5 @@ export declare class MoLang {
     parse(expression: string): IExpression;
 }
 export default MoLang;
-export { tokenize } from './tokenizer/tokenize';
+export { Tokenizer } from './tokenizer/tokenize';
 export { IExpression } from './parser/expression';
