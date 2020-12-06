@@ -23,6 +23,9 @@ export class NameExpression extends Expression {
 	setFunctionCall(value = true) {
 		this.isFunctionCall = value
 	}
+	getAsString() {
+		return this.name
+	}
 
 	eval() {
 		const value = this.env.getFrom(this.name)

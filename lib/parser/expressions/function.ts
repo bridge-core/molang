@@ -1,9 +1,10 @@
-import { Expression, IExpression } from '../expression'
+import { NameExpression } from './name'
+import { Expression } from '../expression'
 
 export class FunctionExpression extends Expression {
 	type = 'FunctionExpression'
 
-	constructor(protected name: IExpression, protected args: IExpression[]) {
+	constructor(protected name: Expression, protected args: Expression[]) {
 		super()
 	}
 
@@ -16,6 +17,11 @@ export class FunctionExpression extends Expression {
 		let i = 0
 		while (i < this.args.length) args.push(this.args[i++].eval())
 
-		return (<(...args: unknown[]) => unknown>this.name.eval())(...args)
+		const func = <(...args: unknown[]) => unknown>this.name.eval()
+		if (typeof func !== 'function')
+			throw new Error(
+				`${(<NameExpression>this.name).getAsString()} is not callable!`
+			)
+		return func(...args)
 	}
 }
