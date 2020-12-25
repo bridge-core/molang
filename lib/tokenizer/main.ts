@@ -23,6 +23,7 @@ export class Tokenizer {
 
 	next(): Token {
 		while (this.i < this.expression.length) {
+			// Check tokens with two chars
 			let token =
 				this.i + 1 < this.expression.length
 					? TokenTypes[
@@ -41,6 +42,7 @@ export class Tokenizer {
 				)
 			}
 
+			// Check tokens with one char
 			token = TokenTypes[this.expression[this.i]]
 			if (token) {
 				return new Token(
