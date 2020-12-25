@@ -1,4 +1,3 @@
-import { IIterator } from '../tokenizer/tokenize'
 import { Parser } from './parse'
 import { BinaryOperator } from './parselets/binaryOperator'
 import { EPrecedence } from './precedence'

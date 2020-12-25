@@ -1,5 +1,5 @@
-import { IIterator, Tokenizer } from '../tokenizer/tokenize'
-import { TTokenType, TToken } from '../tokenizer/token'
+import { Tokenizer } from '../tokenizer/main'
+import { TTokenType, Token } from '../tokenizer/token'
 import { IPrefixParselet } from './parselets/prefix'
 import { IInfixParselet } from './parselets/infix'
 import { IExpression } from './expression'
@@ -9,8 +9,8 @@ import { ExecutionEnvironment } from '../env'
 export class Parser {
 	protected prefixParselets = new Map<TTokenType, IPrefixParselet>()
 	protected infixParselets = new Map<TTokenType, IInfixParselet>()
-	protected readTokens: TToken[] = []
-	protected lastConsumed: TToken = ['SOF', '']
+	protected readTokens: Token[] = []
+	protected lastConsumed: Token = new Token('SOF', '', 0, 0)
 	protected tokenIterator = new Tokenizer()
 	executionEnv!: ExecutionEnvironment
 
@@ -34,7 +34,7 @@ export class Parser {
 
 	init(expression: string) {
 		this.tokenIterator.init(expression)
-		this.lastConsumed = ['SOF', '']
+		this.lastConsumed = new Token('SOF', '', 0, 0)
 		this.readTokens = []
 	}
 	setTokenizer(tokenizer: Tokenizer) {
@@ -46,11 +46,13 @@ export class Parser {
 
 	parseExpression(precedence = 0): IExpression {
 		let token = this.consume()
-		if (token[0] === 'EOF') return new NumberExpression(0)
+		if (token.getType() === 'EOF') return new NumberExpression(0)
 
-		const prefix = this.prefixParselets.get(token[0])
+		const prefix = this.prefixParselets.get(token.getType())
 		if (!prefix)
-			throw new Error(`Cannot parse ${token[0]} expression "${token[1]}"`)
+			throw new Error(
+				`Cannot parse ${token.getType()} expression "${token.getType()}"`
+			)
 
 		let expressionLeft = prefix.parse(this, token)
 		if (expressionLeft.isReturn) return expressionLeft
@@ -63,7 +65,9 @@ export class Parser {
 		while (precedence < this.getPrecedence()) {
 			token = this.consume()
 
-			const infix = <IInfixParselet>this.infixParselets.get(token[0])
+			const infix = <IInfixParselet>(
+				this.infixParselets.get(token.getType())
+			)
 			expressionLeft = infix.parse(this, expressionLeft, token)
 		}
 
@@ -71,7 +75,7 @@ export class Parser {
 	}
 
 	getPrecedence() {
-		const parselet = this.infixParselets.get(this.lookAhead(0)?.[0])
+		const parselet = this.infixParselets.get(this.lookAhead(0)?.getType())
 		return parselet?.precedence ?? 0
 	}
 	getLastConsumed() {
@@ -86,20 +90,20 @@ export class Parser {
 		const token = this.lookAhead(0)
 
 		if (expected) {
-			if (token[0] !== expected)
+			if (token.getType() !== expected)
 				throw new Error(
-					`Expected token "${expected}" and found "${token[0]}"`
+					`Expected token "${expected}" and found "${token.getType()}"`
 				)
 			else this.consume()
 		}
 
-		this.lastConsumed = <TToken>this.readTokens.pop()
+		this.lastConsumed = <Token>this.readTokens.pop()
 		return this.lastConsumed
 	}
 
 	match(expected: TTokenType, consume = true) {
 		const token = this.lookAhead(0)
-		if (token[0] !== expected) return false
+		if (token.getType() !== expected) return false
 
 		if (consume) this.consume()
 		return true
@@ -124,9 +128,5 @@ export class Parser {
 	}
 	getPrefix(tokenType: TTokenType) {
 		return this.prefixParselets.get(tokenType)
-	}
-
-	getTokenizerPosition() {
-		return this.tokenIterator.getPosition()
 	}
 }

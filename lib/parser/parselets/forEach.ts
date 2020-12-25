@@ -1,5 +1,5 @@
 import { Parser } from '../parse'
-import { TToken } from '../../tokenizer/token'
+import { Token } from '../../tokenizer/token'
 import { IPrefixParselet } from './prefix'
 import { IExpression } from '../expression'
 import { ForEachExpression } from '../expressions/forEach'
@@ -7,7 +7,7 @@ import { ForEachExpression } from '../expressions/forEach'
 export class ForEachParselet implements IPrefixParselet {
 	constructor(public precedence = 0) {}
 
-	parse(parser: Parser, token: TToken) {
+	parse(parser: Parser, token: Token) {
 		parser.consume('LEFT_PARENT')
 		const args: IExpression[] = []
 

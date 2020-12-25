@@ -1,4 +1,4 @@
-import { TToken } from '../../tokenizer/token'
+import { Token } from '../../tokenizer/token'
 import { Parser } from '../parse'
 import { IInfixParselet } from './infix'
 import { IExpression } from '../expression'
@@ -7,7 +7,7 @@ import { ArrayAccessExpression } from '../expressions/arrayAccess'
 export class ArrayAccessParselet implements IInfixParselet {
 	constructor(public precedence = 0) {}
 
-	parse(parser: Parser, left: IExpression, token: TToken) {
+	parse(parser: Parser, left: IExpression, token: Token) {
 		const expr = parser.parseExpression(this.precedence - 1)
 
 		if (!left.setPointer)

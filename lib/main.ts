@@ -1,6 +1,6 @@
 import { IExpression } from './parser/expression'
 import { MoLangParser } from './parser/molang'
-import { Tokenizer } from './tokenizer/tokenize'
+import { Tokenizer } from './tokenizer/main'
 import { StaticExpression } from './parser/expressions/static'
 import { ExecutionEnvironment } from './env'
 
@@ -150,5 +150,5 @@ export class MoLang {
 
 export default MoLang
 
-export { Tokenizer } from './tokenizer/tokenize'
+export { Tokenizer } from './tokenizer/main'
 export { IExpression } from './parser/expression'

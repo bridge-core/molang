@@ -1,17 +1,17 @@
 import { IInfixParselet } from './infix'
 import { Parser } from '../parse'
 import { IExpression } from '../expression'
-import { TToken } from '../../tokenizer/token'
+import { Token } from '../../tokenizer/token'
 import { GenericOperatorExpression } from '../expressions/genericOperator'
 
 export class BinaryOperator implements IInfixParselet {
 	constructor(public precedence = 0) {}
 
-	parse(parser: Parser, leftExpression: IExpression, token: TToken) {
+	parse(parser: Parser, leftExpression: IExpression, token: Token) {
 		const rightExpression = parser.parseExpression(this.precedence)
 		// return new AdditionExpression(leftExpression, rightExpression)
 
-		switch (token[1]) {
+		switch (token.getText()) {
 			case '+':
 				return new GenericOperatorExpression(
 					leftExpression,
@@ -30,7 +30,7 @@ export class BinaryOperator implements IInfixParselet {
 							)
 						)
 							throw new Error(
-								`Cannot use numeric operators for expression "${leftValue} ${token[1]} ${rightValue}"`
+								`Cannot use numeric operators for expression "${leftValue} ${token.getText()} ${rightValue}"`
 							)
 						//@ts-ignore
 						return leftValue + rightValue
@@ -54,7 +54,7 @@ export class BinaryOperator implements IInfixParselet {
 							)
 						)
 							throw new Error(
-								`Cannot use numeric operators for expression "${leftValue} ${token[1]} ${rightValue}"`
+								`Cannot use numeric operators for expression "${leftValue} ${token.getText()} ${rightValue}"`
 							)
 						//@ts-ignore
 						return leftValue - rightValue
@@ -78,7 +78,7 @@ export class BinaryOperator implements IInfixParselet {
 							)
 						)
 							throw new Error(
-								`Cannot use numeric operators for expression "${leftValue} ${token[1]} ${rightValue}"`
+								`Cannot use numeric operators for expression "${leftValue} ${token.getText()} ${rightValue}"`
 							)
 						//@ts-ignore
 						return leftValue * rightValue
@@ -103,7 +103,7 @@ export class BinaryOperator implements IInfixParselet {
 							)
 						)
 							throw new Error(
-								`Cannot use numeric operators for expression "${leftValue} ${token[1]} ${rightValue}"`
+								`Cannot use numeric operators for expression "${leftValue} ${token.getText()} ${rightValue}"`
 							)
 						//@ts-ignore
 						return leftValue / rightValue

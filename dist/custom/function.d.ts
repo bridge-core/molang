@@ -1,12 +1,12 @@
 import { Parser } from '../parser/parse';
-import { TToken } from '../parser/../tokenizer/token';
+import { Token } from '../parser/../tokenizer/token';
 import { IPrefixParselet } from '../parser/parselets/prefix';
 import { Expression, IExpression } from '../parser/expression';
 import { ExecutionEnvironment } from '../env';
 export declare class CustomFunctionParselet implements IPrefixParselet {
     precedence: number;
     constructor(precedence?: number);
-    parse(parser: Parser, token: TToken): CustomFunctionExpression;
+    parse(parser: Parser, token: Token): CustomFunctionExpression;
 }
 declare class CustomFunctionExpression extends Expression {
     protected env: ExecutionEnvironment;

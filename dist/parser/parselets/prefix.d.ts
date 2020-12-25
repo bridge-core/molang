@@ -1,13 +1,13 @@
 import { Parser } from '../parse';
 import { IExpression } from '../expression';
-import { TToken } from '../../tokenizer/token';
+import { Token } from '../../tokenizer/token';
 import { PrefixExpression } from '../expressions/prefix';
 export interface IPrefixParselet {
     readonly precedence: number;
-    parse: (parser: Parser, token: TToken) => IExpression;
+    parse: (parser: Parser, token: Token) => IExpression;
 }
 export declare class PrefixOperator implements IPrefixParselet {
     precedence: number;
     constructor(precedence?: number);
-    parse(parser: Parser, token: TToken): PrefixExpression;
+    parse(parser: Parser, token: Token): PrefixExpression;
 }

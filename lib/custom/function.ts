@@ -1,5 +1,5 @@
 import { Parser } from '../parser/parse'
-import { TToken } from '../parser/../tokenizer/token'
+import { Token } from '../parser/../tokenizer/token'
 import { IPrefixParselet } from '../parser/parselets/prefix'
 import { Expression, IExpression } from '../parser/expression'
 import { ExecutionEnvironment } from '../env'
@@ -9,7 +9,7 @@ import { StatementExpression } from '../parser/expressions/statement'
 export class CustomFunctionParselet implements IPrefixParselet {
 	constructor(public precedence = 0) {}
 
-	parse(parser: Parser, token: TToken) {
+	parse(parser: Parser, token: Token) {
 		parser.consume('LEFT_PARENT')
 		if (parser.match('RIGHT_PARENT'))
 			throw new Error(`function() called without arguments`)
@@ -20,8 +20,8 @@ export class CustomFunctionParselet implements IPrefixParselet {
 		do {
 			const expr = parser.parseExpression()
 			if (expr instanceof StringExpression) {
-				if (!functionName) functionName = expr.eval()
-				else args.push(expr.eval())
+				if (!functionName) functionName = <string>expr.eval()
+				else args.push(<string>expr.eval())
 			} else if (expr instanceof StatementExpression) {
 				functionBody = expr
 			} else {

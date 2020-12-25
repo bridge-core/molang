@@ -1,3 +1,10 @@
 export declare type TTokenType = string;
-export declare type TTokenText = string;
-export declare type TToken = [TTokenType, TTokenText];
+export declare class Token {
+    protected type: string;
+    protected text: string;
+    protected startColumn: number;
+    protected startLine: number;
+    constructor(type: string, text: string, startColumn: number, startLine: number);
+    getType(): string;
+    getText(): string;
+}

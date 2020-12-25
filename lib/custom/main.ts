@@ -1,6 +1,6 @@
 import { ExecutionEnvironment } from '../env'
 import { MoLangParser } from '../parser/molang'
-import { Tokenizer } from '../tokenizer/tokenize'
+import { Tokenizer } from '../tokenizer/main'
 import { CustomFunctionParselet } from './function'
 
 export class CustomMoLangParser extends MoLangParser {

@@ -1,5 +1,5 @@
-import { Tokenizer } from '../tokenizer/tokenize';
-import { TTokenType, TToken } from '../tokenizer/token';
+import { Tokenizer } from '../tokenizer/main';
+import { TTokenType, Token } from '../tokenizer/token';
 import { IPrefixParselet } from './parselets/prefix';
 import { IInfixParselet } from './parselets/infix';
 import { IExpression } from './expression';
@@ -10,8 +10,8 @@ export declare class Parser {
     partialResolveOnParse: boolean;
     protected prefixParselets: Map<string, IPrefixParselet>;
     protected infixParselets: Map<string, IInfixParselet>;
-    protected readTokens: TToken[];
-    protected lastConsumed: TToken;
+    protected readTokens: Token[];
+    protected lastConsumed: Token;
     protected tokenIterator: Tokenizer;
     executionEnv: ExecutionEnvironment;
     constructor(useOptimizer?: boolean, agressiveStaticOptimizer?: boolean, partialResolveOnParse?: boolean);
@@ -22,18 +22,12 @@ export declare class Parser {
     parseExpression(precedence?: number): IExpression;
     parseInfixExpression(expressionLeft: IExpression, precedence?: number): IExpression;
     getPrecedence(): number;
-    getLastConsumed(): TToken;
-    consume(expected?: TTokenType): TToken;
+    getLastConsumed(): Token;
+    consume(expected?: TTokenType): Token;
     match(expected: TTokenType, consume?: boolean): boolean;
-    lookAhead(distance: number): TToken;
+    lookAhead(distance: number): Token;
     registerInfix(tokenType: TTokenType, infixParselet: IInfixParselet): void;
     registerPrefix(tokenType: TTokenType, prefixParselet: IPrefixParselet): void;
     getInfix(tokenType: TTokenType): IInfixParselet | undefined;
     getPrefix(tokenType: TTokenType): IPrefixParselet | undefined;
-    getTokenizerPosition(): {
-        startLineNumber: number;
-        endLineNumber: number;
-        startColumn: number;
-        endColumn: number;
-    };
 }

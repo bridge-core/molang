@@ -1,5 +1,5 @@
 import { Parser } from '../parse'
-import { TToken } from '../../tokenizer/token'
+import { Token } from '../../tokenizer/token'
 import { IPrefixParselet } from './prefix'
 import { IExpression } from '../expression'
 import { LoopExpression } from '../expressions/loop'
@@ -7,7 +7,7 @@ import { LoopExpression } from '../expressions/loop'
 export class LoopParselet implements IPrefixParselet {
 	constructor(public precedence = 0) {}
 
-	parse(parser: Parser, token: TToken) {
+	parse(parser: Parser, token: Token) {
 		parser.consume('LEFT_PARENT')
 		const args: IExpression[] = []
 

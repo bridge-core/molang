@@ -1,24 +1,11 @@
 import { TokenTypes, KeywordTokens } from './tokenTypes'
-import { TToken } from './token'
-
-export interface IIterator {
-	next: () => TToken
-	hasNext: () => boolean
-	step: () => void
-	getPosition: () => {
-		startLineNumber: number
-		endLineNumber: number
-		startColumn: number
-		endColumn: number
-	}
-}
+import { Token } from './token'
 
 export class Tokenizer {
 	protected keywordTokens: Set<string>
 	protected i = 0
-	protected lastStep = 0
+	protected currentColumn = 0
 	protected currentLine = 0
-	protected lastStepLine = 0
 	protected expression!: string
 
 	constructor(addKeywords?: Set<string>) {
@@ -28,27 +15,13 @@ export class Tokenizer {
 	}
 
 	init(expression: string) {
-		this.expression = expression
-		this.i = 0
-		this.lastStep = 0
 		this.currentLine = 0
-		this.lastStepLine = 0
+		this.currentColumn = 0
+		this.i = 0
+		this.expression = expression
 	}
 
-	getPosition() {
-		return {
-			startLineNumber: this.lastStepLine,
-			endLineNumber: this.currentLine,
-			startColumn: this.lastStep,
-			endColumn: this.i,
-		}
-	}
-	step() {
-		this.lastStep = this.i
-		this.lastStepLine = this.currentLine
-	}
-
-	next(): TToken {
+	next(): Token {
 		while (this.i < this.expression.length) {
 			let token =
 				this.i + 1 < this.expression.length
@@ -60,15 +33,22 @@ export class Tokenizer {
 
 			if (token) {
 				this.i++
-				return [
+				return new Token(
 					token,
 					this.expression[this.i - 1] + this.expression[this.i++],
-				]
+					this.currentColumn,
+					this.currentLine
+				)
 			}
 
 			token = TokenTypes[this.expression[this.i]]
 			if (token) {
-				return [token, this.expression[this.i++]]
+				return new Token(
+					token,
+					this.expression[this.i++],
+					this.currentColumn,
+					this.currentLine
+				)
 			} else if (this.expression[this.i] === "'") {
 				let j = this.i + 1
 				while (
@@ -78,10 +58,12 @@ export class Tokenizer {
 					j++
 				}
 				j++
-				const token = <[string, string]>[
+				const token = new Token(
 					'STRING',
 					this.expression.substring(this.i, j),
-				]
+					this.currentColumn,
+					this.currentLine
+				)
 				this.i = j
 				return token
 			} else if (this.isLetter(this.expression[this.i])) {
@@ -97,14 +79,16 @@ export class Tokenizer {
 				}
 
 				const value = this.expression.substring(this.i, j).toLowerCase()
-				const token = <[string, string]>[
+
+				this.i = j
+				return new Token(
 					this.keywordTokens.has(value)
 						? value.toUpperCase()
 						: 'NAME',
 					value,
-				]
-				this.i = j
-				return token
+					this.currentColumn,
+					this.currentLine
+				)
 			} else if (this.isNumber(this.expression[this.i])) {
 				let j = this.i + 1
 				let hasDecimal = false
@@ -117,22 +101,26 @@ export class Tokenizer {
 					j++
 				}
 
-				const token = <[string, string]>[
+				const token = new Token(
 					'NUMBER',
 					this.expression.substring(this.i, j),
-				]
+					this.currentColumn,
+					this.currentLine
+				)
 				this.i = j
 				return token
 			} else if (this.expression[this.i] === '\n') {
 				this.currentLine++
+				this.currentColumn = 0
 			} else {
 				//IGNORE CHARACTER
 			}
 
 			this.i++
+			this.currentColumn++
 		}
 
-		return ['EOF', '']
+		return new Token('EOF', '', this.currentColumn, this.currentLine)
 	}
 	hasNext() {
 		return this.i < this.expression.length

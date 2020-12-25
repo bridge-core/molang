@@ -1,5 +1,5 @@
 import { Parser } from '../parse'
-import { TToken } from '../../tokenizer/token'
+import { Token } from '../../tokenizer/token'
 import { IPrefixParselet } from './prefix'
 import { IExpression } from '../expression'
 import { EPrecedence } from '../precedence'
@@ -9,7 +9,7 @@ import { StatementExpression } from '../expressions/statement'
 export class ScopeParselet implements IPrefixParselet {
 	constructor(public precedence = 0) {}
 
-	parse(parser: Parser, token: TToken) {
+	parse(parser: Parser, token: Token) {
 		let expr
 		let hadClosingBracket = false
 		let expressions: IExpression[] = []

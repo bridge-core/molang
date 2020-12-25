@@ -1,6 +1,7 @@
 //@ts-ignore
 import MolangJS from 'molangjs'
 import { MoLang } from '../main'
+import { Tokenizer } from '../tokenizer/main'
 
 const iterations = 10000
 const expression =
@@ -33,6 +34,23 @@ for (let i = 0; i < iterations; i++) {
 	molang.execute(expression)
 }
 console.timeEnd('[EXECUTE] Performance')
+console.time('[TOKENIZER] Performance')
+const tokenizer = new Tokenizer()
+for (let i = 0; i < iterations; i++) {
+	tokenizer.init(expression)
+	while (tokenizer.hasNext()) tokenizer.next()
+}
+console.timeEnd('[TOKENIZER] Performance')
+console.time('[RAW ITERATIONS] Performance')
+for (let i = 0; i < iterations; i++) {
+	for (let j = 0; j < expression.length; j++) {
+		let x
+		if (j % 2 === 0) x = expression[j]
+		else if (j % 3 === 0) x = expression[j + 2]
+		else x = expression[j * 2]
+	}
+}
+console.timeEnd('[RAW ITERATIONS] Performance')
 
 console.log('-- MOLANGJS --')
 const molangjs = new MolangJS()

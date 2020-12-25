@@ -1,4 +1,4 @@
-import { TToken } from '../../tokenizer/token'
+import { Token } from '../../tokenizer/token'
 import { Parser } from '../parse'
 import { IInfixParselet } from './infix'
 import { IExpression } from '../expression'
@@ -7,7 +7,7 @@ import { FunctionExpression } from '../expressions/function'
 export class FunctionParselet implements IInfixParselet {
 	constructor(public precedence = 0) {}
 
-	parse(parser: Parser, left: IExpression, token: TToken) {
+	parse(parser: Parser, left: IExpression, token: Token) {
 		const args: IExpression[] = []
 
 		if (!left.setFunctionCall)
