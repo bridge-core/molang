@@ -14,4 +14,12 @@ export class Token {
 	getText() {
 		return this.text
 	}
+	getPosition() {
+		return {
+			startColumn: this.startColumn,
+			startLineNumber: this.startLine,
+			endColumn: this.startLine + this.text.length,
+			endLineNumber: this.startLine,
+		}
+	}
 }

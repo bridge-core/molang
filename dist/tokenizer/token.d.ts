@@ -7,4 +7,10 @@ export declare class Token {
     constructor(type: string, text: string, startColumn: number, startLine: number);
     getType(): string;
     getText(): string;
+    getPosition(): {
+        startColumn: number;
+        startLineNumber: number;
+        endColumn: number;
+        endLineNumber: number;
+    };
 }
