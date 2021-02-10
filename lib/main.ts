@@ -146,6 +146,10 @@ export class MoLang {
 
 		return abstractSyntaxTree
 	}
+
+	getParser() {
+		return this.parser
+	}
 }
 
 export default MoLang

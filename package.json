@@ -1,17 +1,19 @@
 {
 	"name": "molang",
-	"version": "1.6.2",
+	"version": "1.6.7",
 	"description": "A fast parser for Minecraft's MoLang",
-	"main": "dist/main.cjs.js",
-	"module": "dist/main.esm.js",
-	"browser": "dist/main.web.js",
+	"main": "index.js",
+	"cjs": "dist/molang.cjs.js",
+	"module": "dist/molang.esm.js",
+	"unpkg": "dist/molang.global.js",
+	"jsdelivr": "dist/molang.global.js",
 	"types": "dist/main.d.ts",
 	"directories": {
 		"lib": "lib"
 	},
 	"scripts": {
 		"test": "jest",
-		"perf": "rollup -c --configPerf && node ./perf/main.web.js",
+		"perf": "rollup -c --configPerf && node ./perf/molang.global.js",
 		"build": "rollup -c"
 	},
 	"repository": {

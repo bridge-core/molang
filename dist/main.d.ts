@@ -22,6 +22,7 @@ export declare class MoLang {
     execute(expression: string): unknown;
     executeAndCatch(expression: string): unknown;
     parse(expression: string): IExpression;
+    getParser(): MoLangParser;
 }
 export default MoLang;
 export { Tokenizer } from './tokenizer/main';

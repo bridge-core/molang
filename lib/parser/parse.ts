@@ -90,11 +90,13 @@ export class Parser {
 		const token = this.lookAhead(0)
 
 		if (expected) {
-			if (token.getType() !== expected)
+			if (token.getType() !== expected) {
 				throw new Error(
 					`Expected token "${expected}" and found "${token.getType()}"`
 				)
-			else this.consume()
+			} else {
+				this.consume()
+			}
 		}
 
 		this.lastConsumed = <Token>this.readTokens.pop()

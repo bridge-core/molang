@@ -6,6 +6,7 @@ export declare class Tokenizer {
     protected currentLine: number;
     protected expression: string;
     constructor(addKeywords?: Set<string>);
+    init(expression: string): void;
     next(): Token;
     hasNext(): boolean;
     protected isLetter(char: string): boolean;

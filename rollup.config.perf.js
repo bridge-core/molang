@@ -7,7 +7,7 @@ export default {
 	input: 'lib/performance/main.ts',
 	output: [
 		{
-			file: pkg.browser.replace('dist', 'perf'),
+			file: pkg.unpkg.replace('dist', 'perf'),
 			format: 'iife',
 		},
 	],
