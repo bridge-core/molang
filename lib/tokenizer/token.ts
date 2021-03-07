@@ -18,7 +18,7 @@ export class Token {
 		return {
 			startColumn: this.startColumn,
 			startLineNumber: this.startLine,
-			endColumn: this.startLine + this.text.length,
+			endColumn: this.startColumn + this.text.length,
 			endLineNumber: this.startLine,
 		}
 	}

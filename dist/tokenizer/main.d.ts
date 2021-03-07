@@ -4,6 +4,7 @@ export declare class Tokenizer {
     protected i: number;
     protected currentColumn: number;
     protected currentLine: number;
+    protected lastColumns: number;
     protected expression: string;
     constructor(addKeywords?: Set<string>);
     init(expression: string): void;
