@@ -4,7 +4,10 @@ export declare class ArrayAccessExpression extends Expression {
     protected lookup: IExpression;
     type: string;
     constructor(name: IExpression, lookup: IExpression);
+    get allExpressions(): IExpression[];
+    setExpressionAt(index: number, expr: IExpression): void;
     isStatic(): boolean;
     setPointer(value: unknown): void;
     eval(): any;
+    toString(): string;
 }

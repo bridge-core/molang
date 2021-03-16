@@ -1,9 +1,10 @@
 import { ExecutionEnvironment } from '../env'
-import MoLang, { IParserConfig } from '../main'
+import { IParserConfig } from '../main'
 import { StaticExpression } from '../parser/expressions/static'
 import { MoLangParser } from '../parser/molang'
 import { Tokenizer } from '../tokenizer/main'
 import { CustomFunctionParselet } from './function'
+import { MoLang } from '../MoLang'
 
 export class CustomMoLangParser extends MoLangParser {
 	public readonly functions = new Map<string, [string[], string]>()

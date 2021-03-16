@@ -1,11 +1,9 @@
 import { Parser } from '../parser/parse'
 import { Token } from '../parser/../tokenizer/token'
 import { IPrefixParselet } from '../parser/parselets/prefix'
-import { Expression, IExpression, TIterateCallback } from '../parser/expression'
-import { ExecutionEnvironment } from '../env'
+import { Expression, IExpression } from '../parser/expression'
 import { StringExpression } from '../parser/expressions/string'
 import { StatementExpression } from '../parser/expressions/statement'
-import MoLang from '../main'
 import { CustomMoLangParser } from './main'
 import { GroupExpression } from '../parser/expressions/group'
 

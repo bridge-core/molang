@@ -5,6 +5,9 @@ export declare class PrefixExpression extends Expression {
     protected expression: IExpression;
     type: string;
     constructor(tokenType: TTokenType, expression: IExpression);
+    get allExpressions(): IExpression[];
+    setExpressionAt(_: number, expr: IExpression): void;
     isStatic(): boolean;
     eval(): number | boolean | undefined;
+    toString(): string;
 }

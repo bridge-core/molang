@@ -4,7 +4,10 @@ export declare class LoopExpression extends Expression {
     protected expression: IExpression;
     type: string;
     constructor(count: IExpression, expression: IExpression);
+    get allExpressions(): IExpression[];
+    setExpressionAt(index: number, expr: IExpression): void;
     get isReturn(): boolean | undefined;
     isStatic(): boolean;
     eval(): unknown;
+    toString(): string;
 }

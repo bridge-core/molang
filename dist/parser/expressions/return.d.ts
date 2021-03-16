@@ -4,6 +4,9 @@ export declare class ReturnExpression extends Expression {
     type: string;
     isReturn: boolean;
     constructor(expression: IExpression);
+    get allExpressions(): IExpression[];
+    setExpressionAt(_: number, expr: IExpression): void;
     isStatic(): boolean;
     eval(): unknown;
+    toString(): string;
 }

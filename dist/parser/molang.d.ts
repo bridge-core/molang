@@ -1,4 +1,5 @@
 import { Parser } from './parse';
+import { IParserConfig } from '../main';
 export declare class MoLangParser extends Parser {
-    constructor(useOptimizer?: boolean, agressiveStaticOptimizer?: boolean);
+    constructor(config: Partial<IParserConfig>);
 }

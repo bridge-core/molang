@@ -4,6 +4,8 @@ export declare class StaticExpression extends Expression {
     readonly isReturn: boolean;
     type: string;
     constructor(value: unknown, isReturn?: boolean);
+    get allExpressions(): never[];
+    setExpressionAt(): void;
     isStatic(): boolean;
     eval(): unknown;
 }

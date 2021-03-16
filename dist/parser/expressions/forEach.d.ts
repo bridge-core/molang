@@ -6,6 +6,9 @@ export declare class ForEachExpression extends Expression {
     type: string;
     constructor(variable: IExpression, arrayExpression: IExpression, expression: IExpression);
     get isReturn(): boolean | undefined;
+    get allExpressions(): IExpression[];
+    setExpressionAt(index: number, expr: IExpression): void;
     isStatic(): boolean;
     eval(): unknown;
+    toString(): string;
 }

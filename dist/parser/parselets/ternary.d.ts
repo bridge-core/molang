@@ -7,5 +7,5 @@ export declare class TernaryParselet implements IInfixParselet {
     precedence: number;
     exprName: string;
     constructor(precedence?: number);
-    parse(parser: Parser, leftExpression: IExpression, token: Token): TernaryExpression;
+    parse(parser: Parser, leftExpression: IExpression, token: Token): IExpression | TernaryExpression;
 }
