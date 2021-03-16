@@ -7,6 +7,11 @@ export class NumberExpression extends Expression {
 		super()
 	}
 
+	get allExpressions() {
+		return []
+	}
+	setExpressionAt() {}
+
 	isStatic() {
 		return true
 	}

@@ -6,6 +6,11 @@ export class StaticExpression extends Expression {
 		super()
 	}
 
+	get allExpressions() {
+		return []
+	}
+	setExpressionAt() {}
+
 	isStatic() {
 		return true
 	}

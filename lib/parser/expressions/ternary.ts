@@ -12,6 +12,15 @@ export class TernaryExpression extends Expression {
 		super()
 	}
 
+	get allExpressions() {
+		return [this.leftExpression, this.thenExpression, this.elseExpression]
+	}
+	setExpressionAt(index: number, expr: IExpression) {
+		if (index === 0) this.leftExpression = expr
+		else if (index === 1) this.thenExpression = expr
+		else if (index === 2) this.elseExpression = expr
+	}
+
 	get isReturn() {
 		return this.leftResult
 			? this.thenExpression.isReturn

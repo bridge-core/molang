@@ -8,5 +8,5 @@ test('Custom syntax', () => {
 	)
 	console.log(customMoLang.functions)
 
-	console.log(customMoLang.transform("f.sq(2) * f.on_axis('x')"))
+	console.log(customMoLang.transform("f.sq(f.on_axis('x'))"))
 })

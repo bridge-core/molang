@@ -1,5 +1,6 @@
 import { ExecutionEnvironment } from '../env'
 import MoLang, { IParserConfig } from '../main'
+import { StaticExpression } from '../parser/expressions/static'
 import { MoLangParser } from '../parser/molang'
 import { Tokenizer } from '../tokenizer/main'
 import { CustomFunctionParselet } from './function'
@@ -44,7 +45,6 @@ export class CustomMoLang {
 	}
 
 	transform(source: string) {
-		let frontInsert = ''
 		const molang = new MoLang(
 			{},
 			{
@@ -54,47 +54,56 @@ export class CustomMoLang {
 			}
 		)
 		const includesReturn = source.match(/return\s+/g) !== null
-		console.log(molang.parse(source))
 
-		for (const [functionName, [args, functionBody]] of this.functions) {
-			const baseVarName = `t.b_func_res_${functionName}`
-
-			const nameMatcher = new RegExp(
-				`(f|function)\\.${functionName}\\(\\s*${[
-					...new Array(args.length),
-				]
-					.map(
-						(_, i) => `(.+?)${i + 1 !== args.length ? '\\s*' : ''}`
-					)
-					.join(',')}\\s*\\)`,
-				'g'
+		let functionCount = 0
+		let ast = molang.parse(source)
+		ast = ast.iterate((expr: any) => {
+			if (
+				expr.type !== 'FunctionExpression' ||
+				(!expr.name.name.startsWith?.('f.') &&
+					!expr.name.name.startsWith?.('function.'))
 			)
+				return
 
-			let functionCallAmount = 0
-			source = source.replace(nameMatcher, (match, ...groups) => {
-				const argValues = groups.slice(1, -2)
-				const varName = `${baseVarName}_${functionCallAmount++}`
-				console.log(match)
+			const nameExpr = expr.name
+			const functionName = nameExpr.name.replace(/(f|function)\./g, '')
+			const returnVarName = `t.bridge_func_${functionCount++}`
 
-				const functionCode = molang
-					.parse(
-						functionBody.replace(
-							/arg\.(\w+)/g,
-							(match, ...groups) => {
-								return argValues[args.indexOf(groups[0])] ?? 0
-							}
-						)
-					)
-					.toString()
-					.replace(/return /g, `${varName}=`)
+			let [args, functionBody] = this.functions.get(functionName) ?? []
+			if (!functionBody || !args) return
 
-				return `({${functionCode}}+${varName})`
+			const funcAst = molang.parse(`({${functionBody}}+${returnVarName})`)
+			const argValues = expr.args
+
+			// Replace arguments & "return" statement
+			return funcAst.iterate((expr: any) => {
+				if (expr.type === 'ReturnExpression') {
+					expr.toString = function () {
+						return `${returnVarName}=${this.expression.toString()}`
+					}
+					return
+				} else if (
+					expr.type !== 'NameExpression' ||
+					(!expr.name.startsWith('arg.') &&
+						!expr.name.startsWith('a.'))
+				)
+					return
+
+				const argName = expr.name.replace(/(a|arg)\./g, '')
+
+				return (
+					argValues[args!.indexOf(argName)] ?? new StaticExpression(0)
+				)
 			})
-		}
+		})
 
-		return `${frontInsert}${!includesReturn ? 'return ' : ''}${source}${
-			!includesReturn ? ';' : ''
-		}`
+		return molang
+			.parse(
+				`${!includesReturn ? 'return ' : ''}${ast.toString()}${
+					!includesReturn ? ';' : ''
+				}`
+			)
+			.toString()
 	}
 
 	reset() {

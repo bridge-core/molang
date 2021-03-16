@@ -1,7 +1,7 @@
 import { Parser } from '../parser/parse'
 import { Token } from '../parser/../tokenizer/token'
 import { IPrefixParselet } from '../parser/parselets/prefix'
-import { Expression, IExpression } from '../parser/expression'
+import { Expression, IExpression, TIterateCallback } from '../parser/expression'
 import { ExecutionEnvironment } from '../env'
 import { StringExpression } from '../parser/expressions/string'
 import { StatementExpression } from '../parser/expressions/statement'
@@ -62,13 +62,20 @@ class CustomFunctionExpression extends Expression {
 		functions: Map<string, [string[], string]>,
 		functionName: string,
 		args: string[],
-		functionBody: IExpression
+		protected functionBody: IExpression
 	) {
 		super()
 		functions.set(functionName, [
 			args,
 			functionBody.toString().slice(1, -1),
 		])
+	}
+
+	get allExpressions() {
+		return [this.functionBody]
+	}
+	setExpressionAt(_: number, expr: IExpression) {
+		this.functionBody = expr
 	}
 
 	get isReturn() {

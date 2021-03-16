@@ -11,6 +11,8 @@ export interface IExpression {
 	setPointer?: (value: unknown) => void
 	eval(): unknown
 	isStatic(): boolean
+	iterate(cb: TIterateCallback): IExpression
+	_iterateHelper(cb: TIterateCallback): void
 }
 
 export abstract class Expression implements IExpression {
@@ -23,6 +25,29 @@ export abstract class Expression implements IExpression {
 		return `${this.eval()}`
 	}
 
-	// abstract iterate(): void
-	// replace() {}
+	abstract allExpressions: IExpression[]
+	abstract setExpressionAt(index: number, expr: IExpression): void
+
+	iterate(cb: TIterateCallback): IExpression {
+		let expr = cb(this) ?? this
+
+		expr._iterateHelper(cb)
+
+		return expr
+	}
+	_iterateHelper(cb: TIterateCallback) {
+		for (let i = 0; i < this.allExpressions.length; i++) {
+			const originalExpr = this.allExpressions[i]
+			const expr = cb(originalExpr)
+
+			if (expr) {
+				this.setExpressionAt(i, expr)
+				expr._iterateHelper(cb)
+			} else {
+				originalExpr._iterateHelper(cb)
+			}
+		}
+	}
 }
+
+export type TIterateCallback = (expr: IExpression) => IExpression | undefined

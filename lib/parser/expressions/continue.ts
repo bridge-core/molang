@@ -8,6 +8,11 @@ export class ContinueExpression extends Expression {
 		super()
 	}
 
+	get allExpressions() {
+		return []
+	}
+	setExpressionAt() {}
+
 	isStatic() {
 		return false
 	}

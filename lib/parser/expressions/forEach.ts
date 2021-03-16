@@ -20,6 +20,14 @@ export class ForEachExpression extends Expression {
 	get isReturn() {
 		return this.expression.isReturn
 	}
+	get allExpressions() {
+		return [this.variable, this.arrayExpression, this.expression]
+	}
+	setExpressionAt(index: number, expr: IExpression) {
+		if (index === 0) this.variable = expr
+		else if (index === 1) this.arrayExpression = expr
+		else if (index === 2) this.expression = expr
+	}
 
 	isStatic() {
 		return (
@@ -39,9 +47,7 @@ export class ForEachExpression extends Expression {
 		let i = 0
 		while (i < array.length) {
 			// Error detection for this.variable is part of the constructor
-			;(<NameExpression | ArrayAccessExpression>this.variable).setPointer(
-				array[i++]
-			)
+			this.variable.setPointer?.(array[i++])
 
 			const res = this.expression.eval()
 

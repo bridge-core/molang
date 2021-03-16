@@ -6,6 +6,11 @@ export class BooleanExpression extends Expression {
 		super()
 	}
 
+	get allExpressions() {
+		return []
+	}
+	setExpressionAt() {}
+
 	isStatic() {
 		return true
 	}

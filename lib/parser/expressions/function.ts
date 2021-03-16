@@ -8,6 +8,14 @@ export class FunctionExpression extends Expression {
 		super()
 	}
 
+	get allExpressions() {
+		return [this.name, ...this.args]
+	}
+	setExpressionAt(index: number, expr: Expression) {
+		if (index === 0) this.name = expr
+		else if (index > 0) this.args[index - 1] = expr
+	}
+
 	isStatic() {
 		return false
 	}

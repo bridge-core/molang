@@ -12,6 +12,11 @@ export class NameExpression extends Expression {
 		super()
 	}
 
+	get allExpressions() {
+		return []
+	}
+	setExpressionAt() {}
+
 	isStatic() {
 		return false
 	}

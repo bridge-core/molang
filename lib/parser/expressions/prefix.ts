@@ -11,6 +11,13 @@ export class PrefixExpression extends Expression {
 		super()
 	}
 
+	get allExpressions() {
+		return [this.expression]
+	}
+	setExpressionAt(_: number, expr: IExpression) {
+		this.expression = expr
+	}
+
 	isStatic() {
 		return this.expression.isStatic()
 	}

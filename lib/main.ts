@@ -1,4 +1,4 @@
-import { IExpression } from './parser/expression'
+import { IExpression, TIterateCallback } from './parser/expression'
 import { MoLangParser } from './parser/molang'
 import { Tokenizer } from './tokenizer/main'
 import { StaticExpression } from './parser/expressions/static'

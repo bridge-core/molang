@@ -12,6 +12,14 @@ export class GenericOperatorExpression extends Expression {
 		super()
 	}
 
+	get allExpressions() {
+		return [this.left, this.right]
+	}
+	setExpressionAt(index: number, expr: IExpression) {
+		if (index === 0) this.left = expr
+		else if (index === 1) this.right = expr
+	}
+
 	isStatic() {
 		return this.left.isStatic() && this.right.isStatic()
 	}

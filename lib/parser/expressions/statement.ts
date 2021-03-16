@@ -10,6 +10,13 @@ export class StatementExpression extends Expression {
 		super()
 	}
 
+	get allExpressions() {
+		return this.expressions
+	}
+	setExpressionAt(index: number, expr: IExpression) {
+		this.expressions[index] = expr
+	}
+
 	get isReturn() {
 		return this.didReturn
 	}

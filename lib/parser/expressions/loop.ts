@@ -10,6 +10,14 @@ export class LoopExpression extends Expression {
 		super()
 	}
 
+	get allExpressions() {
+		return [this.count, this.expression]
+	}
+	setExpressionAt(index: number, expr: IExpression) {
+		if (index === 0) this.count = expr
+		else if (index === 1) this.expression = expr
+	}
+
 	get isReturn() {
 		return this.expression.isReturn
 	}

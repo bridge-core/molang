@@ -7,6 +7,14 @@ export class ArrayAccessExpression extends Expression {
 		super()
 	}
 
+	get allExpressions() {
+		return [this.name, this.lookup]
+	}
+	setExpressionAt(index: number, expr: IExpression) {
+		if (index === 0) this.name = expr
+		else if (index === 1) this.lookup = expr
+	}
+
 	isStatic() {
 		return false
 	}
