@@ -58,7 +58,8 @@ export class MoLang {
 
 	protected parser = new MoLangParser(
 		this.config.useOptimizer,
-		this.config.useAgressiveStaticOptimizer
+		this.config.useAgressiveStaticOptimizer,
+		this.config.partialResolveOnParse
 	)
 
 	constructor(
@@ -126,6 +127,9 @@ export class MoLang {
 		if (this.config.useCache ?? true) {
 			const abstractSyntaxTree = this.expressionCache[expression]
 			if (abstractSyntaxTree) return abstractSyntaxTree
+		}
+		if (this.config.partialResolveOnParse) {
+			this.parser.setExecutionEnvironment(this.executionEnvironment)
 		}
 
 		this.parser.init(expression)

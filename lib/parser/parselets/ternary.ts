@@ -20,6 +20,10 @@ export class TernaryParselet implements IInfixParselet {
 			elseExpr = new NumberExpression(0)
 		}
 
+		if (parser.useOptimizer && leftExpression.isStatic()) {
+			return leftExpression.eval() ? thenExpr : elseExpr
+		}
+
 		return new TernaryExpression(leftExpression, thenExpr, elseExpr)
 	}
 }
