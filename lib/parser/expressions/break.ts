@@ -15,4 +15,7 @@ export class BreakExpression extends Expression {
 	eval() {
 		return 0
 	}
+	isString() {
+		return 'break'
+	}
 }

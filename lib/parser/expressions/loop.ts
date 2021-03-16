@@ -41,4 +41,8 @@ export class LoopExpression extends Expression {
 
 		return 0
 	}
+
+	toString() {
+		return `loop(${this.count.toString()},${this.expression.toString()})`
+	}
 }

@@ -6,6 +6,7 @@ export class GenericOperatorExpression extends Expression {
 	constructor(
 		protected left: IExpression,
 		protected right: IExpression,
+		protected operator: string,
 		protected evalHelper: () => unknown
 	) {
 		super()
@@ -17,5 +18,9 @@ export class GenericOperatorExpression extends Expression {
 
 	eval() {
 		return this.evalHelper()
+	}
+
+	toString() {
+		return `${this.left.toString()}${this.operator}${this.right.toString()}`
 	}
 }

@@ -17,14 +17,11 @@ import { ForEachParselet } from './parselets/forEach'
 import { ContinueParselet } from './parselets/continue'
 import { BreakParselet } from './parselets/break'
 import { BooleanParselet } from './parselets/boolean'
+import { IParserConfig } from '../main'
 
 export class MoLangParser extends Parser {
-	constructor(
-		useOptimizer = true,
-		agressiveStaticOptimizer = true,
-		partialResolveOnParse = false
-	) {
-		super(useOptimizer, agressiveStaticOptimizer, partialResolveOnParse)
+	constructor(config: Partial<IParserConfig>) {
+		super(config)
 
 		//Special parselets
 		this.registerPrefix('NAME', new NameParselet())

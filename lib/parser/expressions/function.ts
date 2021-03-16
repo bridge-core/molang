@@ -24,4 +24,15 @@ export class FunctionExpression extends Expression {
 			)
 		return func(...args)
 	}
+
+	toString() {
+		let str = `${this.name.toString()}(`
+		for (let i = 0; i < this.args.length; i++) {
+			str += `${this.args[i].toString()}${
+				i + 1 < this.args.length ? ',' : ''
+			}`
+		}
+
+		return `${str})`
+	}
 }

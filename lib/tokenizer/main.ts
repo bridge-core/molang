@@ -28,8 +28,14 @@ export class Tokenizer {
 		while (
 			this.i < this.expression.length &&
 			(this.expression[this.i] === ' ' ||
-				this.expression[this.i] === '\t')
+				this.expression[this.i] === '\t' ||
+				this.expression[this.i] === '\n')
 		) {
+			if (this.expression[this.i] === '\n') {
+				this.currentLine++
+				this.currentColumn = 0
+				this.lastColumns = this.i + 1
+			}
 			this.i++
 		}
 
@@ -115,10 +121,6 @@ export class Tokenizer {
 			)
 			this.i = j
 			return token
-		} else if (this.expression[this.i] === '\n') {
-			this.currentLine++
-			this.currentColumn = 0
-			this.lastColumns = this.i + 1
 		}
 
 		return new Token('EOF', '', this.currentColumn, this.currentLine)

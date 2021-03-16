@@ -34,4 +34,17 @@ export class PrefixExpression extends Expression {
 			}
 		}
 	}
+
+	toString() {
+		switch (this.tokenType) {
+			case 'MINUS': {
+				return `-${this.expression.toString()}`
+			}
+			case 'BANG': {
+				return `!${this.expression.toString()}`
+			}
+		}
+
+		throw new Error(`Unknown prefix operator: "${this.tokenType}"`)
+	}
 }

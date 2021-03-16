@@ -42,4 +42,8 @@ export class TernaryExpression extends Expression {
 			? this.thenExpression.eval()
 			: this.elseExpression.eval()
 	}
+
+	toString() {
+		return `${this.leftExpression.toString()}?${this.thenExpression.toString()}:${this.elseExpression.toString()}`
+	}
 }

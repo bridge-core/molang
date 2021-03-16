@@ -19,7 +19,7 @@ export class TernaryParselet implements IInfixParselet {
 			elseExpr = new NumberExpression(0)
 		}
 
-		if (parser.useOptimizer && leftExpression.isStatic()) {
+		if (parser.config.useOptimizer && leftExpression.isStatic()) {
 			return leftExpression.eval() ? thenExpr : elseExpr
 		}
 

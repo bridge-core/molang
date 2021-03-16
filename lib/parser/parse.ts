@@ -5,6 +5,7 @@ import { IInfixParselet } from './parselets/infix'
 import { IExpression } from './expression'
 import { NumberExpression } from './expressions/number'
 import { ExecutionEnvironment } from '../env'
+import { IParserConfig } from '../main'
 
 export class Parser {
 	protected prefixParselets = new Map<TTokenType, IPrefixParselet>()
@@ -14,22 +15,10 @@ export class Parser {
 	protected tokenIterator = new Tokenizer()
 	executionEnv!: ExecutionEnvironment
 
-	constructor(
-		public useOptimizer = false,
-		public agressiveStaticOptimizer = true,
-		public partialResolveOnParse = false
-	) {}
+	constructor(public config: Partial<IParserConfig>) {}
 
-	updateConfig(
-		useOptimizer?: boolean,
-		agressiveStaticOptimizer?: boolean,
-		partialResolveOnParse?: boolean
-	) {
-		if (useOptimizer !== undefined) this.useOptimizer = useOptimizer
-		if (agressiveStaticOptimizer !== undefined)
-			this.agressiveStaticOptimizer = agressiveStaticOptimizer
-		if (partialResolveOnParse !== undefined)
-			this.partialResolveOnParse = partialResolveOnParse
+	updateConfig(config: Partial<IParserConfig>) {
+		this.config = config
 	}
 
 	init(expression: string) {

@@ -15,4 +15,7 @@ export class ContinueExpression extends Expression {
 	eval() {
 		return 0
 	}
+	toString() {
+		return 'continue'
+	}
 }

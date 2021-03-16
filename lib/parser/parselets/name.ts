@@ -11,10 +11,16 @@ export class NameParselet implements IPrefixParselet {
 		const tokenText = token.getText()
 
 		if (
-			parser.partialResolveOnParse &&
-			parser.executionEnv.getFrom(tokenText) !== undefined
+			parser.config.partialResolveOnParse &&
+			parser.executionEnv.isInitialKey(tokenText)
 		) {
-			return new StaticExpression(tokenText)
+			if (parser.match('ASSIGN', false)) {
+				// TODO: Change existing var but omit assignment statement from build output
+			} else {
+				const varValue = parser.executionEnv.getFrom(tokenText)
+				if (varValue !== undefined)
+					return new StaticExpression(varValue)
+			}
 		}
 
 		return new NameExpression(parser.executionEnv, tokenText)

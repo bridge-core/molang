@@ -14,4 +14,8 @@ export class StringExpression extends Expression {
 	eval() {
 		return this.name.substring(1, this.name.length - 1)
 	}
+
+	toString() {
+		return this.name
+	}
 }

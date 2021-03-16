@@ -5,6 +5,7 @@ import { IExpression } from '../expression'
 import { EPrecedence } from '../precedence'
 import { StaticExpression } from '../expressions/static'
 import { StatementExpression } from '../expressions/statement'
+import { GroupExpression } from '../expressions/group'
 
 export class ScopeParselet implements IPrefixParselet {
 	constructor(public precedence = 0) {}
@@ -21,7 +22,7 @@ export class ScopeParselet implements IPrefixParselet {
 
 			expr = parser.parseExpression(EPrecedence.STATEMENT)
 
-			if (parser.useOptimizer) {
+			if (parser.config.useOptimizer) {
 				if (expr.isStatic())
 					expr = new StaticExpression(expr.eval(), expr.isReturn)
 				if (expr.isReturn) {
@@ -36,6 +37,10 @@ export class ScopeParselet implements IPrefixParselet {
 		if (!hadClosingBracket && !parser.match('CURLY_RIGHT'))
 			throw new Error(`Missing closing curly bracket`)
 
-		return new StatementExpression(expressions)
+		const statementExpr = new StatementExpression(expressions)
+
+		return parser.config.keepGroups
+			? new GroupExpression(statementExpr, '{}')
+			: statementExpr
 	}
 }

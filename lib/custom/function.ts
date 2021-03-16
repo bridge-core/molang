@@ -5,6 +5,9 @@ import { Expression, IExpression } from '../parser/expression'
 import { ExecutionEnvironment } from '../env'
 import { StringExpression } from '../parser/expressions/string'
 import { StatementExpression } from '../parser/expressions/statement'
+import MoLang from '../main'
+import { CustomMoLangParser } from './main'
+import { GroupExpression } from '../parser/expressions/group'
 
 export class CustomFunctionParselet implements IPrefixParselet {
 	constructor(public precedence = 0) {}
@@ -22,7 +25,10 @@ export class CustomFunctionParselet implements IPrefixParselet {
 			if (expr instanceof StringExpression) {
 				if (!functionName) functionName = <string>expr.eval()
 				else args.push(<string>expr.eval())
-			} else if (expr instanceof StatementExpression) {
+			} else if (
+				expr instanceof StatementExpression ||
+				expr instanceof GroupExpression
+			) {
 				functionBody = expr
 			} else {
 				throw new Error(
@@ -42,7 +48,7 @@ export class CustomFunctionParselet implements IPrefixParselet {
 			)
 
 		return new CustomFunctionExpression(
-			parser.executionEnv,
+			(<CustomMoLangParser>parser).functions,
 			functionName,
 			args,
 			functionBody
@@ -53,12 +59,16 @@ export class CustomFunctionParselet implements IPrefixParselet {
 class CustomFunctionExpression extends Expression {
 	type = 'CustomFunctionExpression'
 	constructor(
-		protected env: ExecutionEnvironment,
-		protected functionName: string,
-		protected args: string[],
-		protected functionBody: IExpression
+		functions: Map<string, [string[], string]>,
+		functionName: string,
+		args: string[],
+		functionBody: IExpression
 	) {
 		super()
+		functions.set(functionName, [
+			args,
+			functionBody.toString().slice(1, -1),
+		])
 	}
 
 	get isReturn() {
@@ -67,38 +77,10 @@ class CustomFunctionExpression extends Expression {
 	}
 
 	isStatic() {
-		return this.functionBody.isStatic()
+		return true
 	}
 
 	eval() {
-		this.env.setAt(
-			`function.${this.functionName}`,
-			(...args: unknown[]) => {
-				//Handle arguments
-				if (args.length !== this.args.length)
-					throw new Error(
-						`Argument count mismatch for "function.${this.functionName}": Expected ${this.args.length} arguments; received ${args.length}`
-					)
-
-				let i = 0
-				while (i < this.args.length) {
-					this.env.setAt(`arg.${this.args[i]}`, args[i])
-					i++
-				}
-
-				const result = this.functionBody.eval()
-
-				//Cleanup env
-				i = 0
-				while (i < this.args.length) {
-					this.env.setAt(`arg.${this.args[i]}`, undefined)
-					i++
-				}
-
-				return result
-			}
-		)
-
 		return 0
 	}
 }

@@ -11,11 +11,14 @@ export class BinaryOperator implements IInfixParselet {
 		const rightExpression = parser.parseExpression(this.precedence)
 		// return new AdditionExpression(leftExpression, rightExpression)
 
-		switch (token.getText()) {
+		const tokenText = token.getText()
+
+		switch (tokenText) {
 			case '+':
 				return new GenericOperatorExpression(
 					leftExpression,
 					rightExpression,
+					tokenText,
 					() => {
 						const leftValue = leftExpression.eval()
 						const rightValue = rightExpression.eval()
@@ -30,7 +33,7 @@ export class BinaryOperator implements IInfixParselet {
 							)
 						)
 							throw new Error(
-								`Cannot use numeric operators for expression "${leftValue} ${token.getText()} ${rightValue}"`
+								`Cannot use numeric operators for expression "${leftValue} ${tokenText} ${rightValue}"`
 							)
 						//@ts-ignore
 						return leftValue + rightValue
@@ -40,6 +43,7 @@ export class BinaryOperator implements IInfixParselet {
 				return new GenericOperatorExpression(
 					leftExpression,
 					rightExpression,
+					tokenText,
 					() => {
 						const leftValue = leftExpression.eval()
 						const rightValue = rightExpression.eval()
@@ -54,7 +58,7 @@ export class BinaryOperator implements IInfixParselet {
 							)
 						)
 							throw new Error(
-								`Cannot use numeric operators for expression "${leftValue} ${token.getText()} ${rightValue}"`
+								`Cannot use numeric operators for expression "${leftValue} ${tokenText} ${rightValue}"`
 							)
 						//@ts-ignore
 						return leftValue - rightValue
@@ -64,6 +68,7 @@ export class BinaryOperator implements IInfixParselet {
 				return new GenericOperatorExpression(
 					leftExpression,
 					rightExpression,
+					tokenText,
 					() => {
 						const leftValue = leftExpression.eval()
 						const rightValue = rightExpression.eval()
@@ -78,7 +83,7 @@ export class BinaryOperator implements IInfixParselet {
 							)
 						)
 							throw new Error(
-								`Cannot use numeric operators for expression "${leftValue} ${token.getText()} ${rightValue}"`
+								`Cannot use numeric operators for expression "${leftValue} ${tokenText} ${rightValue}"`
 							)
 						//@ts-ignore
 						return leftValue * rightValue
@@ -88,6 +93,7 @@ export class BinaryOperator implements IInfixParselet {
 				return new GenericOperatorExpression(
 					leftExpression,
 					rightExpression,
+					tokenText,
 					//@ts-ignore
 					() => {
 						const leftValue = leftExpression.eval()
@@ -103,7 +109,7 @@ export class BinaryOperator implements IInfixParselet {
 							)
 						)
 							throw new Error(
-								`Cannot use numeric operators for expression "${leftValue} ${token.getText()} ${rightValue}"`
+								`Cannot use numeric operators for expression "${leftValue} ${tokenText} ${rightValue}"`
 							)
 						//@ts-ignore
 						return leftValue / rightValue
@@ -113,6 +119,7 @@ export class BinaryOperator implements IInfixParselet {
 				return new GenericOperatorExpression(
 					leftExpression,
 					rightExpression,
+					tokenText,
 					//@ts-ignore
 					() => leftExpression.eval() && rightExpression.eval()
 				)
@@ -120,6 +127,7 @@ export class BinaryOperator implements IInfixParselet {
 				return new GenericOperatorExpression(
 					leftExpression,
 					rightExpression,
+					tokenText,
 					//@ts-ignore
 					() => leftExpression.eval() || rightExpression.eval()
 				)
@@ -127,6 +135,7 @@ export class BinaryOperator implements IInfixParselet {
 				return new GenericOperatorExpression(
 					leftExpression,
 					rightExpression,
+					tokenText,
 					//@ts-ignore
 					() => leftExpression.eval() < rightExpression.eval()
 				)
@@ -134,6 +143,7 @@ export class BinaryOperator implements IInfixParselet {
 				return new GenericOperatorExpression(
 					leftExpression,
 					rightExpression,
+					tokenText,
 					//@ts-ignore
 					() => leftExpression.eval() <= rightExpression.eval()
 				)
@@ -141,6 +151,7 @@ export class BinaryOperator implements IInfixParselet {
 				return new GenericOperatorExpression(
 					leftExpression,
 					rightExpression,
+					tokenText,
 					//@ts-ignore
 					() => leftExpression.eval() > rightExpression.eval()
 				)
@@ -148,6 +159,7 @@ export class BinaryOperator implements IInfixParselet {
 				return new GenericOperatorExpression(
 					leftExpression,
 					rightExpression,
+					tokenText,
 					//@ts-ignore
 					() => leftExpression.eval() >= rightExpression.eval()
 				)
@@ -155,6 +167,7 @@ export class BinaryOperator implements IInfixParselet {
 				return new GenericOperatorExpression(
 					leftExpression,
 					rightExpression,
+					tokenText,
 					//@ts-ignore
 					() => leftExpression.eval() === rightExpression.eval()
 				)
@@ -162,6 +175,7 @@ export class BinaryOperator implements IInfixParselet {
 				return new GenericOperatorExpression(
 					leftExpression,
 					rightExpression,
+					tokenText,
 					//@ts-ignore
 					() => leftExpression.eval() !== rightExpression.eval()
 				)
@@ -169,6 +183,7 @@ export class BinaryOperator implements IInfixParselet {
 				return new GenericOperatorExpression(
 					leftExpression,
 					rightExpression,
+					tokenText,
 					//@ts-ignore
 					() => leftExpression.eval() ?? rightExpression.eval()
 				)
@@ -176,6 +191,7 @@ export class BinaryOperator implements IInfixParselet {
 				return new GenericOperatorExpression(
 					leftExpression,
 					rightExpression,
+					tokenText,
 					() => {
 						if (leftExpression.setPointer) {
 							leftExpression.setPointer(rightExpression.eval())

@@ -18,4 +18,8 @@ export class ArrayAccessExpression extends Expression {
 	eval() {
 		return (<any>this.name.eval())[<number>this.lookup.eval()]
 	}
+
+	toString() {
+		return `[${this.lookup.toString()}]`
+	}
 }

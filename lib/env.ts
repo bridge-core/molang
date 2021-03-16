@@ -2,6 +2,7 @@ import { MoLangMathLib } from './math'
 
 export class ExecutionEnvironment {
 	protected env: Record<string, any>
+	protected initialKeys = new Set<string>()
 
 	constructor(env: Record<string, any>) {
 		this.env = {
@@ -16,6 +17,26 @@ export class ExecutionEnvironment {
 		current: any = {}
 	) {
 		for (let key in newEnv) {
+			if (key[1] === '.') {
+				switch (key[0]) {
+					case 'q':
+						key = 'query' + key.substring(1, key.length)
+						break
+					case 't':
+						key = 'temp' + key.substring(1, key.length)
+						break
+					case 'v':
+						key = 'variable' + key.substring(1, key.length)
+						break
+					case 'c':
+						key = 'context' + key.substring(1, key.length)
+						break
+					case 'f':
+						key = 'function' + key.substring(1, key.length)
+						break
+				}
+			}
+
 			if (
 				typeof newEnv[key] === 'object' &&
 				!Array.isArray(newEnv[key])
@@ -23,6 +44,7 @@ export class ExecutionEnvironment {
 				this.flattenEnv(newEnv[key], `${addKey}${key}.`, current)
 			} else {
 				current[`${addKey}${key}`] = newEnv[key]
+				this.initialKeys.add(`${addKey}${key}`)
 			}
 		}
 
@@ -75,5 +97,29 @@ export class ExecutionEnvironment {
 		}
 
 		return this.env[lookup]
+	}
+
+	isInitialKey(key: string) {
+		if (key[1] === '.') {
+			switch (key[0]) {
+				case 'q':
+					key = 'query' + key.substring(1, key.length)
+					break
+				case 't':
+					key = 'temp' + key.substring(1, key.length)
+					break
+				case 'v':
+					key = 'variable' + key.substring(1, key.length)
+					break
+				case 'c':
+					key = 'context' + key.substring(1, key.length)
+					break
+				case 'f':
+					key = 'function' + key.substring(1, key.length)
+					break
+			}
+		}
+
+		return this.initialKeys.has(key)
 	}
 }

@@ -64,4 +64,14 @@ export class StatementExpression extends Expression {
 	getExpression() {
 		return this.expressions[0]
 	}
+
+	toString() {
+		let str = ''
+		for (const expr of this.expressions) {
+			if (expr.isReturn) str += expr.toString()
+			else str += `${expr.toString()};`
+		}
+
+		return str
+	}
 }

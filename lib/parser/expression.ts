@@ -18,4 +18,11 @@ export abstract class Expression implements IExpression {
 
 	abstract eval(): unknown
 	abstract isStatic(): boolean
+
+	toString() {
+		return `${this.eval()}`
+	}
+
+	// abstract iterate(): void
+	// replace() {}
 }

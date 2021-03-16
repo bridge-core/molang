@@ -32,4 +32,8 @@ export class NameExpression extends Expression {
 		if (!this.isFunctionCall && typeof value === 'function') return value()
 		return value
 	}
+
+	toString() {
+		return this.name
+	}
 }

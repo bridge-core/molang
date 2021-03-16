@@ -9,7 +9,7 @@ export class StatementParselet implements IInfixParselet {
 	constructor(public precedence = 0) {}
 
 	parse(parser: Parser, left: IExpression, token: Token) {
-		if (parser.useOptimizer) {
+		if (parser.config.useOptimizer) {
 			if (left.isStatic())
 				left = new StaticExpression(left.eval(), left.isReturn)
 			if (left.isReturn) return left
@@ -19,9 +19,12 @@ export class StatementParselet implements IInfixParselet {
 		let expressions: IExpression[] = [left]
 		do {
 			expr = parser.parseExpression(this.precedence)
-			if (parser.useOptimizer) {
+			if (parser.config.useOptimizer) {
 				if (expr.isStatic()) {
-					if (!expr.isReturn && parser.agressiveStaticOptimizer)
+					if (
+						!expr.isReturn &&
+						parser.config.useAgressiveStaticOptimizer
+					)
 						continue
 					else expr = new StaticExpression(expr.eval(), expr.isReturn)
 				}

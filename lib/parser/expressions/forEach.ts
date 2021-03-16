@@ -52,4 +52,8 @@ export class ForEachExpression extends Expression {
 
 		return 0
 	}
+
+	toString() {
+		return `loop(${this.variable.toString()},${this.arrayExpression.toString()},${this.expression.toString()})`
+	}
 }

@@ -39,16 +39,23 @@ export interface IParserConfig {
 	 * Default: `true`
 	 */
 	useAgressiveStaticOptimizer: boolean
-
 	/**
 	 * Partially resolve variables upon parsing if they're defined inside of the provided environment
 	 */
 	partialResolveOnParse: boolean
-
 	/**
 	 * Tokenizer to use for tokenizing the expression
 	 */
 	tokenizer: Tokenizer
+	/**
+	 * Create expression instances for brackets ("()", "{}")
+	 *
+	 * This should only be set to true if you want to use the .toString() method of an expression
+	 * or you want to iterate over the whole AST
+	 *
+	 * Default: `false`
+	 */
+	keepGroups: boolean
 }
 
 export class MoLang {
@@ -56,11 +63,10 @@ export class MoLang {
 	protected totalCacheEntries = 0
 	protected executionEnvironment: ExecutionEnvironment
 
-	protected parser = new MoLangParser(
-		this.config.useOptimizer,
-		this.config.useAgressiveStaticOptimizer,
-		this.config.partialResolveOnParse
-	)
+	protected parser = new MoLangParser({
+		...this.config,
+		tokenizer: undefined,
+	})
 
 	constructor(
 		env: Record<string, unknown> = {},
@@ -73,11 +79,7 @@ export class MoLang {
 		this.config = Object.assign(this.config, newConfig)
 
 		if (newConfig.tokenizer) this.parser.setTokenizer(newConfig.tokenizer)
-		this.parser.updateConfig(
-			newConfig.useOptimizer,
-			newConfig.useAgressiveStaticOptimizer,
-			newConfig.partialResolveOnParse
-		)
+		this.parser.updateConfig({ ...newConfig, tokenizer: undefined })
 	}
 	updateExecutionEnv(env: Record<string, unknown>) {
 		this.executionEnvironment = new ExecutionEnvironment(env)
