@@ -4,7 +4,6 @@ import { IExpression } from '../expression'
 import { Token } from '../../tokenizer/token'
 import { TernaryExpression } from '../expressions/ternary'
 import { NumberExpression } from '../expressions/number'
-import { StatementExpression } from '../expressions/statement'
 
 export class TernaryParselet implements IInfixParselet {
 	exprName = 'Ternary'

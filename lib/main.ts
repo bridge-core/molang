@@ -79,6 +79,10 @@ export class MoLang {
 			newConfig.partialResolveOnParse
 		)
 	}
+	updateExecutionEnv(env: Record<string, unknown>) {
+		this.executionEnvironment = new ExecutionEnvironment(env)
+		this.parser.setExecutionEnvironment(this.executionEnvironment)
+	}
 	/**
 	 * Clears the MoLang expression cache
 	 */
