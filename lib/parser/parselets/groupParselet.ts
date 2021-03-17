@@ -10,7 +10,9 @@ export class GroupParselet implements IPrefixParselet {
 		const expression = parser.parseExpression(this.precedence)
 		parser.consume('RIGHT_PARENT')
 
-		return parser.config.keepGroups
+		return parser.config.keepGroups &&
+			parser.config.useOptimizer &&
+			!expression.isStatic()
 			? new GroupExpression(expression, '()')
 			: expression
 	}

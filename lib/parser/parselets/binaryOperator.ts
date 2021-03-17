@@ -19,7 +19,10 @@ export class BinaryOperator implements IInfixParselet {
 					leftExpression,
 					rightExpression,
 					tokenText,
-					() => {
+					(
+						leftExpression: IExpression,
+						rightExpression: IExpression
+					) => {
 						const leftValue = leftExpression.eval()
 						const rightValue = rightExpression.eval()
 						if (
@@ -44,7 +47,10 @@ export class BinaryOperator implements IInfixParselet {
 					leftExpression,
 					rightExpression,
 					tokenText,
-					() => {
+					(
+						leftExpression: IExpression,
+						rightExpression: IExpression
+					) => {
 						const leftValue = leftExpression.eval()
 						const rightValue = rightExpression.eval()
 						if (
@@ -69,7 +75,10 @@ export class BinaryOperator implements IInfixParselet {
 					leftExpression,
 					rightExpression,
 					tokenText,
-					() => {
+					(
+						leftExpression: IExpression,
+						rightExpression: IExpression
+					) => {
 						const leftValue = leftExpression.eval()
 						const rightValue = rightExpression.eval()
 						if (
@@ -94,8 +103,10 @@ export class BinaryOperator implements IInfixParselet {
 					leftExpression,
 					rightExpression,
 					tokenText,
-					//@ts-ignore
-					() => {
+					(
+						leftExpression: IExpression,
+						rightExpression: IExpression
+					) => {
 						const leftValue = leftExpression.eval()
 						const rightValue = rightExpression.eval()
 						if (
@@ -120,79 +131,104 @@ export class BinaryOperator implements IInfixParselet {
 					leftExpression,
 					rightExpression,
 					tokenText,
-					//@ts-ignore
-					() => leftExpression.eval() && rightExpression.eval()
+					(
+						leftExpression: IExpression,
+						rightExpression: IExpression
+					) => leftExpression.eval() && rightExpression.eval()
 				)
 			case '||':
 				return new GenericOperatorExpression(
 					leftExpression,
 					rightExpression,
 					tokenText,
-					//@ts-ignore
-					() => leftExpression.eval() || rightExpression.eval()
+					(
+						leftExpression: IExpression,
+						rightExpression: IExpression
+					) => leftExpression.eval() || rightExpression.eval()
 				)
 			case '<':
 				return new GenericOperatorExpression(
 					leftExpression,
 					rightExpression,
 					tokenText,
-					//@ts-ignore
-					() => leftExpression.eval() < rightExpression.eval()
+					(
+						leftExpression: IExpression,
+						rightExpression: IExpression
+						//@ts-ignore
+					) => leftExpression.eval() < rightExpression.eval()
 				)
 			case '<=':
 				return new GenericOperatorExpression(
 					leftExpression,
 					rightExpression,
 					tokenText,
-					//@ts-ignore
-					() => leftExpression.eval() <= rightExpression.eval()
+					(
+						leftExpression: IExpression,
+						rightExpression: IExpression
+						//@ts-ignore
+					) => leftExpression.eval() <= rightExpression.eval()
 				)
 			case '>':
 				return new GenericOperatorExpression(
 					leftExpression,
 					rightExpression,
 					tokenText,
-					//@ts-ignore
-					() => leftExpression.eval() > rightExpression.eval()
+					(
+						leftExpression: IExpression,
+						rightExpression: IExpression
+						//@ts-ignore
+					) => leftExpression.eval() > rightExpression.eval()
 				)
 			case '>=':
 				return new GenericOperatorExpression(
 					leftExpression,
 					rightExpression,
 					tokenText,
-					//@ts-ignore
-					() => leftExpression.eval() >= rightExpression.eval()
+					(
+						leftExpression: IExpression,
+						rightExpression: IExpression
+						//@ts-ignore
+					) => leftExpression.eval() >= rightExpression.eval()
 				)
 			case '==':
 				return new GenericOperatorExpression(
 					leftExpression,
 					rightExpression,
 					tokenText,
-					//@ts-ignore
-					() => leftExpression.eval() === rightExpression.eval()
+					(
+						leftExpression: IExpression,
+						rightExpression: IExpression
+					) => leftExpression.eval() === rightExpression.eval()
 				)
 			case '!=':
 				return new GenericOperatorExpression(
 					leftExpression,
 					rightExpression,
 					tokenText,
-					//@ts-ignore
-					() => leftExpression.eval() !== rightExpression.eval()
+					(
+						leftExpression: IExpression,
+						rightExpression: IExpression
+					) => leftExpression.eval() !== rightExpression.eval()
 				)
 			case '??':
 				return new GenericOperatorExpression(
 					leftExpression,
 					rightExpression,
 					tokenText,
-					//@ts-ignore
-					() => leftExpression.eval() ?? rightExpression.eval()
+					(
+						leftExpression: IExpression,
+						rightExpression: IExpression
+					) => leftExpression.eval() ?? rightExpression.eval()
 				)
 			case '=':
 				return new GenericOperatorExpression(
 					leftExpression,
 					rightExpression,
 					tokenText,
-					() => {
+					(
+						leftExpression: IExpression,
+						rightExpression: IExpression
+					) => {
 						if (leftExpression.setPointer) {
 							leftExpression.setPointer(rightExpression.eval())
 							return 0

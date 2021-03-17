@@ -17,9 +17,9 @@ test('Parse & stringify statements', () => {
 		'return v.test ? v.x : v.y;': 'return v.test?v.x:v.y;',
 		'loop(10, {v.x = 1 + 2 * 4;}); return v.x;':
 			'loop(10,{v.x=1+2*4;});return v.x;',
-		'(1 + 4) * 4': '(1+4)*4',
+		'(v.x + v.y) * v.z': '(v.x+v.y)*v.z',
 	}
 
 	for (const [test, result] of Object.entries(tests))
-		expect(molang.parse(test).toString()).toMatch(result)
+		expect(molang.parse(test).toString()).toBe(result)
 })

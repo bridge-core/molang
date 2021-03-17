@@ -65,7 +65,9 @@ class CustomFunctionExpression extends Expression {
 		super()
 		functions.set(functionName, [
 			args,
-			functionBody.toString().slice(1, -1),
+			functionBody instanceof GroupExpression
+				? functionBody.allExpressions[0].toString()
+				: functionBody.toString(),
 		])
 	}
 

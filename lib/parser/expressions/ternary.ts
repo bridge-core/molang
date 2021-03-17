@@ -13,6 +13,13 @@ export class TernaryExpression extends Expression {
 	}
 
 	get allExpressions() {
+		if (this.leftExpression.isStatic())
+			return [
+				this.leftExpression,
+				this.leftExpression.eval()
+					? this.thenExpression
+					: this.elseExpression,
+			]
 		return [this.leftExpression, this.thenExpression, this.elseExpression]
 	}
 	setExpressionAt(index: number, expr: IExpression) {

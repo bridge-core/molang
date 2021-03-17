@@ -6,6 +6,7 @@ export interface IExpression {
 	readonly isReturn?: boolean
 	readonly isBreak?: boolean
 	readonly isContinue?: boolean
+	readonly allExpressions: IExpression[]
 
 	setFunctionCall?: (value: boolean) => void
 	setPointer?: (value: unknown) => void
