@@ -111,7 +111,9 @@ export class CustomMoLang {
 			return molang.parse(transformedAst.toString())
 		})
 
-		return molang.parse(ast.toString()).toString()
+		const finalAst = molang.parse(ast.toString())
+		molang.resolveStatic(finalAst)
+		return finalAst.toString()
 	}
 
 	reset() {

@@ -100,6 +100,12 @@ export class MoLang {
 		return abstractSyntaxTree
 	}
 
+	resolveStatic(ast: IExpression) {
+		ast.iterate((expr) => {
+			if (expr.isStatic()) return new StaticExpression(expr.eval())
+		})
+	}
+
 	getParser() {
 		return this.parser
 	}
