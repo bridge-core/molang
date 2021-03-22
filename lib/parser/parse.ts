@@ -80,7 +80,6 @@ export class Parser {
 
 		if (expected) {
 			if (token.getType() !== expected) {
-				console.log(token, this.lookAhead(1))
 				throw new Error(
 					`Expected token "${expected}" and found "${token.getType()}"`
 				)

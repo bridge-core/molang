@@ -10,10 +10,11 @@ export interface IExpression {
 
 	setFunctionCall?: (value: boolean) => void
 	setPointer?: (value: unknown) => void
+	setExpressionAt(index: number, expr: IExpression): void
 	eval(): unknown
 	isStatic(): boolean
-	iterate(cb: TIterateCallback): IExpression
-	_iterateHelper(cb: TIterateCallback): void
+	walk(cb: TIterateCallback): IExpression
+	iterate(cb: TIterateCallback, visited: Set<IExpression>): void
 }
 
 export abstract class Expression implements IExpression {
@@ -29,24 +30,26 @@ export abstract class Expression implements IExpression {
 	abstract allExpressions: IExpression[]
 	abstract setExpressionAt(index: number, expr: IExpression): void
 
-	iterate(cb: TIterateCallback): IExpression {
+	walk(cb: TIterateCallback, visited = new Set<IExpression>()): IExpression {
 		let expr = cb(this) ?? this
 
-		expr._iterateHelper(cb)
+		expr.iterate(cb, visited)
 
 		return expr
 	}
-	_iterateHelper(cb: TIterateCallback) {
+	iterate(cb: TIterateCallback, visited: Set<IExpression>) {
 		for (let i = 0; i < this.allExpressions.length; i++) {
 			const originalExpr = this.allExpressions[i]
-			const expr = cb(originalExpr)
+			if (visited.has(originalExpr)) continue
+			else visited.add(originalExpr)
 
-			if (expr) {
-				this.setExpressionAt(i, expr)
-				expr._iterateHelper(cb)
-			} else {
-				originalExpr._iterateHelper(cb)
-			}
+			const expr = cb(originalExpr) ?? originalExpr
+
+			if (expr !== originalExpr && visited.has(expr)) continue
+			else visited.add(expr)
+
+			this.setExpressionAt(i, expr)
+			expr.iterate(cb, visited)
 		}
 	}
 }

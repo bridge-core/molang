@@ -52,6 +52,7 @@ export class CustomMoLang {
 		const molang = new MoLang(
 			{},
 			{
+				useCache: false,
 				keepGroups: true,
 				useOptimizer: true,
 				useAgressiveStaticOptimizer: true,
@@ -60,7 +61,7 @@ export class CustomMoLang {
 
 		let functionCount = 0
 		let ast = molang.parse(source)
-		ast = ast.iterate((expr: any) => {
+		ast = ast.walk((expr: any) => {
 			// Only run code on function expressions which start with "f." or "function."
 			if (
 				expr.type !== 'FunctionExpression' ||
@@ -90,7 +91,7 @@ export class CustomMoLang {
 			}
 
 			// Replace arguments & "return" statement
-			const transformedAst = funcAst.iterate((expr: any) => {
+			const transformedAst = funcAst.walk((expr: any) => {
 				if (expr.type === 'ReturnExpression') {
 					expr.toString = function () {
 						return `${returnVarName}=${this.expression.toString()}`
@@ -108,7 +109,7 @@ export class CustomMoLang {
 				return argValues[args!.indexOf(argName)] ?? '0' //The value the user passed for the current argument
 			})
 
-			return molang.parse(transformedAst.toString())
+			return transformedAst
 		})
 
 		const finalAst = molang.parse(ast.toString())

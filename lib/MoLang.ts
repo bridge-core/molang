@@ -101,7 +101,7 @@ export class MoLang {
 	}
 
 	resolveStatic(ast: IExpression) {
-		ast.iterate((expr) => {
+		ast.walk((expr) => {
 			if (expr.isStatic()) return new StaticExpression(expr.eval())
 		})
 	}

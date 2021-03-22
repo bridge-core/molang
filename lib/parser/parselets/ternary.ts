@@ -10,11 +10,11 @@ export class TernaryParselet implements IInfixParselet {
 	constructor(public precedence = 0) {}
 
 	parse(parser: Parser, leftExpression: IExpression, token: Token) {
-		let thenExpr = parser.parseExpression(this.precedence - 1)
+		let thenExpr = parser.parseExpression(this.precedence)
 		let elseExpr: IExpression
 
 		if (parser.match('COLON')) {
-			elseExpr = parser.parseExpression(this.precedence - 1)
+			elseExpr = parser.parseExpression(this.precedence)
 		} else {
 			elseExpr = new NumberExpression(0)
 		}
