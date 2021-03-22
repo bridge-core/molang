@@ -8,8 +8,8 @@ import { ExecutionEnvironment } from '../env'
 import { IParserConfig } from '../main'
 
 export class Parser {
-	protected prefixParselets: Record<TTokenType, IPrefixParselet> = {}
-	protected infixParselets: Record<TTokenType, IInfixParselet> = {}
+	protected prefixParselets = new Map<TTokenType, IPrefixParselet>()
+	protected infixParselets = new Map<TTokenType, IInfixParselet>()
 	protected readTokens: Token[] = []
 	protected lastConsumed: Token = new Token('SOF', '', 0, 0)
 	protected tokenIterator = new Tokenizer()
@@ -37,7 +37,7 @@ export class Parser {
 		let token = this.consume()
 		if (token.getType() === 'EOF') return new NumberExpression(0)
 
-		const prefix = this.prefixParselets[token.getType()]
+		const prefix = this.prefixParselets.get(token.getType())
 		if (!prefix)
 			throw new Error(
 				`Cannot parse ${token.getType()} expression "${token.getType()}"`
@@ -53,7 +53,9 @@ export class Parser {
 		while (this.getPrecedence() > precedence) {
 			token = this.consume()
 
-			const infix = <IInfixParselet>this.infixParselets[token.getType()]
+			const infix = <IInfixParselet>(
+				this.infixParselets.get(token.getType())
+			)
 			if (!infix) console.log(token)
 			expressionLeft = infix.parse(this, expressionLeft, token)
 		}
@@ -62,7 +64,7 @@ export class Parser {
 	}
 
 	getPrecedence() {
-		const parselet = this.infixParselets[this.lookAhead(0)?.getType()]
+		const parselet = this.infixParselets.get(this.lookAhead(0)?.getType())
 		return parselet?.precedence ?? 0
 	}
 	getLastConsumed() {
@@ -107,16 +109,16 @@ export class Parser {
 	}
 
 	registerInfix(tokenType: TTokenType, infixParselet: IInfixParselet) {
-		this.infixParselets[tokenType] = infixParselet
+		this.infixParselets.set(tokenType, infixParselet)
 	}
 	registerPrefix(tokenType: TTokenType, prefixParselet: IPrefixParselet) {
-		this.prefixParselets[tokenType] = prefixParselet
+		this.prefixParselets.set(tokenType, prefixParselet)
 	}
 
 	getInfix(tokenType: TTokenType) {
-		return this.infixParselets[tokenType]
+		return this.infixParselets.get(tokenType)
 	}
 	getPrefix(tokenType: TTokenType) {
-		return this.prefixParselets[tokenType]
+		return this.prefixParselets.get(tokenType)
 	}
 }
