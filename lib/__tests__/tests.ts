@@ -52,6 +52,10 @@ const TESTS: [string, number | string][] = [
 	],
 	['v.x = 2; loop(10, { break; return 1; }); return v.x;', 2],
 	['{ variable.test = 1; variable.test_2 = 2; };', 0],
+	[
+		'{ ({ variable.test = 1; variable.test_2 = 2; }); variable.test_3 = 3; };',
+		0,
+	],
 
 	/**
 	 * Function calls & variable lookups
