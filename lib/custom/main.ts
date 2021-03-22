@@ -1,13 +1,14 @@
 import { ExecutionEnvironment } from '../env'
-import { IExpression, IParserConfig } from '../main'
-import { StaticExpression } from '../parser/expressions/static'
+import { IParserConfig } from '../main'
 import { MoLangParser } from '../parser/molang'
 import { Tokenizer } from '../tokenizer/main'
 import { CustomFunctionParselet } from './function'
 import { MoLang } from '../MoLang'
 import { StatementExpression } from '../parser/expressions/statement'
-import { GroupExpression } from '../parser/expressions/group'
 import { transformStatement } from './transformStatement'
+import { NameExpression } from '../parser/expressions/name'
+import { ReturnExpression } from '../parser/expressions/return'
+import { GenericOperatorExpression } from '../parser/expressions/genericOperator'
 
 export class CustomMoLangParser extends MoLangParser {
 	public readonly functions = new Map<string, [string[], string]>()
@@ -59,9 +60,9 @@ export class CustomMoLang {
 			}
 		)
 
-		let functionCount = 0
 		let totalScoped = 0
 		let ast = molang.parse(source)
+
 		ast = ast.walk((expr: any) => {
 			// Only run code on function expressions which start with "f." or "function."
 			if (
@@ -73,59 +74,69 @@ export class CustomMoLang {
 
 			const nameExpr = expr.name
 			const functionName = nameExpr.name.replace(/(f|function)\./g, '')
-			const returnVarName = `t.bridge_func_${functionCount++}`
 			const argValues = expr.args
 
 			let [args, functionBody] = this.functions.get(functionName) ?? []
 			if (!functionBody || !args) return
 
-			// Scope temp./t. variables to functions
-			const varNameMap = new Map<string, string>()
-			functionBody = functionBody.replace(
-				/(t|temp)\.(\w+)/g,
-				(match, prefix, argName) => {
-					let newName = varNameMap.get(argName)
-					if (newName) return newName
-
-					newName = `t.scvar${totalScoped++}`
-					varNameMap.set(argName, newName)
-					return newName
-				}
-			)
-
 			// Insert argument values
 			functionBody = functionBody.replace(
 				/(a|arg)\.(\w+)/g,
 				(match, prefix, argName) => {
-					return argValues[args!.indexOf(argName)]?.toString() ?? '0'
+					const val =
+						argValues[args!.indexOf(argName)]?.toString() ?? '0'
+
+					return val.replace(/(t|temp)\./, 'outer_temp.')
 				}
 			)
 
 			let funcAst = transformStatement(molang.parse(functionBody))
 			if (funcAst instanceof StatementExpression) {
-				funcAst = molang.parse(`({${functionBody}}+${returnVarName})`)
+				funcAst = molang.parse(`({${functionBody}}+t.return_value)`)
 			}
 
-			// Replace arguments & "return" statement
-			const transformedAst = funcAst.walk((expr: any) => {
-				if (expr.type === 'ReturnExpression') {
-					expr.toString = function () {
-						return `${returnVarName}=${this.expression.toString()}`
+			const varNameMap = new Map<string, string>()
+			funcAst = funcAst.walk((expr) => {
+				if (expr instanceof NameExpression) {
+					const fullName = expr.toString()
+					// Remove "a."/"t."/etc. from var name
+					let tmp = fullName.split('.')
+					const varType = tmp.shift()
+					const varName = tmp.join('.')
+
+					if (varType === 't' || varType === 'temp') {
+						// Scope temp./t. variables to functions
+						let newName = varNameMap.get(fullName)
+						if (!newName) {
+							newName = `t.scvar${totalScoped++}`
+							varNameMap.set(fullName, newName)
+						}
+
+						expr.setName(newName)
+					} else if (varType === 'outer_temp') {
+						expr.setName(`t.${varName}`)
 					}
-					return
-				} else if (
-					expr.type !== 'NameExpression' ||
-					(!expr.name.startsWith('arg.') &&
-						!expr.name.startsWith('a.'))
-				)
-					return
 
-				const argName = expr.name.replace(/(a|arg)\./g, '')
+					return undefined
+				} else if (expr instanceof ReturnExpression) {
+					const nameExpr = new NameExpression(
+						new ExecutionEnvironment({}),
+						't.return_value'
+					)
+					const returnValExpr = expr.allExpressions[0]
 
-				return argValues[args!.indexOf(argName)] ?? '0' //The value the user passed for the current argument
+					return new GenericOperatorExpression(
+						nameExpr,
+						returnValExpr,
+						'=',
+						() => {
+							nameExpr.setPointer(returnValExpr.eval())
+						}
+					)
+				}
 			})
 
-			return transformedAst
+			return funcAst
 		})
 
 		const finalAst = molang.parse(ast.toString())

@@ -28,7 +28,7 @@ export class FunctionExpression extends Expression {
 		const func = <(...args: unknown[]) => unknown>this.name.eval()
 		if (typeof func !== 'function')
 			throw new Error(
-				`${(<NameExpression>this.name).getAsString()} is not callable!`
+				`${(<NameExpression>this.name).toString()} is not callable!`
 			)
 		return func(...args)
 	}
