@@ -63,6 +63,12 @@ export class CustomMoLang {
 		let totalScoped = 0
 		let ast = molang.parse(source)
 
+		let isComplexExpression = false
+		if (ast instanceof StatementExpression) {
+			isComplexExpression = true
+		}
+
+		let containsComplexExpressions = false
 		ast = ast.walk((expr: any) => {
 			// Only run code on function expressions which start with "f." or "function."
 			if (
@@ -93,6 +99,8 @@ export class CustomMoLang {
 			let funcAst = transformStatement(molang.parse(functionBody))
 			if (funcAst instanceof StatementExpression) {
 				funcAst = molang.parse(`({${functionBody}}+t.return_value)`)
+
+				containsComplexExpressions = true
 			}
 
 			const varNameMap = new Map<string, string>()
@@ -141,7 +149,9 @@ export class CustomMoLang {
 
 		const finalAst = molang.parse(ast.toString())
 		molang.resolveStatic(finalAst)
-		return finalAst.toString()
+		return !isComplexExpression && containsComplexExpressions
+			? `return ${finalAst.toString()};`
+			: finalAst.toString()
 	}
 
 	reset() {

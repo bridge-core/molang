@@ -28,12 +28,12 @@ test('Custom syntax', () => {
 
 	expect(customMoLang.transform('f.pow(2, 2)')).toBe('4')
 	expect(customMoLang.transform('f.fibonacci(4)')).toBe(
-		'({t.scvar0=0;t.scvar1=0;loop(4,t.scvar0==0?{t.scvar0=1;}:{t.scvar2=t.scvar0;t.scvar0=t.scvar0+t.scvar1;t.scvar1=t.scvar2;});t.scvar3=t.scvar0;}+t.scvar3)'
+		'return ({t.scvar0=0;t.scvar1=0;loop(4,t.scvar0==0?{t.scvar0=1;}:{t.scvar2=t.scvar0;t.scvar0=t.scvar0+t.scvar1;t.scvar1=t.scvar2;});t.scvar3=t.scvar0;}+t.scvar3);'
 	)
 	expect(
 		customMoLang.transform('f.pow(2, f.pow(2,2)) + f.fibonacci(0)')
 	).toBe(
-		'16+({t.scvar0=0;t.scvar1=0;loop(0,t.scvar0==0?{t.scvar0=1;}:{t.scvar2=t.scvar0;t.scvar0=t.scvar0+t.scvar1;t.scvar1=t.scvar2;});t.scvar3=t.scvar0;}+t.scvar3)'
+		'return 16+({t.scvar0=0;t.scvar1=0;loop(0,t.scvar0==0?{t.scvar0=1;}:{t.scvar2=t.scvar0;t.scvar0=t.scvar0+t.scvar1;t.scvar1=t.scvar2;});t.scvar3=t.scvar0;}+t.scvar3);'
 	)
 	expect(customMoLang.transform('f.sq(2)')).toBe('(math.pow(2,2))')
 	expect(customMoLang.transform("f.sq(f.on_axis('x'))")).toBe(
@@ -41,6 +41,12 @@ test('Custom syntax', () => {
 	)
 
 	expect(customMoLang.transform('f.get_axis(t.axis)')).toBe(
-		'({t.axis==x?{t.scvar0=v.x;}:0;t.axis==y?{t.scvar0=v.y;}:0;t.scvar0=v.z;}+t.scvar0)'
+		'return ({t.axis==x?{t.scvar0=v.x;}:0;t.axis==y?{t.scvar0=v.y;}:0;t.scvar0=v.z;}+t.scvar0);'
+	)
+	expect(customMoLang.transform('t.x = 1; f.sq(2);')).toBe(
+		't.x=1;(math.pow(2,2));'
+	)
+	expect(customMoLang.transform('t.x = 1; return f.sq(2);')).toBe(
+		't.x=1;return (math.pow(2,2));'
 	)
 })
