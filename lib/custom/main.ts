@@ -60,6 +60,7 @@ export class CustomMoLang {
 		)
 
 		let functionCount = 0
+		let totalScoped = 0
 		let ast = molang.parse(source)
 		ast = ast.walk((expr: any) => {
 			// Only run code on function expressions which start with "f." or "function."
@@ -78,6 +79,21 @@ export class CustomMoLang {
 			let [args, functionBody] = this.functions.get(functionName) ?? []
 			if (!functionBody || !args) return
 
+			// Scope temp./t. variables to functions
+			const varNameMap = new Map<string, string>()
+			functionBody = functionBody.replace(
+				/(t|temp)\.(\w+)/g,
+				(match, prefix, argName) => {
+					let newName = varNameMap.get(argName)
+					if (newName) return newName
+
+					newName = `t.scvar${totalScoped++}`
+					varNameMap.set(argName, newName)
+					return newName
+				}
+			)
+
+			// Insert argument values
 			functionBody = functionBody.replace(
 				/(a|arg)\.(\w+)/g,
 				(match, prefix, argName) => {
