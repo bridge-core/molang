@@ -11,7 +11,7 @@ export declare class NameExpression extends Expression {
     isStatic(): boolean;
     setPointer(value: unknown): void;
     setFunctionCall(value?: boolean): void;
-    getAsString(): string;
+    setName(name: string): void;
     eval(): any;
     toString(): string;
 }

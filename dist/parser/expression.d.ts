@@ -6,10 +6,11 @@ export interface IExpression {
     readonly allExpressions: IExpression[];
     setFunctionCall?: (value: boolean) => void;
     setPointer?: (value: unknown) => void;
+    setExpressionAt(index: number, expr: IExpression): void;
     eval(): unknown;
     isStatic(): boolean;
-    iterate(cb: TIterateCallback): IExpression;
-    _iterateHelper(cb: TIterateCallback): void;
+    walk(cb: TIterateCallback): IExpression;
+    iterate(cb: TIterateCallback, visited: Set<IExpression>): void;
 }
 export declare abstract class Expression implements IExpression {
     abstract readonly type: string;
@@ -18,7 +19,7 @@ export declare abstract class Expression implements IExpression {
     toString(): string;
     abstract allExpressions: IExpression[];
     abstract setExpressionAt(index: number, expr: IExpression): void;
-    iterate(cb: TIterateCallback): IExpression;
-    _iterateHelper(cb: TIterateCallback): void;
+    walk(cb: TIterateCallback, visited?: Set<IExpression>): IExpression;
+    iterate(cb: TIterateCallback, visited: Set<IExpression>): void;
 }
 export declare type TIterateCallback = (expr: IExpression) => IExpression | undefined;

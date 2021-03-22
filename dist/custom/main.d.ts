@@ -1,4 +1,4 @@
-import { IExpression, IParserConfig } from '../main';
+import { IParserConfig } from '../main';
 import { MoLangParser } from '../parser/molang';
 export declare class CustomMoLangParser extends MoLangParser {
     readonly functions: Map<string, [string[], string]>;
@@ -9,7 +9,7 @@ export declare class CustomMoLang {
     protected parser: CustomMoLangParser;
     constructor(env: any);
     get functions(): Map<string, [string[], string]>;
-    parse(expression: string): IExpression;
+    parse(expression: string): import("../main").IExpression;
     transform(source: string): string;
     reset(): void;
 }
