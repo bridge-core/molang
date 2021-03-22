@@ -44,6 +44,9 @@ export class Tokenizer {
 		if (this.expression[this.i] === '#') {
 			const index = this.expression.indexOf('\n', this.i + 1)
 			this.i = index === -1 ? this.expression.length : index
+			this.currentLine++
+			this.lastColumns = this.i + 1
+			this.currentColumn = 0
 			return this.next()
 		}
 
