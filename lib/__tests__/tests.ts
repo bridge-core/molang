@@ -87,6 +87,9 @@ const TESTS: [string, number | string][] = [
 		'({ query.get_position ? return 0; variable.return_value = 1; } + variable.return_value)',
 		1,
 	],
+
+	// Test comments
+	['1; # return 0;\n return 2;', 2],
 ]
 
 describe('parse(string)', () => {

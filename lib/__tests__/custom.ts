@@ -16,6 +16,8 @@ test('Custom syntax', () => {
 			function('pow', 'base', 'exp', {
 				return a.exp == 0 ? 1 : a.base * f.pow(a.base, a.exp - 1);
 			});
+
+			# Comment test return 1; 
 			function('get_axis', 'axis', {
 				a.axis == 'x' ? return v.x;
 				a.axis == 'y' ? return v.y;

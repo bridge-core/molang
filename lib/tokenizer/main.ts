@@ -39,6 +39,14 @@ export class Tokenizer {
 			this.i++
 		}
 
+		// This is unnecessary for parsing simple, vanilla molang expressions
+		// Might make sense to move it into a "TokenizerWithComments" class in the future
+		if (this.expression[this.i] === '#') {
+			const index = this.expression.indexOf('\n', this.i + 1)
+			this.i = index === -1 ? this.expression.length : index
+			return this.next()
+		}
+
 		// Check tokens with two chars
 		let token =
 			this.i + 1 < this.expression.length
