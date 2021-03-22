@@ -8,8 +8,8 @@ import { ExecutionEnvironment } from '../env'
 import { IParserConfig } from '../main'
 
 export class Parser {
-	protected prefixParselets = new Map<TTokenType, IPrefixParselet>()
-	protected infixParselets = new Map<TTokenType, IInfixParselet>()
+	protected prefixParselets: Record<TTokenType, IPrefixParselet> = {}
+	protected infixParselets: Record<TTokenType, IInfixParselet> = {}
 	protected readTokens: Token[] = []
 	protected lastConsumed: Token = new Token('SOF', '', 0, 0)
 	protected tokenIterator = new Tokenizer()
@@ -37,26 +37,24 @@ export class Parser {
 		let token = this.consume()
 		if (token.getType() === 'EOF') return new NumberExpression(0)
 
-		const prefix = this.prefixParselets.get(token.getType())
+		const prefix = this.prefixParselets[token.getType()]
 		if (!prefix)
 			throw new Error(
 				`Cannot parse ${token.getType()} expression "${token.getType()}"`
 			)
 
 		let expressionLeft = prefix.parse(this, token)
-		if (expressionLeft.isReturn) return expressionLeft
 		return this.parseInfixExpression(expressionLeft, precedence)
 	}
 
 	parseInfixExpression(expressionLeft: IExpression, precedence = 0) {
 		let token
 
-		while (precedence < this.getPrecedence()) {
+		while (this.getPrecedence() > precedence) {
 			token = this.consume()
 
-			const infix = <IInfixParselet>(
-				this.infixParselets.get(token.getType())
-			)
+			const infix = <IInfixParselet>this.infixParselets[token.getType()]
+			if (!infix) console.log(token)
 			expressionLeft = infix.parse(this, expressionLeft, token)
 		}
 
@@ -64,7 +62,7 @@ export class Parser {
 	}
 
 	getPrecedence() {
-		const parselet = this.infixParselets.get(this.lookAhead(0)?.getType())
+		const parselet = this.infixParselets[this.lookAhead(0)?.getType()]
 		return parselet?.precedence ?? 0
 	}
 	getLastConsumed() {
@@ -80,6 +78,7 @@ export class Parser {
 
 		if (expected) {
 			if (token.getType() !== expected) {
+				console.log(token, this.lookAhead(1))
 				throw new Error(
 					`Expected token "${expected}" and found "${token.getType()}"`
 				)
@@ -108,16 +107,16 @@ export class Parser {
 	}
 
 	registerInfix(tokenType: TTokenType, infixParselet: IInfixParselet) {
-		this.infixParselets.set(tokenType, infixParselet)
+		this.infixParselets[tokenType] = infixParselet
 	}
 	registerPrefix(tokenType: TTokenType, prefixParselet: IPrefixParselet) {
-		this.prefixParselets.set(tokenType, prefixParselet)
+		this.prefixParselets[tokenType] = prefixParselet
 	}
 
 	getInfix(tokenType: TTokenType) {
-		return this.infixParselets.get(tokenType)
+		return this.infixParselets[tokenType]
 	}
 	getPrefix(tokenType: TTokenType) {
-		return this.prefixParselets.get(tokenType)
+		return this.prefixParselets[tokenType]
 	}
 }

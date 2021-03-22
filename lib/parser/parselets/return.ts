@@ -9,10 +9,10 @@ export class ReturnParselet implements IPrefixParselet {
 	constructor(public precedence = 0) {}
 
 	parse(parser: Parser, token: Token) {
-		const expr = parser.parseExpression(EPrecedence.STATEMENT)
+		const expr = parser.parseExpression(EPrecedence.STATEMENT + 1)
 
 		return new ReturnExpression(
-			parser.match('SEMICOLON') ? expr : new NumberExpression(0)
+			parser.match('SEMICOLON', false) ? expr : new NumberExpression(0)
 		)
 	}
 }

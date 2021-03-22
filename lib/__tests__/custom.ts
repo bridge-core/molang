@@ -7,10 +7,10 @@ test('Custom syntax', () => {
 		`
 			function('sq', 'base', { return math.pow(arg.base, 2); });
 			function('on_axis', 'axis', { return arg.axis == 'x' ? v.x : v.y; });
-			function('fibonacci', 'total', { 
+			function('fibonacci', 'total', {
 				t.current = 0;
-				t.prev = 0; 
-				loop(a.total, t.current == 0 ? {t.current = 1;} : {t.tmp = t.current; t.current = t.current + t.prev; t.prev = t.tmp;}); 
+				t.prev = 0;
+				loop(a.total, t.current == 0 ? {t.current = 1;} : {t.tmp = t.current; t.current = t.current + t.prev; t.prev = t.tmp;});
 				return t.current;
 			});
 			function('pow', 'base', 'exp', {

@@ -20,6 +20,7 @@ test('Parse & stringify statements', () => {
 		'(v.x + v.y) * v.z': '(v.x+v.y)*v.z',
 	}
 
-	for (const [test, result] of Object.entries(tests))
+	for (const [test, result] of Object.entries(tests)) {
 		expect(molang.parse(test).toString()).toBe(result)
+	}
 })

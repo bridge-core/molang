@@ -51,6 +51,7 @@ const TESTS: [string, number | string][] = [
 		30,
 	],
 	['v.x = 2; loop(10, { break; return 1; }); return v.x;', 2],
+	['{ variable.test = 1; variable.test_2 = 2; };', 0],
 
 	/**
 	 * Function calls & variable lookups
@@ -78,6 +79,10 @@ const TESTS: [string, number | string][] = [
 	['math.add(rider.get_length(texture.variants[0]) + 5, 6)', 12],
 	['query.get_position(0) >= 0 && query.get_position(0) <= 0', 1.0],
 	['!(1 + 3) && query.test_something_else', 0],
+	[
+		'({ query.get_position ? return 0; variable.return_value = 1; } + variable.return_value)',
+		1,
+	],
 ]
 
 describe('parse(string)', () => {

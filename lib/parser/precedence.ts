@@ -1,6 +1,7 @@
 export enum EPrecedence {
 	SCOPE = 1,
 	STATEMENT,
+
 	PROPERTY_ACCESS,
 	ARRAY_ACCESS,
 

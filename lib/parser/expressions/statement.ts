@@ -75,8 +75,7 @@ export class StatementExpression extends Expression {
 	toString() {
 		let str = ''
 		for (const expr of this.expressions) {
-			if (expr.isReturn) str += expr.toString()
-			else str += `${expr.toString()};`
+			str += `${expr.toString()};`
 		}
 
 		return str

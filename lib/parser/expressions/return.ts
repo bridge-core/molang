@@ -24,6 +24,6 @@ export class ReturnExpression extends Expression {
 	}
 
 	toString() {
-		return `return ${this.expression.toString()};`
+		return `return ${this.expression.toString()}`
 	}
 }

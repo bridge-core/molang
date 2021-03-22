@@ -9,35 +9,48 @@ export class StatementParselet implements IInfixParselet {
 	constructor(public precedence = 0) {}
 
 	parse(parser: Parser, left: IExpression, token: Token) {
-		if (parser.config.useOptimizer) {
-			if (left.isStatic())
-				left = new StaticExpression(left.eval(), left.isReturn)
-			if (left.isReturn) return left
+		if (left.isReturn) {
+			parser.match('SEMICOLON')
+
+			if (parser.config.useOptimizer && left.isStatic())
+				left = new StaticExpression(left.eval())
+			return new StatementExpression([left])
 		}
 
-		let expr
 		let expressions: IExpression[] = [left]
-		do {
-			expr = parser.parseExpression(this.precedence)
-			if (parser.config.useOptimizer) {
-				if (expr.isStatic()) {
-					if (
-						!expr.isReturn &&
-						parser.config.useAgressiveStaticOptimizer
-					)
-						continue
-					else expr = new StaticExpression(expr.eval(), expr.isReturn)
+
+		if (!parser.match('CURLY_RIGHT', false)) {
+			do {
+				let expr = parser.parseExpression(this.precedence)
+
+				if (parser.config.useOptimizer) {
+					if (expr.isStatic()) {
+						if (
+							parser.config.useAgressiveStaticOptimizer &&
+							!expr.isReturn
+						)
+							continue
+						expr = new StaticExpression(expr.eval(), expr.isReturn)
+					}
 				}
 
-				if (expr.isReturn) {
-					expressions.push(expr)
-					break
-				}
-			}
+				expressions.push(expr)
+			} while (
+				parser.match('SEMICOLON') &&
+				!parser.match('EOF') &&
+				!parser.match('CURLY_RIGHT', false)
+			)
+		}
 
-			expressions.push(expr)
-		} while (parser.match('SEMICOLON') || expr.isReturn)
+		parser.match('SEMICOLON')
 
-		return new StatementExpression(expressions)
+		const statementExpr = new StatementExpression(expressions)
+		if (parser.config.useOptimizer && statementExpr.isStatic()) {
+			return new StaticExpression(
+				statementExpr.eval(),
+				statementExpr.isReturn
+			)
+		}
+		return statementExpr
 	}
 }
