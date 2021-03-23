@@ -134,6 +134,10 @@ export class Tokenizer {
 			return token
 		}
 
+		if (this.hasNext()) {
+			this.i++
+			return this.next()
+		}
 		return new Token('EOF', '', this.currentColumn, this.currentLine)
 	}
 	hasNext() {
