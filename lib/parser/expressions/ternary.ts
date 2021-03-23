@@ -1,4 +1,5 @@
 import { Expression, IExpression } from '../expression'
+import { VoidExpression } from './void'
 
 export class TernaryExpression extends Expression {
 	type = 'TernaryExpression'
@@ -60,6 +61,8 @@ export class TernaryExpression extends Expression {
 	}
 
 	toString() {
+		if (this.elseExpression instanceof VoidExpression)
+			return `${this.leftExpression.toString()}?${this.thenExpression.toString()}`
 		return `${this.leftExpression.toString()}?${this.thenExpression.toString()}:${this.elseExpression.toString()}`
 	}
 }

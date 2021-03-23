@@ -1,4 +1,4 @@
-import { Expression, IExpression } from '../expression'
+import { Expression } from '../expression'
 
 export class NumberExpression extends Expression {
 	type = 'NumberExpression'
@@ -18,5 +18,8 @@ export class NumberExpression extends Expression {
 
 	eval() {
 		return this.value
+	}
+	toString() {
+		return '' + this.value
 	}
 }

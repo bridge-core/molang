@@ -3,9 +3,9 @@ import { TTokenType, Token } from '../tokenizer/token'
 import { IPrefixParselet } from './parselets/prefix'
 import { IInfixParselet } from './parselets/infix'
 import { IExpression } from './expression'
-import { NumberExpression } from './expressions/number'
 import { ExecutionEnvironment } from '../env'
 import { IParserConfig } from '../main'
+import { VoidExpression } from './expressions/void'
 
 export class Parser {
 	protected prefixParselets = new Map<TTokenType, IPrefixParselet>()
@@ -35,7 +35,7 @@ export class Parser {
 
 	parseExpression(precedence = 0): IExpression {
 		let token = this.consume()
-		if (token.getType() === 'EOF') return new NumberExpression(0)
+		if (token.getType() === 'EOF') return new VoidExpression()
 
 		const prefix = this.prefixParselets.get(token.getType())
 		if (!prefix)

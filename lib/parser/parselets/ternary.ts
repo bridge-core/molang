@@ -3,7 +3,7 @@ import { Parser } from '../parse'
 import { IExpression } from '../expression'
 import { Token } from '../../tokenizer/token'
 import { TernaryExpression } from '../expressions/ternary'
-import { NumberExpression } from '../expressions/number'
+import { VoidExpression } from '../expressions/void'
 
 export class TernaryParselet implements IInfixParselet {
 	exprName = 'Ternary'
@@ -16,7 +16,7 @@ export class TernaryParselet implements IInfixParselet {
 		if (parser.match('COLON')) {
 			elseExpr = parser.parseExpression(this.precedence)
 		} else {
-			elseExpr = new NumberExpression(0)
+			elseExpr = new VoidExpression()
 		}
 
 		if (parser.config.useOptimizer && leftExpression.isStatic()) {
