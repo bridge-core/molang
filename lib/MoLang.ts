@@ -1,6 +1,7 @@
 import { ExecutionEnvironment } from './env'
 import { IExpression, IParserConfig } from './main'
 import { StaticExpression } from './parser/expressions/static'
+import { StringExpression } from './parser/expressions/string'
 import { MoLangParser } from './parser/molang'
 
 export class MoLang {
@@ -102,6 +103,8 @@ export class MoLang {
 
 	resolveStatic(ast: IExpression) {
 		ast.walk((expr) => {
+			if (expr instanceof StringExpression) return
+
 			if (expr.isStatic()) return new StaticExpression(expr.eval())
 		})
 	}

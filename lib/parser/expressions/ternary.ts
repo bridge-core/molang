@@ -30,16 +30,27 @@ export class TernaryExpression extends Expression {
 	}
 
 	get isReturn() {
+		if (this.leftResult === undefined)
+			return this.thenExpression.isReturn && this.elseExpression.isReturn
 		return this.leftResult
 			? this.thenExpression.isReturn
 			: this.elseExpression.isReturn
 	}
+	get hasReturn() {
+		return this.thenExpression.isReturn || this.elseExpression.isReturn
+	}
 	get isContinue() {
+		if (this.leftResult === undefined)
+			return (
+				this.thenExpression.isContinue && this.elseExpression.isContinue
+			)
 		return this.leftResult
 			? this.thenExpression.isContinue
 			: this.elseExpression.isContinue
 	}
 	get isBreak() {
+		if (this.leftResult === undefined)
+			return this.thenExpression.isBreak && this.elseExpression.isBreak
 		return this.leftResult
 			? this.thenExpression.isBreak
 			: this.elseExpression.isBreak

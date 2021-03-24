@@ -1,8 +1,10 @@
 import { Expression, IExpression } from '../expression'
+import { StaticExpression } from './static'
+import { VoidExpression } from './void'
 
 export class StatementExpression extends Expression {
 	type = 'StatementExpression'
-	protected didReturn = false
+	protected didReturn?: boolean = undefined
 	protected wasLoopBroken = false
 	protected wasLoopContinued = false
 
@@ -18,7 +20,19 @@ export class StatementExpression extends Expression {
 	}
 
 	get isReturn() {
-		return this.didReturn
+		if (this.didReturn !== undefined) return this.didReturn
+
+		// This breaks scope vs. statement parsing for some reason
+		let i = 0
+		while (i < this.expressions.length) {
+			if (this.expressions[i].isReturn) {
+				this.didReturn = true
+				return true
+			}
+			i++
+		}
+		this.didReturn = false
+		return false
 	}
 
 	get isBreak() {
@@ -68,13 +82,14 @@ export class StatementExpression extends Expression {
 		return 0
 	}
 
-	getExpression() {
-		return this.expressions[0]
-	}
-
 	toString() {
 		let str = ''
 		for (const expr of this.expressions) {
+			if (
+				expr instanceof VoidExpression ||
+				(expr instanceof StaticExpression && !expr.isReturn)
+			)
+				continue
 			str += `${expr.toString()};`
 		}
 

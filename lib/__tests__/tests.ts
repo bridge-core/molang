@@ -84,7 +84,7 @@ const TESTS: [string, number | string][] = [
 	['query.get_position(0) >= 0 && query.get_position(0) <= 0', 1.0],
 	['!(1 + 3) && query.test_something_else', 0],
 	[
-		'({ query.get_position ? return 0; variable.return_value = 1; } + variable.return_value)',
+		'({ query.get_position ? {return 0;}; variable.return_value = 1; } + variable.return_value)',
 		1,
 	],
 

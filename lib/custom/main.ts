@@ -9,6 +9,10 @@ import { transformStatement } from './transformStatement'
 import { NameExpression } from '../parser/expressions/name'
 import { ReturnExpression } from '../parser/expressions/return'
 import { GenericOperatorExpression } from '../parser/expressions/genericOperator'
+import { TernaryExpression } from '../parser/expressions/ternary'
+import { IExpression } from '../parser/expression'
+import { VoidExpression } from '../parser/expressions/void'
+import { GroupExpression } from '../parser/expressions/group'
 
 export class CustomMoLangParser extends MoLangParser {
 	public readonly functions = new Map<string, [string[], string]>()
@@ -141,6 +145,30 @@ export class CustomMoLang {
 							nameExpr.setPointer(returnValExpr.eval())
 						}
 					)
+				} else if (expr instanceof StatementExpression) {
+					// Make early returns work correctly by adjusting ternary statements which contain return statements
+					const expressions: IExpression[] = []
+
+					for (let i = 0; i < expr.allExpressions.length; i++) {
+						const currExpr = expr.allExpressions[i]
+
+						if (
+							currExpr instanceof TernaryExpression &&
+							currExpr.hasReturn
+						) {
+							handleTernary(
+								currExpr,
+								expr.allExpressions.slice(i + 1)
+							)
+
+							expressions.push(currExpr)
+							break
+						}
+
+						expressions.push(currExpr)
+					}
+
+					return new StatementExpression(expressions)
 				}
 			})
 
@@ -157,4 +185,37 @@ export class CustomMoLang {
 	reset() {
 		this.functions.clear()
 	}
+}
+
+function handleTernary(
+	returnTernary: TernaryExpression,
+	currentExpressions: IExpression[]
+) {
+	// If & else branch end with return statements -> we can omit everything after the ternary
+	if (returnTernary.isReturn) return
+
+	const notReturningBranchIndex = returnTernary.allExpressions[2].isReturn
+		? 1
+		: 2
+	const notReturningBranch =
+		returnTernary.allExpressions[notReturningBranchIndex]
+
+	if (!(notReturningBranch instanceof VoidExpression)) {
+		if (
+			notReturningBranch instanceof GroupExpression &&
+			notReturningBranch.allExpressions[0] instanceof StatementExpression
+		) {
+			currentExpressions.unshift(...notReturningBranch.allExpressions)
+		} else {
+			currentExpressions.unshift(notReturningBranch)
+		}
+	}
+	if (currentExpressions.length > 0)
+		returnTernary.setExpressionAt(
+			notReturningBranchIndex,
+			new GroupExpression(
+				new StatementExpression(currentExpressions),
+				'{}'
+			)
+		)
 }

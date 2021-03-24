@@ -20,6 +20,12 @@ export class GroupExpression extends Expression {
 	get isReturn() {
 		return this.expression.isReturn
 	}
+	get isBreak() {
+		return this.expression.isBreak
+	}
+	get isContinue() {
+		return this.expression.isContinue
+	}
 
 	eval() {
 		return this.expression.eval()

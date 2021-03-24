@@ -18,4 +18,8 @@ export class StaticExpression extends Expression {
 	eval() {
 		return this.value
 	}
+	toString() {
+		if (this.isReturn) return `return ${this.value}`
+		return '' + this.value
+	}
 }

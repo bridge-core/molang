@@ -23,6 +23,36 @@ test('Custom syntax', () => {
 				a.axis == 'y' ? { return v.y; };
 				return v.z;
 			});
+			function('pi', {
+				return math.pi;
+			});
+			function('early_return', 'return_0', {
+				a.return_0 ? {
+					return 0;
+				};
+				return 1;
+			});
+			function('dead_end', 'return_0', {
+				a.return_0 ? {
+					return 0;
+				} : {
+					return 1;
+				};
+				t.test = 0;
+				return t.test;
+			});
+			function('complex_early_return', 'return_0', {
+				a.return_0 ? {
+					a.return_0 > 1 ? {
+						return a.return_0;
+					};
+					return 0;
+				};
+				a.return_0 == 1 ? {
+					return 2;
+				};
+				return 1;
+			});
 		`
 	)
 
@@ -41,12 +71,29 @@ test('Custom syntax', () => {
 	)
 
 	expect(customMoLang.transform('f.get_axis(t.axis)')).toBe(
-		'return ({t.axis==x?{t.scvar0=v.x;}:0;t.axis==y?{t.scvar0=v.y;}:0;t.scvar0=v.z;}+t.scvar0);'
+		"return ({t.axis=='x'?{t.scvar0=v.x;}:{t.axis=='y'?{t.scvar0=v.y;}:{t.scvar0=v.z;};};}+t.scvar0);"
 	)
 	expect(customMoLang.transform('t.x = 1; f.sq(2);')).toBe(
 		't.x=1;(math.pow(2,2));'
 	)
 	expect(customMoLang.transform('t.x = 1; return f.sq(2);')).toBe(
 		't.x=1;return (math.pow(2,2));'
+	)
+	expect(customMoLang.transform('f.pi()')).toBe('(math.pi)')
+	expect(customMoLang.transform('f.early_return(v.is_true)')).toBe(
+		'return ({v.is_true?{t.scvar0=0;}:{t.scvar0=1;};}+t.scvar0);'
+	)
+	expect(customMoLang.transform('f.early_return(v.x)')).toBe(
+		'return ({v.x?{t.scvar0=0;}:{t.scvar0=1;};}+t.scvar0);'
+	)
+	// TODO: Once temp variable elimination is in, this should just return '1'
+	expect(customMoLang.transform('f.early_return(0)')).toBe(
+		'return ({t.scvar0=1;}+t.scvar0);'
+	)
+	expect(customMoLang.transform('f.dead_end(v.x)')).toBe(
+		'return ({v.x?{t.scvar0=0;}:{t.scvar0=1;};}+t.scvar0);'
+	)
+	expect(customMoLang.transform('f.complex_early_return(v.x)')).toBe(
+		'return ({v.x?{v.x>1?{t.scvar0=v.x;}:{t.scvar0=0;};}:{v.x==1?{t.scvar0=2;}:{t.scvar0=1;};};}+t.scvar0);'
 	)
 })

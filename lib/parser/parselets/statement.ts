@@ -9,15 +9,10 @@ export class StatementParselet implements IInfixParselet {
 	constructor(public precedence = 0) {}
 
 	parse(parser: Parser, left: IExpression, token: Token) {
-		if (left.isReturn) {
-			parser.match('SEMICOLON')
+		if (parser.config.useOptimizer && left.isStatic())
+			left = new StaticExpression(left.eval())
 
-			if (parser.config.useOptimizer && left.isStatic())
-				left = new StaticExpression(left.eval())
-			return new StatementExpression([left])
-		}
-
-		let expressions: IExpression[] = [left]
+		const expressions: IExpression[] = [left]
 
 		if (!parser.match('CURLY_RIGHT', false)) {
 			do {
@@ -45,12 +40,12 @@ export class StatementParselet implements IInfixParselet {
 		parser.match('SEMICOLON')
 
 		const statementExpr = new StatementExpression(expressions)
-		if (parser.config.useOptimizer && statementExpr.isStatic()) {
-			return new StaticExpression(
-				statementExpr.eval(),
-				statementExpr.isReturn
-			)
-		}
+		// if (parser.config.useOptimizer && statementExpr.isStatic()) {
+		// 	return new StaticExpression(
+		// 		statementExpr.eval(),
+		// 		statementExpr.isReturn
+		// 	)
+		// }
 		return statementExpr
 	}
 }

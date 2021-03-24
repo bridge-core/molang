@@ -38,10 +38,11 @@ export class Parser {
 		if (token.getType() === 'EOF') return new VoidExpression()
 
 		const prefix = this.prefixParselets.get(token.getType())
-		if (!prefix)
+		if (!prefix) {
 			throw new Error(
 				`Cannot parse ${token.getType()} expression "${token.getType()}"`
 			)
+		}
 
 		let expressionLeft = prefix.parse(this, token)
 		return this.parseInfixExpression(expressionLeft, precedence)
@@ -56,7 +57,6 @@ export class Parser {
 			const infix = <IInfixParselet>(
 				this.infixParselets.get(token.getType())
 			)
-			if (!infix) console.log(token)
 			expressionLeft = infix.parse(this, expressionLeft, token)
 		}
 
