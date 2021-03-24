@@ -19,7 +19,10 @@ export class StaticExpression extends Expression {
 		return this.value
 	}
 	toString() {
-		if (this.isReturn) return `return ${this.value}`
-		return '' + this.value
+		let val = this.value
+		if (typeof val === 'string') val = `'${val}'`
+
+		if (this.isReturn) return `return ${val}`
+		return '' + val
 	}
 }

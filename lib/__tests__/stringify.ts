@@ -19,6 +19,9 @@ test('Parse & stringify statements', () => {
 		'loop(10, {v.x = 1 + 2 * 4;}); return v.x;':
 			'loop(10,{v.x=1+2*4;});return v.x;',
 		'(v.x + v.y) * v.z': '(v.x+v.y)*v.z',
+		"1 ? '1' : 'other'; return 1;": 'return 1;',
+		"return 1 ? '1' : 'other';": "return '1';",
+		"1 ? '1' : 'other'": "'1'",
 	}
 
 	for (const [test, result] of Object.entries(tests)) {
