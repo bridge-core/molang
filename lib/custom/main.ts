@@ -163,6 +163,9 @@ export class CustomMoLang {
 
 							expressions.push(currExpr)
 							break
+						} else if (currExpr.isReturn) {
+							expressions.push(currExpr)
+							break
 						}
 
 						expressions.push(currExpr)
