@@ -1,4 +1,4 @@
-import { Tokenizer } from './tokenizer/main'
+import { Tokenizer } from './tokenizer/Tokenizer'
 
 /**
  * How the parser and interpreter should handle your MoLang expression
@@ -63,7 +63,7 @@ export interface IParserConfig {
 	keepGroups: boolean
 }
 
-export { Tokenizer } from './tokenizer/main'
+export { Tokenizer } from './tokenizer/Tokenizer'
 export { IExpression } from './parser/expression'
 export { CustomMoLang } from './custom/main'
 export { MoLang } from './MoLang'

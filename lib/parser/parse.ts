@@ -1,4 +1,4 @@
-import { Tokenizer } from '../tokenizer/main'
+import { Tokenizer } from '../tokenizer/Tokenizer'
 import { TTokenType, Token } from '../tokenizer/token'
 import { IPrefixParselet } from './parselets/prefix'
 import { IInfixParselet } from './parselets/infix'

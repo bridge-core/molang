@@ -1,7 +1,7 @@
 import { ExecutionEnvironment } from '../env'
 import { IParserConfig } from '../main'
 import { MoLangParser } from '../parser/molang'
-import { Tokenizer } from '../tokenizer/main'
+import { Tokenizer } from '../tokenizer/Tokenizer'
 import { CustomFunctionParselet } from './function'
 import { MoLang } from '../MoLang'
 import { StatementExpression } from '../parser/expressions/statement'

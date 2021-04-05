@@ -1,11 +1,11 @@
 //@ts-ignore
 import MolangJS from 'molangjs'
 import { MoLang } from '../main'
-import { Tokenizer } from '../tokenizer/main'
+import { Tokenizer } from '../tokenizer/Tokenizer'
 
-const iterations = 1000000
+const iterations = 100000
 const expression =
-	'return 0; ariable.hand_bob = query.life_time < 0.01 ? 0.0 : variable.hand_bob + ((query.is_on_ground && query.is_alive ? math.clamp(math.sqrt(math.pow(query.position_delta(0), 2.0) + math.pow(query.position_delta(2), 2.0)), 0.0, 0.1) : 0.0) - variable.hand_bob) * 0.02;'
+	'variable.hand_bob = query.life_time < 0.01 ? 0.0 : variable.hand_bob + ((query.is_on_ground && query.is_alive ? math.clamp(math.sqrt(math.pow(query.position_delta(0), 2.0) + math.pow(query.position_delta(2), 2.0)), 0.0, 0.1) : 0.0) - variable.hand_bob) * 0.02;'
 
 const env = {
 	'variable.hand_bob': 0,
