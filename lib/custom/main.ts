@@ -19,7 +19,6 @@ export class CustomMoLangParser extends MoLangParser {
 
 	constructor(config: Partial<IParserConfig>) {
 		super(config)
-
 		this.registerPrefix('FUNCTION', new CustomFunctionParselet())
 	}
 
@@ -37,6 +36,8 @@ export class CustomMoLang {
 			useOptimizer: true,
 			useAgressiveStaticOptimizer: true,
 			keepGroups: true,
+			earlyReturnsSkipParsing: false,
+			earlyReturnsSkipTokenization: false,
 		})
 		this.parser.setExecutionEnvironment(new ExecutionEnvironment(env))
 		this.parser.setTokenizer(new Tokenizer(new Set(['function'])))
@@ -61,6 +62,8 @@ export class CustomMoLang {
 				keepGroups: true,
 				useOptimizer: true,
 				useAgressiveStaticOptimizer: true,
+				earlyReturnsSkipParsing: true,
+				earlyReturnsSkipTokenization: false,
 			}
 		)
 

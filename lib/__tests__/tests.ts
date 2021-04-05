@@ -29,6 +29,7 @@ const TESTS: [string, number | string][] = [
 	['0 ? 1 : 2; return 1;', 1],
 	["(1 && 0) + 1 ? 'true' : 'false'", 'true'],
 	["!(1 && 0) ? 'true' : 'false'", 'true'],
+	['v.x ?? 1', 1],
 
 	/**
 	 * Advanced syntax: Loops, break, continue & scope
@@ -92,46 +93,45 @@ const TESTS: [string, number | string][] = [
 	['1; # return 0;\n return 2;', 2],
 ]
 
-describe('parse(string)', () => {
-	const molang = new MoLang(
-		{
-			test(n1: number, n2: number) {
-				return n1 + n2
-			},
-			length(arr: unknown[]) {
-				return arr.length
-			},
-			variable: {},
-			query: {
-				get_equipped_item_name(slot: number) {
-					return 'diamond_sword_' + slot
-				},
-				get_position() {
-					return 0
-				},
-			},
-			texture: {
-				mark_variants: [],
-				variants: ['1', 2, 3, 4, 5, 6, 6],
-				skin_id: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-			},
-			math: {
-				add(a: number, b: number) {
-					return a + b
-				},
-			},
-			rider: {
-				slot: 1,
-				is(id: number) {
-					return id
-				},
-				get_length(str: string) {
-					return str.length
-				},
-			},
+const env = {
+	test(n1: number, n2: number) {
+		return n1 + n2
+	},
+	length(arr: unknown[]) {
+		return arr.length
+	},
+	variable: {},
+	query: {
+		get_equipped_item_name(slot: number) {
+			return 'diamond_sword_' + slot
 		},
-		{ useOptimizer: false }
-	)
+		get_position() {
+			return 0
+		},
+	},
+	texture: {
+		mark_variants: [],
+		variants: ['1', 2, 3, 4, 5, 6, 6],
+		skin_id: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+	},
+	math: {
+		add(a: number, b: number) {
+			return a + b
+		},
+	},
+	rider: {
+		slot: 1,
+		is(id: number) {
+			return id
+		},
+		get_length(str: string) {
+			return str.length
+		},
+	},
+}
+
+describe('parse(string)', () => {
+	const molang = new MoLang(env, { useOptimizer: false })
 
 	TESTS.forEach(([t, res]) => {
 		test(`Optimizer<false>: "${t}" => ${res}`, () => {

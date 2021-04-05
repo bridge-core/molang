@@ -9,7 +9,13 @@ export class ScopeParselet implements IPrefixParselet {
 	parse(parser: Parser, token: Token) {
 		let expr = parser.parseExpression(this.precedence)
 
-		parser.consume('CURLY_RIGHT')
+		if (
+			parser.config.useOptimizer &&
+			parser.config.earlyReturnsSkipTokenization &&
+			expr.isReturn
+		)
+			parser.match('CURLY_RIGHT')
+		else parser.consume('CURLY_RIGHT')
 
 		return parser.config.keepGroups ? new GroupExpression(expr, '{}') : expr
 	}

@@ -126,105 +126,11 @@ export class BinaryOperator implements IInfixParselet {
 						return leftValue / rightValue
 					}
 				)
-			case '&&':
+			case '=': {
 				return new GenericOperatorExpression(
 					leftExpression,
 					rightExpression,
-					tokenText,
-					(
-						leftExpression: IExpression,
-						rightExpression: IExpression
-					) => leftExpression.eval() && rightExpression.eval()
-				)
-			case '||':
-				return new GenericOperatorExpression(
-					leftExpression,
-					rightExpression,
-					tokenText,
-					(
-						leftExpression: IExpression,
-						rightExpression: IExpression
-					) => leftExpression.eval() || rightExpression.eval()
-				)
-			case '<':
-				return new GenericOperatorExpression(
-					leftExpression,
-					rightExpression,
-					tokenText,
-					(
-						leftExpression: IExpression,
-						rightExpression: IExpression
-						//@ts-ignore
-					) => leftExpression.eval() < rightExpression.eval()
-				)
-			case '<=':
-				return new GenericOperatorExpression(
-					leftExpression,
-					rightExpression,
-					tokenText,
-					(
-						leftExpression: IExpression,
-						rightExpression: IExpression
-						//@ts-ignore
-					) => leftExpression.eval() <= rightExpression.eval()
-				)
-			case '>':
-				return new GenericOperatorExpression(
-					leftExpression,
-					rightExpression,
-					tokenText,
-					(
-						leftExpression: IExpression,
-						rightExpression: IExpression
-						//@ts-ignore
-					) => leftExpression.eval() > rightExpression.eval()
-				)
-			case '>=':
-				return new GenericOperatorExpression(
-					leftExpression,
-					rightExpression,
-					tokenText,
-					(
-						leftExpression: IExpression,
-						rightExpression: IExpression
-						//@ts-ignore
-					) => leftExpression.eval() >= rightExpression.eval()
-				)
-			case '==':
-				return new GenericOperatorExpression(
-					leftExpression,
-					rightExpression,
-					tokenText,
-					(
-						leftExpression: IExpression,
-						rightExpression: IExpression
-					) => leftExpression.eval() === rightExpression.eval()
-				)
-			case '!=':
-				return new GenericOperatorExpression(
-					leftExpression,
-					rightExpression,
-					tokenText,
-					(
-						leftExpression: IExpression,
-						rightExpression: IExpression
-					) => leftExpression.eval() !== rightExpression.eval()
-				)
-			case '??':
-				return new GenericOperatorExpression(
-					leftExpression,
-					rightExpression,
-					tokenText,
-					(
-						leftExpression: IExpression,
-						rightExpression: IExpression
-					) => leftExpression.eval() ?? rightExpression.eval()
-				)
-			case '=':
-				return new GenericOperatorExpression(
-					leftExpression,
-					rightExpression,
-					tokenText,
+					'=',
 					(
 						leftExpression: IExpression,
 						rightExpression: IExpression
@@ -239,6 +145,8 @@ export class BinaryOperator implements IInfixParselet {
 						}
 					}
 				)
+			}
+
 			default:
 				throw new Error(`Operator not implemented`)
 		}

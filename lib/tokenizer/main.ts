@@ -25,6 +25,7 @@ export class Tokenizer {
 
 	next(): Token {
 		this.currentColumn = this.i - this.lastColumns
+
 		while (
 			this.i < this.expression.length &&
 			(this.expression[this.i] === ' ' ||
@@ -50,26 +51,8 @@ export class Tokenizer {
 			return this.next()
 		}
 
-		// Check tokens with two chars
-		let token =
-			this.i + 1 < this.expression.length
-				? TokenTypes[
-						this.expression[this.i] + this.expression[this.i + 1]
-				  ]
-				: undefined
-
-		if (token) {
-			this.i++
-			return new Token(
-				token,
-				this.expression[this.i - 1] + this.expression[this.i++],
-				this.currentColumn,
-				this.currentLine
-			)
-		}
-
 		// Check tokens with one char
-		token = TokenTypes[this.expression[this.i]]
+		let token = TokenTypes[this.expression[this.i]]
 		if (token) {
 			return new Token(
 				token,

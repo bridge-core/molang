@@ -35,10 +35,19 @@ export interface IParserConfig {
 	 * Default: `true`
 	 */
 	useAgressiveStaticOptimizer: boolean
+
 	/**
-	 * Partially resolve variables upon parsing if they're defined inside of the provided environment
+	 * This options makes early return statements skip all parsing work completely
+	 *
+	 * Default: true
 	 */
-	partialResolveOnParse: boolean
+	earlyReturnsSkipParsing: boolean
+	/**
+	 * This options makes early return statements skip all tokenization work completely if earlyReturnsSkipParsing is set to true
+	 *
+	 * Default: true
+	 */
+	earlyReturnsSkipTokenization: boolean
 	/**
 	 * Tokenizer to use for tokenizing the expression
 	 */

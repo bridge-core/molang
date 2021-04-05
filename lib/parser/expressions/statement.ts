@@ -25,7 +25,11 @@ export class StatementExpression extends Expression {
 		// This breaks scope vs. statement parsing for some reason
 		let i = 0
 		while (i < this.expressions.length) {
-			if (this.expressions[i].isReturn) {
+			const expr = this.expressions[i]
+
+			if (expr.isBreak) return false
+			if (expr.isContinue) return false
+			if (expr.isReturn) {
 				this.didReturn = true
 				return true
 			}

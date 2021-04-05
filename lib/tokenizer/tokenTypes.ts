@@ -1,7 +1,6 @@
 export const TokenTypes: Record<string, string> = {
 	'!': 'BANG',
-	'!=': 'NOT_EQUALS',
-	'&&': 'AND',
+	'&': 'AND',
 	'(': 'LEFT_PARENT',
 	')': 'RIGHT_PARENT',
 	'*': 'ASTERISK',
@@ -12,17 +11,13 @@ export const TokenTypes: Record<string, string> = {
 	':': 'COLON',
 	';': 'SEMICOLON',
 	'<': 'SMALLER',
-	'<=': 'SMALLER_OR_EQUALS',
-	'=': 'ASSIGN',
-	'==': 'EQUALS',
+	'=': 'EQUALS',
 	'>': 'GREATER',
-	'>=': 'GREATER_OR_EQUALS',
 	'?': 'QUESTION',
-	'??': 'NULLISH_COALESCING',
 	'[': 'ARRAY_LEFT',
 	']': 'ARRAY_RIGHT',
 	'{': 'CURLY_LEFT',
-	'||': 'OR',
+	'|': 'OR',
 	'}': 'CURLY_RIGHT',
 }
 

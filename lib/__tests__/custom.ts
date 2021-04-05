@@ -54,7 +54,7 @@ test('Custom syntax', () => {
 				return 1;
 			});
 			function('simple_early_return', 'return_0', {
-				return 1;
+				return 3;
 				a.return_0 ? {
 					a.return_0 > 1 ? {
 						return a.return_0;
@@ -109,7 +109,5 @@ test('Custom syntax', () => {
 	expect(customMoLang.transform('f.complex_early_return(v.x)')).toBe(
 		'return ({v.x?{v.x>1?{t.scvar0=v.x;}:{t.scvar0=0;};}:{v.x==1?{t.scvar0=2;}:{t.scvar0=1;};};}+t.scvar0);'
 	)
-	expect(customMoLang.transform('f.simple_early_return(v.x)')).toBe(
-		'return ({t.scvar0=1;}+t.scvar0);'
-	)
+	expect(customMoLang.transform('f.simple_early_return(v.x)')).toBe('3')
 })

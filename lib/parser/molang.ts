@@ -5,7 +5,6 @@ import { PrefixOperator } from './parselets/prefix'
 import { NumberParselet } from './parselets/number'
 import { NameParselet } from './parselets/name'
 import { GroupParselet } from './parselets/groupParselet'
-import { TernaryParselet } from './parselets/ternary'
 import { ReturnParselet } from './parselets/Return'
 import { StatementParselet } from './parselets/statement'
 import { StringParselet } from './parselets/string'
@@ -18,6 +17,13 @@ import { ContinueParselet } from './parselets/continue'
 import { BreakParselet } from './parselets/break'
 import { BooleanParselet } from './parselets/boolean'
 import { IParserConfig } from '../main'
+import { EqualsOperator } from './parselets/equals'
+import { NotEqualsOperator } from './parselets/NotEquals'
+import { AndOperator } from './parselets/AndOperator'
+import { OrOperator } from './parselets/OrOperator'
+import { SmallerOperator } from './parselets/SmallerOperator'
+import { GreaterOperator } from './parselets/GreaterOperator'
+import { QuestionOperator } from './parselets/QuestionOperator'
 
 export class MoLangParser extends Parser {
 	constructor(config: Partial<IParserConfig>) {
@@ -36,7 +42,7 @@ export class MoLangParser extends Parser {
 		this.registerPrefix('FOR_EACH', new ForEachParselet())
 		this.registerInfix(
 			'QUESTION',
-			new TernaryParselet(EPrecedence.CONDITIONAL)
+			new QuestionOperator(EPrecedence.CONDITIONAL)
 		)
 		this.registerPrefix('LEFT_PARENT', new GroupParselet())
 		this.registerInfix(
@@ -65,27 +71,12 @@ export class MoLangParser extends Parser {
 		this.registerInfix('MINUS', new BinaryOperator(EPrecedence.SUM))
 		this.registerInfix('ASTERISK', new BinaryOperator(EPrecedence.PRODUCT))
 		this.registerInfix('SLASH', new BinaryOperator(EPrecedence.PRODUCT))
-		this.registerInfix('EQUALS', new BinaryOperator(EPrecedence.COMPARE))
-		this.registerInfix(
-			'NOT_EQUALS',
-			new BinaryOperator(EPrecedence.COMPARE)
-		)
-		this.registerInfix(
-			'GREATER_OR_EQUALS',
-			new BinaryOperator(EPrecedence.COMPARE)
-		)
-		this.registerInfix('GREATER', new BinaryOperator(EPrecedence.COMPARE))
-		this.registerInfix(
-			'SMALLER_OR_EQUALS',
-			new BinaryOperator(EPrecedence.COMPARE)
-		)
-		this.registerInfix('SMALLER', new BinaryOperator(EPrecedence.COMPARE))
-		this.registerInfix('AND', new BinaryOperator(EPrecedence.AND))
-		this.registerInfix('OR', new BinaryOperator(EPrecedence.OR))
-		this.registerInfix(
-			'NULLISH_COALESCING',
-			new BinaryOperator(EPrecedence.NULLISH_COALESCING)
-		)
+		this.registerInfix('EQUALS', new EqualsOperator(EPrecedence.COMPARE))
+		this.registerInfix('BANG', new NotEqualsOperator(EPrecedence.COMPARE))
+		this.registerInfix('GREATER', new GreaterOperator(EPrecedence.COMPARE))
+		this.registerInfix('SMALLER', new SmallerOperator(EPrecedence.COMPARE))
+		this.registerInfix('AND', new AndOperator(EPrecedence.AND))
+		this.registerInfix('OR', new OrOperator(EPrecedence.OR))
 		this.registerInfix('ASSIGN', new BinaryOperator(EPrecedence.ASSIGNMENT))
 	}
 }

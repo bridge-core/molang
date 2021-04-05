@@ -9,23 +9,32 @@ export class MoLang {
 	protected totalCacheEntries = 0
 	protected executionEnvironment: ExecutionEnvironment
 
-	protected parser = new MoLangParser({
-		...this.config,
-		tokenizer: undefined,
-	})
+	protected parser: MoLangParser
 
 	constructor(
 		env: Record<string, unknown> = {},
 		protected config: Partial<IParserConfig> = {}
 	) {
+		if (config.useOptimizer === undefined) this.config.useOptimizer = true
+		if (config.useCache === undefined) this.config.useCache = true
+		if (config.earlyReturnsSkipParsing === undefined)
+			this.config.earlyReturnsSkipParsing = true
+		if (config.earlyReturnsSkipTokenization === undefined)
+			this.config.earlyReturnsSkipTokenization = true
+
+		this.parser = new MoLangParser({
+			...this.config,
+			tokenizer: undefined,
+		})
+
 		this.executionEnvironment = new ExecutionEnvironment(env)
 	}
 
 	updateConfig(newConfig: Partial<IParserConfig>) {
-		this.config = Object.assign(this.config, newConfig)
+		newConfig = Object.assign(this.config, newConfig)
 
 		if (newConfig.tokenizer) this.parser.setTokenizer(newConfig.tokenizer)
-		this.parser.updateConfig({ ...newConfig, tokenizer: undefined })
+		this.parser.updateConfig({ ...this.config, tokenizer: undefined })
 	}
 	updateExecutionEnv(env: Record<string, unknown>) {
 		this.executionEnvironment = new ExecutionEnvironment(env)
@@ -79,9 +88,6 @@ export class MoLang {
 		if (this.config.useCache ?? true) {
 			const abstractSyntaxTree = this.expressionCache[expression]
 			if (abstractSyntaxTree) return abstractSyntaxTree
-		}
-		if (this.config.partialResolveOnParse) {
-			this.parser.setExecutionEnvironment(this.executionEnvironment)
 		}
 
 		this.parser.init(expression)

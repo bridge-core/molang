@@ -1,6 +1,6 @@
 {
 	"name": "molang",
-	"version": "1.9.1",
+	"version": "1.10.0",
 	"description": "A fast parser for Minecraft's MoLang",
 	"main": "index.js",
 	"cjs": "dist/molang.cjs.js",
@@ -36,7 +36,6 @@
 		"rollup-plugin-terser": "^7.0.0",
 		"rollup-plugin-typescript2": "^0.27.2",
 		"ts-jest": "^24.2.0",
-		"typescript": "^3.7.4"
-	},
-	"dependencies": {}
+		"typescript": "^4.2.3"
+	}
 }

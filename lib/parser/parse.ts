@@ -53,10 +53,12 @@ export class Parser {
 
 		while (this.getPrecedence() > precedence) {
 			token = this.consume()
+			let tokenType = token.getType()
+			if (tokenType === 'EQUALS' && !this.match('EQUALS')) {
+				tokenType = 'ASSIGN'
+			}
 
-			const infix = <IInfixParselet>(
-				this.infixParselets.get(token.getType())
-			)
+			const infix = <IInfixParselet>this.infixParselets.get(tokenType)
 			expressionLeft = infix.parse(this, expressionLeft, token)
 		}
 

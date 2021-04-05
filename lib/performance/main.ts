@@ -3,9 +3,9 @@ import MolangJS from 'molangjs'
 import { MoLang } from '../main'
 import { Tokenizer } from '../tokenizer/main'
 
-const iterations = 100000
+const iterations = 1000000
 const expression =
-	'variable.hand_bob = query.life_time < 0.01 ? 0.0 : variable.hand_bob + ((query.is_on_ground && query.is_alive ? math.clamp(math.sqrt(math.pow(query.position_delta(0), 2.0) + math.pow(query.position_delta(2), 2.0)), 0.0, 0.1) : 0.0) - variable.hand_bob) * 0.02;'
+	'return 0; ariable.hand_bob = query.life_time < 0.01 ? 0.0 : variable.hand_bob + ((query.is_on_ground && query.is_alive ? math.clamp(math.sqrt(math.pow(query.position_delta(0), 2.0) + math.pow(query.position_delta(2), 2.0)), 0.0, 0.1) : 0.0) - variable.hand_bob) * 0.02;'
 
 const env = {
 	'variable.hand_bob': 0,
@@ -16,6 +16,7 @@ const env = {
 }
 
 const molang = new MoLang(env, { useCache: false, useOptimizer: true })
+
 console.log('-- MOLANG --')
 console.time('[PARSE & EXECUTE] Raw Performance')
 for (let i = 0; i < iterations; i++) {
