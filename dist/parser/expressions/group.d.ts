@@ -8,6 +8,8 @@ export declare class GroupExpression extends Expression {
     setExpressionAt(_: number, expr: IExpression): void;
     isStatic(): boolean;
     get isReturn(): boolean | undefined;
+    get isBreak(): boolean | undefined;
+    get isContinue(): boolean | undefined;
     eval(): unknown;
     toString(): string;
 }

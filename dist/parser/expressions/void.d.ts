@@ -1,8 +1,6 @@
 import { Expression } from '../expression';
-export declare class NumberExpression extends Expression {
-    protected value: number;
+export declare class VoidExpression extends Expression {
     type: string;
-    constructor(value: number);
     get allExpressions(): never[];
     setExpressionAt(): void;
     isStatic(): boolean;

@@ -8,4 +8,5 @@ export declare class StaticExpression extends Expression {
     setExpressionAt(): void;
     isStatic(): boolean;
     eval(): unknown;
+    toString(): string;
 }

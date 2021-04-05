@@ -9,6 +9,7 @@ export declare class TernaryExpression extends Expression {
     get allExpressions(): IExpression[];
     setExpressionAt(index: number, expr: IExpression): void;
     get isReturn(): boolean | undefined;
+    get hasReturn(): boolean | undefined;
     get isContinue(): boolean | undefined;
     get isBreak(): boolean | undefined;
     isStatic(): boolean;
