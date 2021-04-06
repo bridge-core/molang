@@ -1,11 +1,11 @@
 import { Expression } from '../expression';
-import { ExecutionEnvironment } from '../../env';
+import { Parser } from '../parse';
 export declare class NameExpression extends Expression {
-    protected env: ExecutionEnvironment;
+    protected parser: Parser;
     protected name: string;
     protected isFunctionCall: boolean;
     type: string;
-    constructor(env: ExecutionEnvironment, name: string, isFunctionCall?: boolean);
+    constructor(parser: Parser, name: string, isFunctionCall?: boolean);
     get allExpressions(): never[];
     setExpressionAt(): void;
     isStatic(): boolean;

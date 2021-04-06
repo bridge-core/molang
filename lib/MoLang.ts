@@ -21,6 +21,8 @@ export class MoLang {
 			this.config.earlyReturnsSkipParsing = true
 		if (config.earlyReturnsSkipTokenization === undefined)
 			this.config.earlyReturnsSkipTokenization = true
+		if (config.convertUndefined === undefined)
+			this.config.convertUndefined = false
 
 		this.parser = new MoLangParser({
 			...this.config,
@@ -28,6 +30,7 @@ export class MoLang {
 		})
 
 		this.executionEnvironment = new ExecutionEnvironment(
+			this.parser,
 			env,
 			config.variableHandler
 		)
@@ -39,10 +42,12 @@ export class MoLang {
 		if (newConfig.tokenizer) this.parser.setTokenizer(newConfig.tokenizer)
 		this.parser.updateConfig({ ...this.config, tokenizer: undefined })
 	}
-	updateExecutionEnv(env: Record<string, unknown>) {
+	updateExecutionEnv(env: Record<string, unknown>, isFlat = false) {
 		this.executionEnvironment = new ExecutionEnvironment(
+			this.parser,
 			env,
-			this.config.variableHandler
+			this.config.variableHandler,
+			isFlat
 		)
 		this.parser.setExecutionEnvironment(this.executionEnvironment)
 	}

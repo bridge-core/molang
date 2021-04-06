@@ -11,14 +11,14 @@ export interface IParserConfig {
 	 * The cache saves an AST for every parsed expression.
 	 * This allows us to skip the tokenization & parsing step before executing known MoLang expressions
 	 *
-	 * Default: `true`
+	 * Default: true
 	 */
 	useCache: boolean
 	/**
 	 * How many expressions can be cached. After reaching `maxCacheSize`, the whole cache is cleared automatically.
 	 * Can be set to `Infinity` to remove the limit completely
 	 *
-	 * Default: `256`
+	 * Default: 256
 	 */
 	maxCacheSize: number
 	/**
@@ -26,14 +26,14 @@ export interface IParserConfig {
 	 * It enables skipping of unreachable statements, pre-evaluating static expressions and skipping of statements with no effect
 	 * when used together with the `useAgressiveStaticOptimizer` option
 	 *
-	 * Default: `true`
+	 * Default: true
 	 */
 	useOptimizer: boolean
 	/**
 	 * Skip execution of statements with no effect
 	 * when used together with the `useOptimizer` option
 	 *
-	 * Default: `true`
+	 * Default: true
 	 */
 	useAgressiveStaticOptimizer: boolean
 
@@ -59,9 +59,16 @@ export interface IParserConfig {
 	 * This should only be set to true if you want to use the .toString() method of an expression
 	 * or you want to iterate over the whole AST
 	 *
-	 * Default: `false`
+	 * Default: false
 	 */
 	keepGroups: boolean
+
+	/**
+	 * Whether to convert undefined variables to "0"
+	 *
+	 * Default: false
+	 */
+	convertUndefined: boolean
 
 	/**
 	 * Resolve undefined variables

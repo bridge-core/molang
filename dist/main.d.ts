@@ -9,6 +9,7 @@ export interface IParserConfig {
     earlyReturnsSkipTokenization: boolean;
     tokenizer: Tokenizer;
     keepGroups: boolean;
+    convertUndefined: boolean;
     variableHandler: TVariableHandler;
 }
 export { Tokenizer } from './tokenizer/Tokenizer';

@@ -9,7 +9,7 @@ export declare class MoLang {
     protected parser: MoLangParser;
     constructor(env?: Record<string, unknown>, config?: Partial<IParserConfig>);
     updateConfig(newConfig: Partial<IParserConfig>): void;
-    updateExecutionEnv(env: Record<string, unknown>): void;
+    updateExecutionEnv(env: Record<string, unknown>, isFlat?: boolean): void;
     clearCache(): void;
     execute(expression: string): unknown;
     executeAndCatch(expression: string): unknown;

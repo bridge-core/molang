@@ -39,7 +39,9 @@ export class CustomMoLang {
 			earlyReturnsSkipParsing: false,
 			earlyReturnsSkipTokenization: false,
 		})
-		this.parser.setExecutionEnvironment(new ExecutionEnvironment(env))
+		this.parser.setExecutionEnvironment(
+			new ExecutionEnvironment(this.parser, env)
+		)
 		this.parser.setTokenizer(new Tokenizer(new Set(['function'])))
 	}
 
@@ -135,7 +137,7 @@ export class CustomMoLang {
 					return undefined
 				} else if (expr instanceof ReturnExpression) {
 					const nameExpr = new NameExpression(
-						new ExecutionEnvironment({}),
+						molang.getParser(),
 						't.return_value'
 					)
 					const returnValExpr = expr.allExpressions[0]

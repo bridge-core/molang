@@ -1,11 +1,11 @@
 import { Expression } from '../expression'
-import { ExecutionEnvironment } from '../../env'
+import { Parser } from '../parse'
 
 export class NameExpression extends Expression {
 	type = 'NameExpression'
 
 	constructor(
-		protected env: ExecutionEnvironment,
+		protected parser: Parser,
 		protected name: string,
 		protected isFunctionCall = false
 	) {
@@ -22,7 +22,7 @@ export class NameExpression extends Expression {
 	}
 
 	setPointer(value: unknown) {
-		this.env.setAt(this.name, value)
+		this.parser.executionEnv.setAt(this.name, value)
 	}
 
 	setFunctionCall(value = true) {
@@ -33,7 +33,7 @@ export class NameExpression extends Expression {
 	}
 
 	eval() {
-		const value = this.env.getFrom(this.name)
+		const value = this.parser.executionEnv.getFrom(this.name)
 		if (!this.isFunctionCall && typeof value === 'function') return value()
 		return value
 	}

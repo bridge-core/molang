@@ -1,4 +1,5 @@
 import { MoLangMathLib } from './math'
+import { Parser } from './parser/parse'
 
 export type TVariableHandler = (
 	variableName: string,
@@ -8,13 +9,17 @@ export class ExecutionEnvironment {
 	protected env: Record<string, any>
 
 	constructor(
+		protected parser: Parser,
 		env: Record<string, any>,
-		protected variableHandler: TVariableHandler = () => undefined
+		protected variableHandler: TVariableHandler = () => undefined,
+		isFlat = false
 	) {
-		this.env = {
-			...MoLangMathLib,
-			...this.flattenEnv(env),
-		}
+		if (isFlat) this.env = Object.assign(env, MoLangMathLib)
+		else
+			this.env = {
+				...MoLangMathLib,
+				...this.flattenEnv(env),
+			}
 	}
 
 	protected flattenEnv(
@@ -101,6 +106,9 @@ export class ExecutionEnvironment {
 			}
 		}
 
-		return this.env[lookup] ?? this.variableHandler(lookup, this.env) ?? 0
+		const res = this.env[lookup] ?? this.variableHandler(lookup, this.env)
+		return res === undefined && this.parser.config.convertUndefined
+			? 0
+			: res
 	}
 }
