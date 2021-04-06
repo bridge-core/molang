@@ -27,7 +27,10 @@ export class MoLang {
 			tokenizer: undefined,
 		})
 
-		this.executionEnvironment = new ExecutionEnvironment(env)
+		this.executionEnvironment = new ExecutionEnvironment(
+			env,
+			config.variableHandler
+		)
 	}
 
 	updateConfig(newConfig: Partial<IParserConfig>) {
@@ -37,7 +40,10 @@ export class MoLang {
 		this.parser.updateConfig({ ...this.config, tokenizer: undefined })
 	}
 	updateExecutionEnv(env: Record<string, unknown>) {
-		this.executionEnvironment = new ExecutionEnvironment(env)
+		this.executionEnvironment = new ExecutionEnvironment(
+			env,
+			this.config.variableHandler
+		)
 		this.parser.setExecutionEnvironment(this.executionEnvironment)
 	}
 	/**

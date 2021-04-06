@@ -1,3 +1,4 @@
+import { TVariableHandler } from './env'
 import { Tokenizer } from './tokenizer/Tokenizer'
 
 /**
@@ -61,6 +62,11 @@ export interface IParserConfig {
 	 * Default: `false`
 	 */
 	keepGroups: boolean
+
+	/**
+	 * Resolve undefined variables
+	 */
+	variableHandler: TVariableHandler
 }
 
 export { Tokenizer } from './tokenizer/Tokenizer'

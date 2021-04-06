@@ -1,9 +1,13 @@
 import { MoLangMathLib } from './math'
 
+export type TVariableHandler = (variableName: string) => unknown
 export class ExecutionEnvironment {
 	protected env: Record<string, any>
 
-	constructor(env: Record<string, any>) {
+	constructor(
+		env: Record<string, any>,
+		protected variableHandler: TVariableHandler = () => undefined
+	) {
 		this.env = {
 			...MoLangMathLib,
 			...this.flattenEnv(env),
@@ -94,6 +98,6 @@ export class ExecutionEnvironment {
 			}
 		}
 
-		return this.env[lookup]
+		return this.env[lookup] ?? this.variableHandler(lookup)
 	}
 }

@@ -1,3 +1,4 @@
+import { TVariableHandler } from './env';
 import { Tokenizer } from './tokenizer/Tokenizer';
 export interface IParserConfig {
     useCache: boolean;
@@ -8,6 +9,7 @@ export interface IParserConfig {
     earlyReturnsSkipTokenization: boolean;
     tokenizer: Tokenizer;
     keepGroups: boolean;
+    variableHandler: TVariableHandler;
 }
 export { Tokenizer } from './tokenizer/Tokenizer';
 export { IExpression } from './parser/expression';
