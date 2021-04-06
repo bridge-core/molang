@@ -1,6 +1,9 @@
 import { MoLangMathLib } from './math'
 
-export type TVariableHandler = (variableName: string) => unknown
+export type TVariableHandler = (
+	variableName: string,
+	variables: Record<string, unknown>
+) => unknown
 export class ExecutionEnvironment {
 	protected env: Record<string, any>
 
@@ -98,6 +101,6 @@ export class ExecutionEnvironment {
 			}
 		}
 
-		return this.env[lookup] ?? this.variableHandler(lookup)
+		return this.env[lookup] ?? this.variableHandler(lookup, this.env)
 	}
 }

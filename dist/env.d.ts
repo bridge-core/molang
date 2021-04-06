@@ -1,4 +1,4 @@
-export declare type TVariableHandler = (variableName: string) => unknown;
+export declare type TVariableHandler = (variableName: string, variables: Record<string, unknown>) => unknown;
 export declare class ExecutionEnvironment {
     protected variableHandler: TVariableHandler;
     protected env: Record<string, any>;
