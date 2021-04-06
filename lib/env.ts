@@ -101,6 +101,6 @@ export class ExecutionEnvironment {
 			}
 		}
 
-		return this.env[lookup] ?? this.variableHandler(lookup, this.env)
+		return this.env[lookup] ?? this.variableHandler(lookup, this.env) ?? 0
 	}
 }
