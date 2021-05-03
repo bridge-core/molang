@@ -10,8 +10,8 @@ const expression =
 const env = {
 	'variable.hand_bob': 0,
 	'query.life_time': () => 0.1,
-	'query.is_on_ground': () => true,
-	'query.is_alive': () => true,
+	'query.is_on_ground': () => 1,
+	'query.is_alive': () => 1,
 	'query.position_delta': () => 2,
 }
 

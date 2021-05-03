@@ -17,7 +17,7 @@ export class ExecutionEnvironment {
 		if (isFlat) this.env = Object.assign(env, MoLangMathLib)
 		else
 			this.env = {
-				...MoLangMathLib,
+				...MoLangMathLib(parser.config.useRadians ?? false),
 				...this.flattenEnv(env),
 			}
 	}

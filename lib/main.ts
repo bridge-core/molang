@@ -71,6 +71,13 @@ export interface IParserConfig {
 	convertUndefined: boolean
 
 	/**
+	 * Use radians instead of degrees for trigonometric functions
+	 *
+	 * Default: false
+	 */
+	useRadians: boolean
+
+	/**
 	 * Resolve undefined variables
 	 */
 	variableHandler: TVariableHandler

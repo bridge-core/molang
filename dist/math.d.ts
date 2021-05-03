@@ -1,4 +1,4 @@
-export declare const MoLangMathLib: {
+export declare const MoLangMathLib: (useRadians: boolean) => {
     'math.abs': (x: number) => number;
     'math.acos': (x: number) => number;
     'math.asin': (x: number) => number;

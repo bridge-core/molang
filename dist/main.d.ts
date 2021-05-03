@@ -10,6 +10,7 @@ export interface IParserConfig {
     tokenizer: Tokenizer;
     keepGroups: boolean;
     convertUndefined: boolean;
+    useRadians: boolean;
     variableHandler: TVariableHandler;
 }
 export { Tokenizer } from './tokenizer/Tokenizer';
