@@ -14,7 +14,11 @@ export class ExecutionEnvironment {
 		protected variableHandler: TVariableHandler = () => undefined,
 		isFlat = false
 	) {
-		if (isFlat) this.env = Object.assign(env, MoLangMathLib)
+		if (isFlat)
+			this.env = Object.assign(
+				env,
+				MoLangMathLib(parser.config.useRadians ?? false)
+			)
 		else
 			this.env = {
 				...MoLangMathLib(parser.config.useRadians ?? false),
