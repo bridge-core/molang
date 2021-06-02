@@ -1,4 +1,4 @@
-import { Expression, IExpression } from '../expression'
+import { Expression } from '../expression'
 
 export class ContinueExpression extends Expression {
 	type = 'ContinueExpression'

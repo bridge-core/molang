@@ -1,6 +1,4 @@
 import { Expression, IExpression } from '../expression'
-import { NameExpression } from './name'
-import { ArrayAccessExpression } from './arrayAccess'
 
 export class ForEachExpression extends Expression {
 	type = 'ForEachExpression'

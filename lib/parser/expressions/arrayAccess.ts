@@ -1,5 +1,4 @@
 import { Expression, IExpression } from '../expression'
-import { NameExpression } from './name'
 
 export class ArrayAccessExpression extends Expression {
 	type = 'ArrayAccessExpression'

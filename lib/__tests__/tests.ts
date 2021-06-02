@@ -30,6 +30,7 @@ const TESTS: [string, number | string][] = [
 	["(1 && 0) + 1 ? 'true' : 'false'", 'true'],
 	["!(1 && 0) ? 'true' : 'false'", 'true'],
 	['v.x ?? 1', 1],
+	['(variable.non_existent ?? 3) + (variable.existent ?? 9)', 5],
 
 	/**
 	 * Advanced syntax: Loops, break, continue & scope
@@ -100,7 +101,9 @@ const env = {
 	length(arr: unknown[]) {
 		return arr.length
 	},
-	variable: {},
+	variable: {
+		existent: 2,
+	},
 	query: {
 		get_equipped_item_name(slot: number) {
 			return 'diamond_sword_' + slot

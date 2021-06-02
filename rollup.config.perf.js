@@ -8,7 +8,7 @@ export default {
 	output: [
 		{
 			file: pkg.unpkg.replace('dist', 'perf'),
-			format: 'iife',
+			format: 'cjs',
 		},
 	],
 	plugins: [
