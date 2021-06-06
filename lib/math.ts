@@ -42,6 +42,14 @@ const random = (low: number, high: number) => low + Math.random() * (high - low)
 const randomInt = (low: number, high: number) =>
 	Math.round(low + Math.random() * (high - low))
 
+const minAngle = (value: number) => {
+	value = value % 360
+	value = (value + 360) % 360
+
+	if (value > 179) value -= 360
+	return value
+}
+
 export const MoLangMathLib = (useRadians: boolean) => {
 	const degRadFactor = useRadians ? 1 : Math.PI / 180
 
@@ -64,6 +72,7 @@ export const MoLangMathLib = (useRadians: boolean) => {
 		'math.ln': Math.log,
 		'math.max': Math.max,
 		'math.min': Math.min,
+		'math.min_angle': minAngle,
 		'math.mod': mod,
 		'math.pi': Math.PI,
 		'math.pow': Math.pow,
