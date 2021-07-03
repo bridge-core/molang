@@ -17,6 +17,7 @@ export declare const MoLangMathLib: (useRadians: boolean) => {
     'math.ln': (x: number) => number;
     'math.max': (...values: number[]) => number;
     'math.min': (...values: number[]) => number;
+    'math.min_angle': (value: number) => number;
     'math.mod': (value: number, denominator: number) => number;
     'math.pi': number;
     'math.pow': (x: number, y: number) => number;
