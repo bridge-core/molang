@@ -23,6 +23,7 @@ test('Parse & stringify statements', () => {
 		"1 ? '1' : 'other'; return 1;": 'return 1;',
 		"return 1 ? '1' : 'other';": "return '1';",
 		"1 ? '1' : 'other'": "'1'",
+		'array.t[v.t]': 'array.t[v.t]',
 	}
 
 	for (const [test, result] of Object.entries(tests)) {

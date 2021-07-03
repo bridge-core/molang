@@ -27,6 +27,6 @@ export class ArrayAccessExpression extends Expression {
 	}
 
 	toString() {
-		return `[${this.lookup.toString()}]`
+		return `${this.name.toString()}[${this.lookup.toString()}]`
 	}
 }
