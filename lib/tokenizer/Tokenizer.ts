@@ -99,7 +99,11 @@ export class Tokenizer {
 				this.currentColumn,
 				this.currentLine
 			)
-			this.i = j
+			// Support notations like "0.5f"
+			const usesFloatNotation = hasDecimal && this.expression[j] === 'f'
+
+			this.i = usesFloatNotation ? j + 1 : j
+
 			return token
 		} else if (this.expression[this.i] === "'") {
 			let j = this.i + 1

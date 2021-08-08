@@ -6,6 +6,7 @@ const TESTS: [string, number | string][] = [
 	 */
 	['true', 1.0],
 	['false', 0.0],
+	['(0.5f) + 1', 1.5],
 	['false ? 5', 0],
 	['true ? 5', 5],
 	['1 + 1', 2],
