@@ -60,7 +60,10 @@ export class Tokenizer {
 				this.currentColumn,
 				this.currentLine
 			)
-		} else if (this.isLetter(this.expression[this.i])) {
+		} else if (
+			this.isLetter(this.expression[this.i]) ||
+			this.expression[this.i] === '_'
+		) {
 			let j = this.i + 1
 			while (
 				j < this.expression.length &&
