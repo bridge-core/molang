@@ -10,8 +10,7 @@ export class ArrayAccessParselet implements IInfixParselet {
 	parse(parser: Parser, left: IExpression, token: Token) {
 		const expr = parser.parseExpression(this.precedence - 1)
 
-		if (!left.setPointer)
-			throw new Error(`"${left.eval()}" is not an array`)
+		if (!left.setPointer) throw new Error(`"${left.type}" is not an array`)
 
 		if (!parser.match('ARRAY_RIGHT'))
 			throw new Error(

@@ -7,7 +7,7 @@ import { MoLangParser } from './parser/molang'
 export class MoLang {
 	protected expressionCache: Record<string, IExpression> = {}
 	protected totalCacheEntries = 0
-	protected executionEnvironment: ExecutionEnvironment
+	protected executionEnvironment!: ExecutionEnvironment
 
 	protected parser: MoLangParser
 
@@ -29,11 +29,7 @@ export class MoLang {
 			tokenizer: undefined,
 		})
 
-		this.executionEnvironment = new ExecutionEnvironment(
-			this.parser,
-			env,
-			config.variableHandler
-		)
+		this.updateExecutionEnv(env)
 	}
 
 	updateConfig(newConfig: Partial<IParserConfig>) {
