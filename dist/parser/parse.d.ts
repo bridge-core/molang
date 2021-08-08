@@ -10,7 +10,6 @@ export declare class Parser {
     protected prefixParselets: Map<string, IPrefixParselet>;
     protected infixParselets: Map<string, IInfixParselet>;
     protected readTokens: Token[];
-    protected lastConsumed: Token;
     protected tokenIterator: Tokenizer;
     executionEnv: ExecutionEnvironment;
     constructor(config: Partial<IParserConfig>);
@@ -21,7 +20,6 @@ export declare class Parser {
     parseExpression(precedence?: number): IExpression;
     parseInfixExpression(expressionLeft: IExpression, precedence?: number): IExpression;
     getPrecedence(): number;
-    getLastConsumed(): Token;
     consume(expected?: TTokenType): Token;
     match(expected: TTokenType, consume?: boolean): boolean;
     lookAhead(distance: number): Token;

@@ -18,3 +18,4 @@ export { IExpression } from './parser/expression';
 export { CustomMoLang } from './custom/main';
 export { MoLang } from './MoLang';
 export * as expressions from './parser/expressions/index';
+export { Context } from './env';
