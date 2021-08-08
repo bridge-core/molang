@@ -125,7 +125,7 @@ export class CustomMoLang {
 						// Scope temp./t. variables to functions
 						let newName = varNameMap.get(fullName)
 						if (!newName) {
-							newName = `t.scvar${totalScoped++}`
+							newName = `t.__scvar${totalScoped++}`
 							varNameMap.set(fullName, newName)
 						}
 
