@@ -6,5 +6,5 @@ import { IInfixParselet } from './infix';
 export declare class QuestionOperator implements IInfixParselet {
     precedence: number;
     constructor(precedence?: number);
-    parse(parser: Parser, leftExpression: IExpression, token: Token): IExpression | GenericOperatorExpression | import("../expressions/ternary").TernaryExpression;
+    parse(parser: Parser, leftExpression: IExpression, token: Token): IExpression | GenericOperatorExpression | import("../expressions").TernaryExpression;
 }
