@@ -11,7 +11,6 @@ export class Parser {
 	protected prefixParselets = new Map<TTokenType, IPrefixParselet>()
 	protected infixParselets = new Map<TTokenType, IInfixParselet>()
 	protected readTokens: Token[] = []
-	protected lastConsumed: Token = new Token('SOF', '', 0, 0)
 	protected tokenIterator = new Tokenizer()
 	executionEnv!: ExecutionEnvironment
 
@@ -23,7 +22,6 @@ export class Parser {
 
 	init(expression: string) {
 		this.tokenIterator.init(expression)
-		this.lastConsumed = new Token('SOF', '', 0, 0)
 		this.readTokens = []
 	}
 	setTokenizer(tokenizer: Tokenizer) {
@@ -59,6 +57,8 @@ export class Parser {
 			}
 
 			const infix = <IInfixParselet>this.infixParselets.get(tokenType)
+			if (!infix)
+				throw new Error(`Unknown infix parselet: "${tokenType}"`)
 			expressionLeft = infix.parse(this, expressionLeft, token)
 		}
 
@@ -66,11 +66,8 @@ export class Parser {
 	}
 
 	getPrecedence() {
-		const parselet = this.infixParselets.get(this.lookAhead(0)?.getType())
+		const parselet = this.infixParselets.get(this.lookAhead(0).getType())
 		return parselet?.precedence ?? 0
-	}
-	getLastConsumed() {
-		return this.lastConsumed
 	}
 
 	consume(expected?: TTokenType) {
@@ -80,18 +77,14 @@ export class Parser {
 
 		const token = this.lookAhead(0)
 
-		if (expected) {
-			if (token.getType() !== expected) {
-				throw new Error(
-					`Expected token "${expected}" and found "${token.getType()}"`
-				)
-			} else {
-				this.consume()
-			}
+		if (expected && token.getType() !== expected) {
+			throw new Error(
+				`Expected token "${expected}" and found "${token.getType()}"`
+			)
 		}
 
-		this.lastConsumed = <Token>this.readTokens.pop()
-		return this.lastConsumed
+		this.readTokens.shift()!
+		return token
 	}
 
 	match(expected: TTokenType, consume = true) {

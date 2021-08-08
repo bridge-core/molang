@@ -39,12 +39,12 @@ export class MoLang {
 		this.parser.updateConfig({ ...this.config, tokenizer: undefined })
 	}
 	updateExecutionEnv(env: Record<string, unknown>, isFlat = false) {
-		this.executionEnvironment = new ExecutionEnvironment(
-			this.parser,
-			env,
-			this.config.variableHandler,
-			isFlat
-		)
+		this.executionEnvironment = new ExecutionEnvironment(env, {
+			useRadians: this.config.useRadians,
+			convertUndefined: this.config.convertUndefined,
+			isFlat,
+			variableHandler: this.config.variableHandler,
+		})
 		this.parser.setExecutionEnvironment(this.executionEnvironment)
 	}
 	/**

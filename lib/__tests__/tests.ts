@@ -1,3 +1,4 @@
+import { Context } from '../env'
 import { MoLang } from '../main'
 
 const TESTS: [string, number | string][] = [
@@ -92,6 +93,11 @@ const TESTS: [string, number | string][] = [
 	],
 	['v.foo ? 1.0 : texture.variants[0]', '1'],
 
+	/**
+	 * Context
+	 */
+	['context.other->query.test * context.other->query.test', 1],
+
 	// Test comments
 	['1; # return 0;\n return 2;', 2],
 ]
@@ -132,6 +138,13 @@ const env = {
 		get_length(str: string) {
 			return str.length
 		},
+	},
+	context: {
+		other: new Context({
+			query: {
+				test: 1,
+			},
+		}),
 	},
 }
 

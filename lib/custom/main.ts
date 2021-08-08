@@ -137,7 +137,7 @@ export class CustomMoLang {
 					return undefined
 				} else if (expr instanceof ReturnExpression) {
 					const nameExpr = new NameExpression(
-						molang.getParser(),
+						molang.getParser().executionEnv,
 						't.return_value'
 					)
 					const returnValExpr = expr.allExpressions[0]

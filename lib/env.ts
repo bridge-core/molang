@@ -5,23 +5,26 @@ export type TVariableHandler = (
 	variableName: string,
 	variables: Record<string, unknown>
 ) => unknown
+
+export interface IEnvConfig {
+	useRadians?: boolean
+	convertUndefined?: boolean
+	variableHandler?: TVariableHandler
+	isFlat?: boolean
+}
+
 export class ExecutionEnvironment {
 	protected env: Record<string, any>
 
-	constructor(
-		protected parser: Parser,
-		env: Record<string, any>,
-		protected variableHandler: TVariableHandler = () => undefined,
-		isFlat = false
-	) {
-		if (isFlat)
+	constructor(env: Record<string, any>, public readonly config: IEnvConfig) {
+		if (config.isFlat)
 			this.env = Object.assign(
 				env,
-				MoLangMathLib(parser.config.useRadians ?? false)
+				MoLangMathLib(config.useRadians ?? false)
 			)
 		else
 			this.env = {
-				...MoLangMathLib(parser.config.useRadians ?? false),
+				...MoLangMathLib(config.useRadians ?? false),
 				...this.flattenEnv(env),
 			}
 	}
@@ -52,7 +55,9 @@ export class ExecutionEnvironment {
 				}
 			}
 
-			if (
+			if (newEnv[key].__isContext) {
+				current[`${addKey}${key}`] = newEnv[key].env
+			} else if (
 				typeof newEnv[key] === 'object' &&
 				!Array.isArray(newEnv[key])
 			) {
@@ -110,9 +115,13 @@ export class ExecutionEnvironment {
 			}
 		}
 
-		const res = this.env[lookup] ?? this.variableHandler(lookup, this.env)
-		return res === undefined && this.parser.config.convertUndefined
-			? 0
-			: res
+		const res =
+			this.env[lookup] ?? this.config.variableHandler?.(lookup, this.env)
+		return res === undefined && this.config.convertUndefined ? 0 : res
 	}
+}
+
+export class Context {
+	public readonly __isContext = true
+	constructor(public readonly env: any) {}
 }
