@@ -34,3 +34,22 @@ const molang = new MoLang(
 )
 molang.execute('query.x + query.get(3) == 7')
 ```
+
+### Setting up nested environments
+
+For the context switching operator "->", you can set up nested environments like this:
+
+```javascript
+import { MoLang, Context } from 'molang'
+
+const molang = new MoLang({
+	query: {
+		test: 1,
+	},
+	context: {
+		other: new Context({
+			query: { test: 1 },
+		}),
+	},
+})
+```
