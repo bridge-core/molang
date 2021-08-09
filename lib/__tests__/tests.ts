@@ -28,6 +28,8 @@ const TESTS: [string, number | string][] = [
 	['return 0 ? 1;', 0],
 	['return 1 ? 1;', 1],
 	['(0 ? 1 : 2) ? 3 : 4', 3],
+	// TODO: This test needs to be changed once Minecraft changes the behavior of its operator
+	['q.variant == 11 ? 1 : q.variant == 27 ? 2 : 0', 2],
 	['0 ? 1 : 2; return 1;', 1],
 	["(1 && 0) + 1 ? 'true' : 'false'", 'true'],
 	["!(1 && 0) ? 'true' : 'false'", 'true'],
@@ -119,6 +121,7 @@ const env = {
 		get_position() {
 			return 0
 		},
+		variant: 11,
 	},
 	texture: {
 		mark_variants: [],
