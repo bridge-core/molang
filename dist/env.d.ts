@@ -9,6 +9,7 @@ export declare class ExecutionEnvironment {
     readonly config: IEnvConfig;
     protected env: Record<string, any>;
     constructor(env: Record<string, any>, config: IEnvConfig);
+    updateConfig({ variableHandler, convertUndefined, useRadians, }: IEnvConfig): void;
     protected flattenEnv(newEnv: Record<string, any>, addKey?: string, current?: any): any;
     setAt(lookup: string, value: unknown): unknown;
     getFrom(lookup: string): any;

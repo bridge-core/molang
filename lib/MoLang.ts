@@ -37,6 +37,7 @@ export class MoLang {
 
 		if (newConfig.tokenizer) this.parser.setTokenizer(newConfig.tokenizer)
 		this.parser.updateConfig({ ...this.config, tokenizer: undefined })
+		this.executionEnvironment.updateConfig(newConfig)
 	}
 	updateExecutionEnv(env: Record<string, unknown>, isFlat = false) {
 		this.executionEnvironment = new ExecutionEnvironment(env, {

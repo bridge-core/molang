@@ -29,6 +29,19 @@ export class ExecutionEnvironment {
 			}
 	}
 
+	updateConfig({
+		variableHandler,
+		convertUndefined,
+		useRadians,
+	}: IEnvConfig) {
+		this.config.convertUndefined = convertUndefined
+		this.config.variableHandler = variableHandler
+
+		if (!!this.config.useRadians !== !!useRadians) {
+			this.env = Object.assign(this.env, MoLangMathLib(!!useRadians))
+		}
+	}
+
 	protected flattenEnv(
 		newEnv: Record<string, any>,
 		addKey = '',
