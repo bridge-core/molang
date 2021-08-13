@@ -34,8 +34,10 @@ export class ExecutionEnvironment {
 		convertUndefined,
 		useRadians,
 	}: IEnvConfig) {
-		this.config.convertUndefined = convertUndefined
-		this.config.variableHandler = variableHandler
+		if (convertUndefined !== undefined)
+			this.config.convertUndefined = convertUndefined
+		if (typeof variableHandler === 'function')
+			this.config.variableHandler = variableHandler
 
 		if (!!this.config.useRadians !== !!useRadians) {
 			this.env = Object.assign(this.env, MoLangMathLib(!!useRadians))
