@@ -127,7 +127,8 @@ const output = ast.toString() // 'context.other->query.something+2'
 
 ### Vanilla Script
 
-The following script gets executed 100,000 times
+The following script gets executed 100,000 times for the first test:
+
 `variable.hand_bob = query.life_time < 0.01 ? 0.0 : variable.hand_bob + ((query.is_on_ground && query.is_alive ? math.clamp(math.sqrt(math.pow(query.position_delta(0), 2.0) + math.pow(query.position_delta(2), 2.0)), 0.0, 0.1) : 0.0) - variable.hand_bob) * 0.02;`
 
 ### MoLang
