@@ -150,7 +150,7 @@ Used by Blockbench & Snowstorm
 
 ### Early Return
 
-The same script as above, except that we now insert a "return 1;" in front of it. bridge is smart enough to figure out that the whole expression is static after it parsed `return 1;`. These kinds of optimizations can be found throughout our library.
+The same script as above, except that we now insert a "return 1;" in front of it. bridge.'s interpreter is smart enough to figure out that the whole expression is static after it parsed `return 1;`. These kinds of optimizations can be found throughout our library.
 
 ### MoLang
 
