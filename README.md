@@ -168,3 +168,7 @@ Used by Blockbench & Snowstorm
 | -------------------------- | ------------ |
 | Parse & Execute (uncached) | 13230.682ms |
 | Parse & Execute (cached) | 147,786ms |
+
+## MoLang Playground
+
+We have built a very basic MoLang playground with this interpreter. You can use it at [bridge-core.github.io/molang-playground](https://bridge-core.github.io/molang-playground).
