@@ -77,7 +77,7 @@ customMoLang.parse(moLangFunctions)
 
 const moLangSource = ... // Somehow load MoLang source from JSON files
 
-const transformedSource = customMoLang.parse(moLangSource)
+const transformedSource = customMoLang.transform(moLangSource)
 ... // Write the transformed source string back to the JSON file or do further processing
 ```
 

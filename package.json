@@ -31,7 +31,7 @@
 		"@types/jest": "^24.0.25",
 		"@types/node": "^13.1.2",
 		"jest": "^24.9.0",
-		"molangjs": "^1.4.0",
+		"molangjs": "^1.4.1",
 		"rollup": "^2.26.5",
 		"rollup-plugin-terser": "^7.0.0",
 		"rollup-plugin-typescript2": "^0.27.2",
