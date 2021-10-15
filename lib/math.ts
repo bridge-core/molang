@@ -16,7 +16,7 @@ const dieRollInt = (sum: number, low: number, high: number) => {
 	while (i < sum) total += randomInt(low, high)
 	return total
 }
-const hermiteBlend = (value: number) => (3 * value) ^ (2 - 2 * value) ^ 3
+const hermiteBlend = (value: number) => 3 * value ** 2 - 2 * value ** 3
 const lerp = (start: number, end: number, amount: number) => {
 	if (amount < 0) amount = 0
 	else if (amount > 1) amount = 1
