@@ -20,7 +20,7 @@ A fast MoLang parser used and developed by the bridge. team. This library has fu
 
 To execute a basic MoLang statement, first construct a new instance of the `MoLang` class. The first constructor argument is the environment your MoLang script will have access to and the second argument configures the MoLang interpreter. Take a look at the `IParserConfig` interface [for a list of all available options](https://github.com/bridge-core/MoLang/blob/master/lib/main.ts).
 
-`molang.execute(...)` simple executes a MoLang script and returns the value it evaluates to.
+`molang.execute(...)` simply executes a MoLang script and returns the value it evaluates to.
 
 ```javascript
 import { MoLang } from 'molang'
@@ -102,7 +102,7 @@ function('pow', 'base', 'exp', {
 
 ## Using AST Scripts
 
-You can write abitrary scripts to tarverse the abstract syntax tree this library builds.
+You can write abitrary scripts to traverse the abstract syntax tree this library builds.
 
 ```javascript
 import { MoLang, expressions } from 'molang'
