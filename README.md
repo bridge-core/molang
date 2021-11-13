@@ -167,7 +167,7 @@ Used by Blockbench & Snowstorm
 | Test | Average Time |
 | -------------------------- | ------------ |
 | Parse & Execute (uncached) | 13230.682ms |
-| Parse & Execute (cached) | 147,786ms |
+| Parse & Execute (cached) | 147.786ms |
 
 ## MoLang Playground
 
