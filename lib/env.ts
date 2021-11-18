@@ -17,6 +17,8 @@ export class ExecutionEnvironment {
 	protected env: Record<string, any>
 
 	constructor(env: Record<string, any>, public readonly config: IEnvConfig) {
+		if (!env) throw new Error(`Provided environment must be an object`)
+
 		if (config.isFlat)
 			this.env = Object.assign(
 				env,

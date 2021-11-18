@@ -30,9 +30,12 @@ export class ContextSwitchExpression extends Expression {
 	}
 
 	eval() {
+		const context = this.leftExpr.eval()
+		if (typeof context !== 'object') return 0
+
 		this.rightExpr.setExecutionEnv(
 			new ExecutionEnvironment(
-				this.leftExpr.eval(),
+				context,
 				this.rightExpr.executionEnv.config
 			)
 		)

@@ -99,6 +99,7 @@ const TESTS: [string, number | string][] = [
 	 * Context
 	 */
 	['context.other->query.test * context.other->query.test', 1],
+	['context.not_a_valid.context->query.test', 0],
 
 	// Test comments
 	['1; # return 0;\n return 2;', 2],
