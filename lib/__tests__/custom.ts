@@ -71,12 +71,12 @@ test('Custom syntax', () => {
 
 	expect(customMoLang.transform('f.pow(2, 2)')).toBe('4')
 	expect(customMoLang.transform('f.fibonacci(4)')).toBe(
-		'return ({t.scvar0=0;t.scvar1=0;loop(4,t.scvar0==0?{t.scvar0=1;}:{t.scvar2=t.scvar0;t.scvar0=t.scvar0+t.scvar1;t.scvar1=t.scvar2;});t.scvar3=t.scvar0;}+t.scvar3);'
+		'return ({t.__scvar0=0;t.__scvar1=0;loop(4,t.__scvar0==0?{t.__scvar0=1;}:{t.__scvar2=t.__scvar0;t.__scvar0=t.__scvar0+t.__scvar1;t.__scvar1=t.__scvar2;});t.__scvar3=t.__scvar0;}+t.__scvar3);'
 	)
 	expect(
 		customMoLang.transform('f.pow(2, f.pow(2,2)) + f.fibonacci(0)')
 	).toBe(
-		'return 16+({t.scvar0=0;t.scvar1=0;loop(0,t.scvar0==0?{t.scvar0=1;}:{t.scvar2=t.scvar0;t.scvar0=t.scvar0+t.scvar1;t.scvar1=t.scvar2;});t.scvar3=t.scvar0;}+t.scvar3);'
+		'return 16+({t.__scvar0=0;t.__scvar1=0;loop(0,t.__scvar0==0?{t.__scvar0=1;}:{t.__scvar2=t.__scvar0;t.__scvar0=t.__scvar0+t.__scvar1;t.__scvar1=t.__scvar2;});t.__scvar3=t.__scvar0;}+t.__scvar3);'
 	)
 	expect(customMoLang.transform('f.sq(2)')).toBe('(math.pow(2,2))')
 	expect(customMoLang.transform("f.sq(f.on_axis('x'))")).toBe(
@@ -84,7 +84,7 @@ test('Custom syntax', () => {
 	)
 
 	expect(customMoLang.transform('f.get_axis(t.axis)')).toBe(
-		"return ({t.axis=='x'?{t.scvar0=v.x;}:{t.axis=='y'?{t.scvar0=v.y;}:{t.scvar0=v.z;};};}+t.scvar0);"
+		"return ({t.axis=='x'?{t.__scvar0=v.x;}:{t.axis=='y'?{t.__scvar0=v.y;}:{t.__scvar0=v.z;};};}+t.__scvar0);"
 	)
 	expect(customMoLang.transform('t.x = 1; f.sq(2);')).toBe(
 		't.x=1;(math.pow(2,2));'
@@ -94,20 +94,20 @@ test('Custom syntax', () => {
 	)
 	expect(customMoLang.transform('f.pi()')).toBe('(math.pi)')
 	expect(customMoLang.transform('f.early_return(v.is_true)')).toBe(
-		'return ({v.is_true?{t.scvar0=0;}:{t.scvar0=1;};}+t.scvar0);'
+		'return ({v.is_true?{t.__scvar0=0;}:{t.__scvar0=1;};}+t.__scvar0);'
 	)
 	expect(customMoLang.transform('f.early_return(v.x)')).toBe(
-		'return ({v.x?{t.scvar0=0;}:{t.scvar0=1;};}+t.scvar0);'
+		'return ({v.x?{t.__scvar0=0;}:{t.__scvar0=1;};}+t.__scvar0);'
 	)
 	// TODO: Once temp variable elimination is in, this should just return '1'
 	expect(customMoLang.transform('f.early_return(0)')).toBe(
-		'return ({t.scvar0=1;}+t.scvar0);'
+		'return ({t.__scvar0=1;}+t.__scvar0);'
 	)
 	expect(customMoLang.transform('f.dead_end(v.x)')).toBe(
-		'return ({v.x?{t.scvar0=0;}:{t.scvar0=1;};}+t.scvar0);'
+		'return ({v.x?{t.__scvar0=0;}:{t.__scvar0=1;};}+t.__scvar0);'
 	)
 	expect(customMoLang.transform('f.complex_early_return(v.x)')).toBe(
-		'return ({v.x?{v.x>1?{t.scvar0=v.x;}:{t.scvar0=0;};}:{v.x==1?{t.scvar0=2;}:{t.scvar0=1;};};}+t.scvar0);'
+		'return ({v.x?{v.x>1?{t.__scvar0=v.x;}:{t.__scvar0=0;};}:{v.x==1?{t.__scvar0=2;}:{t.__scvar0=1;};};}+t.__scvar0);'
 	)
 	expect(customMoLang.transform('f.simple_early_return(v.x)')).toBe('3')
 })
