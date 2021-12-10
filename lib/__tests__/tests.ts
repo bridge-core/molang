@@ -28,8 +28,15 @@ const TESTS: [string, number | string][] = [
 	['return 0 ? 1;', 0],
 	['return 1 ? 1;', 1],
 	['(0 ? 1 : 2) ? 3 : 4', 3],
-	// TODO: This test needs to be changed once Minecraft changes the behavior of its operator
-	['q.variant == 11 ? 1 : q.variant == 27 ? 2 : 0', 2],
+	// MoLang should parse A?B?C:D:E as A?(B?C:D):E
+	['q.variant == 11 ? 1 ? 2 : 0 : q.variant == 27', 2],
+	// MoLang should parse A?B:C?D:E as A?B:(C?D:E), not (A?B:C)?D:E
+	['q.variant == 11 ? 1 : q.variant == 27 ? 2 : 0', 1],
+	['t.v = 1 ? 2 : 1; return t.v;', 2],
+	//  MoLang should parse "A && B || C" as "(A && B) || C"
+	['t.v = 0; return ({t.v = 1;}+1) && 0 || t.v;', 1],
+	// MoLang should parse "A == C > D" as "A == (C > D)"
+	['2 == 2 > 0', 0],
 	['0 ? 1 : 2; return 1;', 1],
 	["(1 && 0) + 1 ? 'true' : 'false'", 'true'],
 	["!(1 && 0) ? 'true' : 'false'", 'true'],

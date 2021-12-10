@@ -12,6 +12,7 @@ export enum EPrecedence {
 	AND,
 	OR,
 
+	EQUALS_COMPARE,
 	COMPARE,
 
 	SUM,

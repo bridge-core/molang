@@ -71,8 +71,14 @@ export class MoLangParser extends Parser {
 		this.registerInfix('MINUS', new BinaryOperator(EPrecedence.SUM))
 		this.registerInfix('ASTERISK', new BinaryOperator(EPrecedence.PRODUCT))
 		this.registerInfix('SLASH', new BinaryOperator(EPrecedence.PRODUCT))
-		this.registerInfix('EQUALS', new EqualsOperator(EPrecedence.COMPARE))
-		this.registerInfix('BANG', new NotEqualsOperator(EPrecedence.COMPARE))
+		this.registerInfix(
+			'EQUALS',
+			new EqualsOperator(EPrecedence.EQUALS_COMPARE)
+		)
+		this.registerInfix(
+			'BANG',
+			new NotEqualsOperator(EPrecedence.EQUALS_COMPARE)
+		)
 		this.registerInfix('GREATER', new GreaterOperator(EPrecedence.COMPARE))
 		this.registerInfix('SMALLER', new SmallerOperator(EPrecedence.COMPARE))
 		this.registerInfix('AND', new AndOperator(EPrecedence.AND))
