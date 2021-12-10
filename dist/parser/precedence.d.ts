@@ -7,11 +7,12 @@ export declare enum EPrecedence {
     NULLISH_COALESCING = 6,
     AND = 7,
     OR = 8,
-    COMPARE = 9,
-    SUM = 10,
-    PRODUCT = 11,
-    EXPONENT = 12,
-    PREFIX = 13,
-    POSTFIX = 14,
-    FUNCTION = 15
+    EQUALS_COMPARE = 9,
+    COMPARE = 10,
+    SUM = 11,
+    PRODUCT = 12,
+    EXPONENT = 13,
+    PREFIX = 14,
+    POSTFIX = 15,
+    FUNCTION = 16
 }
