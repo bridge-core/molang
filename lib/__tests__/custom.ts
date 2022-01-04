@@ -17,7 +17,7 @@ test('Custom syntax', () => {
 				return a.exp == 0 ? 1 : a.base * f.pow(a.base, a.exp - 1);
 			});
 
-			# Comment test return 1; 
+			# Comment test return 1;
 			function('get_axis', 'axis', {
 				a.axis == 'x' ? { return v.x; };
 				a.axis == 'y' ? { return v.y; };
@@ -66,6 +66,9 @@ test('Custom syntax', () => {
 				};
 				return 1;
 			});
+			function('op_precedence', 'm', {
+				return -(a.m + 1);
+			});
 		`
 	)
 
@@ -110,4 +113,5 @@ test('Custom syntax', () => {
 		'return ({v.x?{v.x>1?{t.__scvar0=v.x;}:{t.__scvar0=0;};}:{v.x==1?{t.__scvar0=2;}:{t.__scvar0=1;};};}+t.__scvar0);'
 	)
 	expect(customMoLang.transform('f.simple_early_return(v.x)')).toBe('3')
+	expect(customMoLang.transform('f.op_precedence(1)')).toBe('-2')
 })
