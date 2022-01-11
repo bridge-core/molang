@@ -1,4 +1,4 @@
-import { ExecutionEnvironment } from '../../env'
+import { ExecutionEnvironment } from '../../env/env'
 import { Expression, IExpression } from '../expression'
 import { NameExpression } from './name'
 

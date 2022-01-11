@@ -1,5 +1,4 @@
-import { MoLangMathLib } from './math'
-import { Parser } from './parser/parse'
+import { standardEnv } from './standardEnv'
 
 export type TVariableHandler = (
 	variableName: string,
@@ -22,11 +21,11 @@ export class ExecutionEnvironment {
 		if (config.isFlat)
 			this.env = Object.assign(
 				env,
-				MoLangMathLib(config.useRadians ?? false)
+				standardEnv(config.useRadians ?? false)
 			)
 		else
 			this.env = {
-				...MoLangMathLib(config.useRadians ?? false),
+				...standardEnv(config.useRadians ?? false),
 				...this.flattenEnv(env),
 			}
 	}
@@ -42,7 +41,7 @@ export class ExecutionEnvironment {
 			this.config.variableHandler = variableHandler
 
 		if (!!this.config.useRadians !== !!useRadians) {
-			this.env = Object.assign(this.env, MoLangMathLib(!!useRadians))
+			this.env = Object.assign(this.env, standardEnv(!!useRadians))
 		}
 	}
 

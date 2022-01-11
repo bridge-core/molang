@@ -1,4 +1,4 @@
-import { ExecutionEnvironment } from './env'
+import { ExecutionEnvironment } from './env/env'
 import { IExpression, IParserConfig } from './main'
 import { StaticExpression } from './parser/expressions/static'
 import { StringExpression } from './parser/expressions/string'

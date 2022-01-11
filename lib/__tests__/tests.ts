@@ -1,4 +1,4 @@
-import { Context } from '../env'
+import { Context } from '../env/env'
 import { MoLang } from '../main'
 
 const TESTS: [string, number | string][] = [

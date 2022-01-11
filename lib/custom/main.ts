@@ -1,4 +1,4 @@
-import { ExecutionEnvironment } from '../env'
+import { ExecutionEnvironment } from '../env/env'
 import { IParserConfig } from '../main'
 import { MoLangParser } from '../parser/molang'
 import { Tokenizer } from '../tokenizer/Tokenizer'
