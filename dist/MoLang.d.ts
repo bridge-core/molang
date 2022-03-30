@@ -1,4 +1,4 @@
-import { ExecutionEnvironment } from './env';
+import { ExecutionEnvironment } from './env/env';
 import { IExpression, IParserConfig } from './main';
 import { MoLangParser } from './parser/molang';
 export declare class MoLang {

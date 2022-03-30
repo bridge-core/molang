@@ -1,4 +1,4 @@
-import { ExecutionEnvironment } from '../../env';
+import { ExecutionEnvironment } from '../../env/env';
 import { Expression } from '../expression';
 export declare class NameExpression extends Expression {
     executionEnv: ExecutionEnvironment;

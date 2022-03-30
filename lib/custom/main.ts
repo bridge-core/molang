@@ -50,7 +50,7 @@ export class CustomMoLang {
 	}
 
 	parse(expression: string) {
-		this.parser.init(expression)
+		this.parser.init(expression.replace(/\"/g, "'"))
 		const abstractSyntaxTree = this.parser.parseExpression()
 
 		return abstractSyntaxTree

@@ -69,6 +69,11 @@ test('Custom syntax', () => {
 			function('op_precedence', 'm', {
 				return -(a.m + 1);
 			});
+
+			# Make sure that .molang files support using double quotes
+			function("test_double_quotes", {
+				return 0;
+			});
 		`
 	)
 

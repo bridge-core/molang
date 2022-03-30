@@ -1,4 +1,4 @@
-import { TVariableHandler } from './env';
+import { TVariableHandler } from './env/env';
 import { Tokenizer } from './tokenizer/Tokenizer';
 export interface IParserConfig {
     useCache: boolean;
@@ -18,4 +18,4 @@ export { IExpression } from './parser/expression';
 export { CustomMoLang } from './custom/main';
 export { MoLang } from './MoLang';
 export * as expressions from './parser/expressions/index';
-export { Context } from './env';
+export { Context } from './env/env';

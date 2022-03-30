@@ -3,7 +3,7 @@ import { TTokenType, Token } from '../tokenizer/token';
 import { IPrefixParselet } from './parselets/prefix';
 import { IInfixParselet } from './parselets/infix';
 import { IExpression } from './expression';
-import { ExecutionEnvironment } from '../env';
+import { ExecutionEnvironment } from '../env/env';
 import { IParserConfig } from '../main';
 export declare class Parser {
     config: Partial<IParserConfig>;
