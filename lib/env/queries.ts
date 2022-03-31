@@ -18,8 +18,12 @@ const all = (mustMatch: unknown, ...values: unknown[]) =>
 const any = (mustMatch: unknown, ...values: unknown[]) =>
 	values.some((v) => v === mustMatch)
 
+const count = (countable: unknown) =>
+	Array.isArray(countable) ? countable.length : 1
+
 export const standardQueries = {
 	'query.in_range': inRange,
 	'query.all': all,
 	'query.any': any,
+	'query.count': count,
 }
