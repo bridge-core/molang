@@ -63,7 +63,7 @@ class CustomFunctionExpression extends Expression {
 		protected functionBody: IExpression
 	) {
 		super()
-		functions.set(functionName, [
+		functions.set(functionName.toLowerCase(), [
 			args,
 			functionBody instanceof GroupExpression
 				? functionBody.allExpressions[0].toString()
