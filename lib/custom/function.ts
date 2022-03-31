@@ -44,6 +44,9 @@ export class CustomFunctionParselet implements IPrefixParselet {
 			throw new Error(
 				`Missing function() body (argument ${args.length + 2})`
 			)
+		// Make sure that the function declaration is terminated with a semicolon
+		if (parser.lookAhead(0).getType() !== 'SEMICOLON')
+			throw new Error(`Missing semicolon after function expression`)
 
 		return new CustomFunctionExpression(
 			(<CustomMoLangParser>parser).functions,
