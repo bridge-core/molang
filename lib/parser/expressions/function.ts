@@ -1,10 +1,11 @@
 import { NameExpression } from './name'
 import { Expression, IExpression } from '../expression'
+import { ExecutionEnvironment } from '../../env/env'
 
 export class FunctionExpression extends Expression {
 	type = 'FunctionExpression'
 
-	constructor(protected name: IExpression, protected args: IExpression[]) {
+	constructor(protected name: NameExpression, protected args: IExpression[]) {
 		super()
 	}
 
@@ -12,8 +13,14 @@ export class FunctionExpression extends Expression {
 		return [this.name, ...this.args]
 	}
 	setExpressionAt(index: number, expr: Expression) {
-		if (index === 0) this.name = expr
+		if (index === 0) this.name = <NameExpression>expr
 		else if (index > 0) this.args[index - 1] = expr
+	}
+	setExecutionEnv(executionEnv: ExecutionEnvironment) {
+		this.name.setExecutionEnv(executionEnv)
+	}
+	get executionEnv() {
+		return this.name.executionEnv
 	}
 
 	isStatic() {

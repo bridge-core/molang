@@ -3,6 +3,7 @@ import { Parser } from '../parse'
 import { IInfixParselet } from './infix'
 import { IExpression } from '../expression'
 import { FunctionExpression } from '../expressions/function'
+import { NameExpression } from '../expressions'
 
 export class FunctionParselet implements IInfixParselet {
 	constructor(public precedence = 0) {}
@@ -12,6 +13,7 @@ export class FunctionParselet implements IInfixParselet {
 
 		if (!left.setFunctionCall)
 			throw new Error(`${left.type} is not callable!`)
+
 		left.setFunctionCall(true)
 
 		if (!parser.match('RIGHT_PARENT')) {
@@ -21,6 +23,7 @@ export class FunctionParselet implements IInfixParselet {
 			parser.consume('RIGHT_PARENT')
 		}
 
-		return new FunctionExpression(left, args)
+		// Must be a NameExpression because the .setFunctionCall() method exists
+		return new FunctionExpression(<NameExpression>left, args)
 	}
 }

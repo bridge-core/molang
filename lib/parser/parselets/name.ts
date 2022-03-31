@@ -3,6 +3,8 @@ import { Token } from '../../tokenizer/token'
 import { Parser } from '../parse'
 import { NameExpression } from '../expressions/name'
 import { ContextSwitchExpression } from '../expressions/ContextSwitch'
+import { FunctionExpression } from '../expressions/function'
+import { EPrecedence } from '../precedence'
 
 export class NameParselet implements IPrefixParselet {
 	constructor(public precedence = 0) {}
@@ -22,19 +24,19 @@ export class NameParselet implements IPrefixParselet {
 			parser.consume('MINUS')
 			parser.consume('GREATER')
 
-			const nameToken = parser.lookAhead(0)
-			if (nameToken.getType() !== 'NAME')
-				throw new Error(
-					`Cannot use context switch operator "->" on ${parser.lookAhead(
-						0
-					)}`
-				)
+			const expr = parser.parseExpression(EPrecedence.FUNCTION - 1)
 
-			parser.consume('NAME')
+			if (
+				expr.type !== 'NameExpression' &&
+				expr.type !== 'FunctionExpression'
+			)
+				throw new Error(
+					`Cannot use context switch operator "->" on ${expr.type}`
+				)
 
 			return new ContextSwitchExpression(
 				nameExpr,
-				new NameExpression(parser.executionEnv, nameToken.getText())
+				<NameExpression | FunctionExpression>expr
 			)
 		}
 

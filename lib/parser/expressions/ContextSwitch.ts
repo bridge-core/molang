@@ -1,13 +1,14 @@
 import { ExecutionEnvironment } from '../../env/env'
 import { Expression, IExpression } from '../expression'
+import { FunctionExpression } from './function'
 import { NameExpression } from './name'
 
 export class ContextSwitchExpression extends Expression {
 	type = 'NameExpression'
 
 	constructor(
-		protected leftExpr: NameExpression,
-		protected rightExpr: NameExpression
+		protected leftExpr: NameExpression | FunctionExpression,
+		protected rightExpr: NameExpression | FunctionExpression
 	) {
 		super()
 	}
