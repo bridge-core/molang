@@ -119,19 +119,23 @@ export class CustomMoLang {
 					// Remove "a."/"t."/etc. from var name
 					let tmp = fullName.split('.')
 					const varType = tmp.shift()
-					const varName = tmp.join('.')
+					const [structName, ...structProperties] = tmp
+					const structAccess =
+						structProperties.length > 0
+							? '.' + structProperties.join('.')
+							: ''
 
 					if (varType === 't' || varType === 'temp') {
 						// Scope temp./t. variables to functions
-						let newName = varNameMap.get(fullName)
+						let newName = varNameMap.get(structName)
 						if (!newName) {
 							newName = `t.__scvar${totalScoped++}`
-							varNameMap.set(fullName, newName)
+							varNameMap.set(structName, newName)
 						}
 
-						expr.setName(newName)
+						expr.setName(`${newName}${structAccess}`)
 					} else if (varType === 'outer_temp') {
-						expr.setName(`t.${varName}`)
+						expr.setName(`t.${structName}${structAccess}`)
 					}
 
 					return undefined

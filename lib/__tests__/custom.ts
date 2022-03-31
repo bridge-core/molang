@@ -74,6 +74,12 @@ test('Custom syntax', () => {
 			function("test_double_quotes", {
 				return 0;
 			});
+
+			# Ensure that structs are properly supported
+			function('create_list', {
+				t.list.length = 0;
+				return t.list;
+			});
 		`
 	)
 
@@ -119,4 +125,7 @@ test('Custom syntax', () => {
 	)
 	expect(customMoLang.transform('f.simple_early_return(v.x)')).toBe('3')
 	expect(customMoLang.transform('f.op_precedence(1)')).toBe('-2')
+	expect(customMoLang.transform('f.create_list()')).toBe(
+		`return ({t.__scvar0.length=0;t.__scvar1=t.__scvar0;}+t.__scvar1);`
+	)
 })
