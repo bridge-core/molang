@@ -18,16 +18,11 @@ export class ExecutionEnvironment {
 	constructor(env: Record<string, any>, public readonly config: IEnvConfig) {
 		if (!env) throw new Error(`Provided environment must be an object`)
 
-		if (config.isFlat)
-			this.env = Object.assign(
-				env,
-				standardEnv(config.useRadians ?? false)
-			)
-		else
-			this.env = {
-				...standardEnv(config.useRadians ?? false),
-				...this.flattenEnv(env),
-			}
+		this.env = {
+			...standardEnv(config.useRadians ?? false),
+			'query.self': () => this.env,
+			...(config.isFlat ? env : this.flattenEnv(env)),
+		}
 	}
 
 	updateConfig({
@@ -51,35 +46,37 @@ export class ExecutionEnvironment {
 		current: any = {}
 	) {
 		for (let key in newEnv) {
+			let newKey = key
+
 			if (key[1] === '.') {
 				switch (key[0]) {
 					case 'q':
-						key = 'query' + key.substring(1, key.length)
+						newKey = 'query' + key.substring(1, key.length)
 						break
 					case 't':
-						key = 'temp' + key.substring(1, key.length)
+						newKey = 'temp' + key.substring(1, key.length)
 						break
 					case 'v':
-						key = 'variable' + key.substring(1, key.length)
+						newKey = 'variable' + key.substring(1, key.length)
 						break
 					case 'c':
-						key = 'context' + key.substring(1, key.length)
+						newKey = 'context' + key.substring(1, key.length)
 						break
 					case 'f':
-						key = 'function' + key.substring(1, key.length)
+						newKey = 'function' + key.substring(1, key.length)
 						break
 				}
 			}
 
 			if (newEnv[key].__isContext) {
-				current[`${addKey}${key}`] = newEnv[key].env
+				current[`${addKey}${newKey}`] = newEnv[key].env
 			} else if (
 				typeof newEnv[key] === 'object' &&
 				!Array.isArray(newEnv[key])
 			) {
 				this.flattenEnv(newEnv[key], `${addKey}${key}.`, current)
 			} else {
-				current[`${addKey}${key}`] = newEnv[key]
+				current[`${addKey}${newKey}`] = newEnv[key]
 			}
 		}
 
