@@ -106,8 +106,15 @@ export class CustomMoLang {
 			)
 
 			let funcAst = transformStatement(molang.parse(functionBody))
+
 			if (funcAst instanceof StatementExpression) {
-				funcAst = molang.parse(`({${functionBody}}+t.return_value)`)
+				const hasReturn = funcAst.some(
+					(expr) => expr instanceof ReturnExpression
+				)
+
+				funcAst = molang.parse(
+					`({${functionBody}}+${hasReturn ? 't.return_value' : '0'})`
+				)
 
 				containsComplexExpressions = true
 			}

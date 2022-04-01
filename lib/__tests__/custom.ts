@@ -80,6 +80,12 @@ test('Custom syntax', () => {
 				t.list.length = 0;
 				return t.list;
 			});
+			# Ensure that functions without return statements work correctly
+			function('test_no_return', {
+				t.test = 0;
+			});
+			# Ensure that functions without complex body work correctly
+			function('test_no_body', 'base', math.pow(a.base, 2));
 		`
 	)
 
@@ -127,5 +133,8 @@ test('Custom syntax', () => {
 	expect(customMoLang.transform('f.op_precedence(1)')).toBe('-2')
 	expect(customMoLang.transform('f.create_list()')).toBe(
 		`return ({t.__scvar0.length=0;t.__scvar1=t.__scvar0;}+t.__scvar1);`
+	)
+	expect(customMoLang.transform('f.test_no_return()')).toBe(
+		`return ({t.__scvar0=0;}+0);`
 	)
 })

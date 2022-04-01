@@ -15,6 +15,7 @@ export interface IExpression {
 	isStatic(): boolean
 	walk(cb: TIterateCallback): IExpression
 	iterate(cb: TIterateCallback, visited: Set<IExpression>): void
+	some(predicate: (expr: IExpression) => boolean): boolean
 }
 
 export abstract class Expression implements IExpression {
@@ -51,6 +52,11 @@ export abstract class Expression implements IExpression {
 			this.setExpressionAt(i, expr)
 			expr.iterate(cb, visited)
 		}
+	}
+	some(predicate: (expr: IExpression) => boolean) {
+		return this.allExpressions.some(
+			(expr) => predicate(expr) || expr.some(predicate)
+		)
 	}
 }
 
