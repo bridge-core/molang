@@ -29,7 +29,7 @@ export class MoLang {
 			tokenizer: undefined,
 		})
 
-		this.updateExecutionEnv(env)
+		this.updateExecutionEnv(env, config.assumeFlatEnvironment)
 	}
 
 	updateConfig(newConfig: Partial<IParserConfig>) {

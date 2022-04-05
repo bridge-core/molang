@@ -1,4 +1,4 @@
-import { CustomMoLang } from '../custom/main'
+import { CustomMoLang } from '../../custom/main'
 
 test('Custom syntax', () => {
 	const customMoLang = new CustomMoLang({})
@@ -84,8 +84,6 @@ test('Custom syntax', () => {
 			function('test_no_return', {
 				t.test = 0;
 			});
-			# Ensure that functions without complex body work correctly
-			function('test_no_body', 'base', math.pow(a.base, 2));
 		`
 	)
 
@@ -124,7 +122,7 @@ test('Custom syntax', () => {
 		'return ({t.__scvar0=1;}+t.__scvar0);'
 	)
 	expect(customMoLang.transform('f.dead_end(v.x)')).toBe(
-		'return ({v.x?{t.__scvar0=0;}:{t.__scvar0=1;};}+t.__scvar0);'
+		'return ({v.x?{t.__scvar0=0;}:{t.__scvar0=1;};}+(t.__scvar0??0));'
 	)
 	expect(customMoLang.transform('f.complex_early_return(v.x)')).toBe(
 		'return ({v.x?{v.x>1?{t.__scvar0=v.x;}:{t.__scvar0=0;};}:{v.x==1?{t.__scvar0=2;}:{t.__scvar0=1;};};}+t.__scvar0);'

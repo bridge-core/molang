@@ -12,6 +12,7 @@ export interface IParserConfig {
     convertUndefined: boolean;
     useRadians: boolean;
     variableHandler: TVariableHandler;
+    assumeFlatEnvironment: boolean;
 }
 export { Tokenizer } from './tokenizer/Tokenizer';
 export { IExpression } from './parser/expression';

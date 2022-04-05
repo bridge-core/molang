@@ -3,6 +3,7 @@ import { MoLangParser } from '../parser/molang';
 import { IExpression } from '../parser/expression';
 export declare class CustomMoLangParser extends MoLangParser {
     readonly functions: Map<string, [string[], string]>;
+    readonly classes: Map<string, any>;
     constructor(config: Partial<IParserConfig>);
     reset(): void;
 }

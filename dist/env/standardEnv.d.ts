@@ -2,6 +2,7 @@ export declare const standardEnv: (useRadians: boolean) => {
     'query.in_range': (value: number, min: number, max: number) => boolean;
     'query.all': (mustMatch: unknown, ...values: unknown[]) => boolean;
     'query.any': (mustMatch: unknown, ...values: unknown[]) => boolean;
+    'query.count': (countable: unknown) => number;
     'math.abs': (x: number) => number;
     'math.acos': (x: number) => number;
     'math.asin': (x: number) => number;

@@ -13,13 +13,16 @@ import { TernaryExpression } from '../parser/expressions/ternary'
 import { IExpression } from '../parser/expression'
 import { VoidExpression } from '../parser/expressions/void'
 import { GroupExpression } from '../parser/expressions/group'
+import { CustomClassParselet } from './class'
 
 export class CustomMoLangParser extends MoLangParser {
 	public readonly functions = new Map<string, [string[], string]>()
+	public readonly classes = new Map<string, any>() // TODO: Make class data more specific than "any"
 
 	constructor(config: Partial<IParserConfig>) {
 		super(config)
 		this.registerPrefix('FUNCTION', new CustomFunctionParselet())
+		// this.registerPrefix('CLASS', new CustomClassParselet())
 	}
 
 	reset() {
@@ -42,7 +45,9 @@ export class CustomMoLang {
 		this.parser.setExecutionEnvironment(
 			new ExecutionEnvironment(this.parser, env)
 		)
-		this.parser.setTokenizer(new Tokenizer(new Set(['function'])))
+		this.parser.setTokenizer(
+			new Tokenizer(new Set(['function' /*'class'*/]))
+		)
 	}
 
 	get functions() {
@@ -108,12 +113,21 @@ export class CustomMoLang {
 			let funcAst = transformStatement(molang.parse(functionBody))
 
 			if (funcAst instanceof StatementExpression) {
-				const hasReturn = funcAst.some(
+				const hasTopLevelReturn = funcAst.allExpressions.some(
 					(expr) => expr instanceof ReturnExpression
 				)
+				const hasReturn =
+					hasTopLevelReturn ||
+					funcAst.some((expr) => expr instanceof ReturnExpression)
 
 				funcAst = molang.parse(
-					`({${functionBody}}+${hasReturn ? 't.return_value' : '0'})`
+					`({${functionBody}}+${
+						hasReturn
+							? hasTopLevelReturn
+								? 't.return_value'
+								: '(t.return_value??0)' // If there's no top-level return, we need to ensure that the variable access doesn't fail
+							: '0' // Return 0 if no return statement
+					})`
 				)
 
 				containsComplexExpressions = true

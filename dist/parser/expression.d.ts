@@ -11,6 +11,7 @@ export interface IExpression {
     isStatic(): boolean;
     walk(cb: TIterateCallback): IExpression;
     iterate(cb: TIterateCallback, visited: Set<IExpression>): void;
+    some(predicate: (expr: IExpression) => boolean): boolean;
 }
 export declare abstract class Expression implements IExpression {
     abstract readonly type: string;
@@ -21,5 +22,6 @@ export declare abstract class Expression implements IExpression {
     abstract setExpressionAt(index: number, expr: IExpression): void;
     walk(cb: TIterateCallback, visited?: Set<IExpression>): IExpression;
     iterate(cb: TIterateCallback, visited: Set<IExpression>): void;
+    some(predicate: (expr: IExpression) => boolean): boolean;
 }
 export declare type TIterateCallback = (expr: IExpression) => IExpression | undefined;
