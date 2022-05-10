@@ -123,7 +123,7 @@ const output = ast.toString() // 'context.other->query.something+2'
 
 ## Performance
 
-**Disclaimer:** Both bridge.'s MoLang library and Blockbench's library are usually fast enough. However, bridge.'s MoLang interpreter shines when it comes to executing a wide variety of different scripts (ineffective cache) where it is up to 10x faster interpreting a vanilla MoLang script.
+**Disclaimer:** Both bridge.'s MoLang library and Blockbench's library are usually fast enough. However, bridge.'s MoLang interpreter shines when it comes to executing a wide variety of different scripts (ineffective cache) where it is up to 10x faster at interpreting a vanilla MoLang script.
 
 ### Vanilla Script
 
