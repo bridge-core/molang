@@ -20,6 +20,10 @@ export class NumberExpression extends Expression {
 		return this.value
 	}
 	toString() {
-		return '' + this.value
+		const n = '' + this.value
+
+		// Leading zeros can be omitted
+		if (n.startsWith('0.')) return n.slice(1)
+		return n
 	}
 }

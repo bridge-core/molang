@@ -103,6 +103,14 @@ const TESTS: [string, number | string][] = [
 	['v.foo ? 1.0 : texture.variants[0]', '1'],
 
 	/**
+	 * Function calls + property access
+	 *
+	 * Disabled until we actually support these patterns
+	 */
+	// ['c.position().x', 1],
+	// ['c.position.y', 2],
+
+	/**
 	 * Context
 	 */
 	['context.other->query.test * context.other->query.test', 1],
@@ -155,6 +163,10 @@ const env = {
 			query: {
 				test: 1,
 			},
+		}),
+		position: () => ({
+			x: 1,
+			y: 2,
 		}),
 	},
 }

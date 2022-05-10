@@ -84,9 +84,12 @@ export class Tokenizer {
 				this.currentColumn,
 				this.currentLine
 			)
-		} else if (this.isNumber(this.expression[this.i])) {
+		} else if (
+			this.isNumber(this.expression[this.i]) ||
+			this.expression[this.i] === '.'
+		) {
 			let j = this.i + 1
-			let hasDecimal = false
+			let hasDecimal = this.expression[this.i] === '.'
 			while (
 				j < this.expression.length &&
 				(this.isNumber(this.expression[j]) ||
