@@ -1,5 +1,6 @@
 import { ExecutionEnvironment } from './env/env'
 import { IExpression, IParserConfig } from './main'
+import { GenericOperatorExpression } from './parser/expressions/genericOperator'
 import { StaticExpression } from './parser/expressions/static'
 import { StringExpression } from './parser/expressions/string'
 import { MoLangParser } from './parser/molang'
@@ -116,11 +117,64 @@ export class MoLang {
 	}
 
 	resolveStatic(ast: IExpression) {
-		ast.walk((expr) => {
+		// 0. TODO: Rearrange statements so all static expressions can be resolved
+
+		// 1. Resolve all static expressions
+		ast = ast.walk((expr) => {
 			if (expr instanceof StringExpression) return
 
 			if (expr.isStatic()) return new StaticExpression(expr.eval())
 		})
+
+		// 2. Remove unnecessary operations
+		ast = ast.walk((expr) => {
+			if (expr instanceof GenericOperatorExpression) {
+				switch (expr.operator) {
+					case '+':
+					case '-': {
+						// If one of the two operands is 0,
+						// we can simplify the expression to only return the other operand
+						const zeroEquivalentOperand = expr.allExpressions.find(
+							(expr) => expr.isStatic() && expr.eval() === 0
+						)
+						if (zeroEquivalentOperand) {
+							return expr.allExpressions.find(
+								(expr) => expr !== zeroEquivalentOperand
+							)
+						}
+
+						break
+					}
+					case '*': {
+						// If one of the two operands is 0,
+						// we can simplify the expression to 0
+						const zeroEquivalentOperand = expr.allExpressions.find(
+							(expr) => expr.isStatic() && expr.eval() === 0
+						)
+						if (zeroEquivalentOperand) {
+							return new StaticExpression(0)
+						}
+					}
+					case '*':
+					case '/': {
+						// If one of the two operands is 1,
+						// we can simplify the expression to only return the other operand
+						const oneEquivalentOperand = expr.allExpressions.find(
+							(expr) => expr.isStatic() && expr.eval() === 1
+						)
+						if (oneEquivalentOperand) {
+							return expr.allExpressions.find(
+								(expr) => expr !== oneEquivalentOperand
+							)
+						}
+
+						break
+					}
+				}
+			}
+		})
+
+		return ast
 	}
 
 	getParser() {

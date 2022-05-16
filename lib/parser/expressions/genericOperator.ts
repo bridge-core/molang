@@ -6,7 +6,7 @@ export class GenericOperatorExpression extends Expression {
 	constructor(
 		protected left: IExpression,
 		protected right: IExpression,
-		protected operator: string,
+		public readonly operator: string,
 		protected evalHelper: (
 			leftExpression: IExpression,
 			rightExpression: IExpression

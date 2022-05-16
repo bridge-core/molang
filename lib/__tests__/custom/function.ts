@@ -133,6 +133,6 @@ test('Custom syntax', () => {
 		`return ({t.__scvar0.length=0;t.__scvar1=t.__scvar0;}+t.__scvar1);`
 	)
 	expect(customMoLang.transform('f.test_no_return()')).toBe(
-		`return ({t.__scvar0=0;}+0);`
+		`return ({t.__scvar0=0;});`
 	)
 })
