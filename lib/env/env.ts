@@ -40,6 +40,10 @@ export class ExecutionEnvironment {
 		}
 	}
 
+	get() {
+		return this.env
+	}
+
 	protected flattenEnv(
 		newEnv: Record<string, any>,
 		addKey = '',

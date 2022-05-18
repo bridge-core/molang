@@ -94,7 +94,7 @@ test('Custom syntax', () => {
 	expect(
 		customMoLang.transform('f.pow(2, f.pow(2,2)) + f.fibonacci(0)')
 	).toBe(
-		'return 16+({t.__scvar0=0;t.__scvar1=0;loop(0,t.__scvar0==0?{t.__scvar0=1;}:{t.__scvar2=t.__scvar0;t.__scvar0=t.__scvar0+t.__scvar1;t.__scvar1=t.__scvar2;});t.__scvar3=t.__scvar0;}+t.__scvar3);'
+		'return 16+({t.__scvar0=0;t.__scvar1=0;t.__scvar3=t.__scvar0;}+t.__scvar3);'
 	)
 	expect(customMoLang.transform('f.sq(2)')).toBe('(math.pow(2,2))')
 	expect(customMoLang.transform("f.sq(f.on_axis('x'))")).toBe(

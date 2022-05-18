@@ -13,13 +13,17 @@ export class LoopExpression extends Expression {
 	get allExpressions() {
 		return [this.count, this.expression]
 	}
+	get isNoopLoop() {
+		return this.count.isStatic() && this.count.eval() === 0
+	}
+
 	setExpressionAt(index: number, expr: IExpression) {
 		if (index === 0) this.count = expr
 		else if (index === 1) this.expression = expr
 	}
 
 	get isReturn() {
-		return this.expression.isReturn
+		return this.isNoopLoop ? false : this.expression.isReturn
 	}
 
 	isStatic() {
@@ -28,6 +32,8 @@ export class LoopExpression extends Expression {
 
 	eval() {
 		const repeatCount = Number(this.count.eval())
+
+		if(repeatCount === 0) return 0
 		if (Number.isNaN(repeatCount))
 			throw new Error(
 				`First loop() argument must be of type number, received "${typeof this.count.eval()}"`
@@ -51,6 +57,8 @@ export class LoopExpression extends Expression {
 	}
 
 	toString() {
+		if(this.isNoopLoop) return ''
+		
 		return `loop(${this.count.toString()},${this.expression.toString()})`
 	}
 }

@@ -94,7 +94,9 @@ export class StatementExpression extends Expression {
 				(expr instanceof StaticExpression && !expr.isReturn)
 			)
 				continue
-			str += `${expr.toString()};`
+
+			const exprStr = expr.toString()
+			if (exprStr) str += `${exprStr};`
 		}
 
 		return str

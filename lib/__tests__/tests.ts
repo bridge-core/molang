@@ -1,5 +1,6 @@
-import { Context } from '../env/env'
+import { Context, ExecutionEnvironment } from '../env/env'
 import { MoLang } from '../main'
+import MolangJs from 'molangjs'
 
 const TESTS: [string, number | string][] = [
 	/**
@@ -51,6 +52,7 @@ const TESTS: [string, number | string][] = [
 	['v.x = 0; loop(10, v.x = v.x + 1); return v.x;', 10],
 	['v.x = 0; loop(10, { v.x = v.x + 1; }); return v.x;', 10],
 	['v.x = 2; loop(10, { return 1; }); return v.x;', 1],
+	['v.x = 2; loop(0, { return 1; }); return v.x;', 2],
 	[
 		't.total = 0; for_each(t.current, texture.skin_id, { t.total = t.total + t.current; }); return t.total;',
 		55,
@@ -173,6 +175,8 @@ const env = {
 
 describe('parse(string)', () => {
 	const molang = new MoLang(env, { useOptimizer: false })
+	const molangJs = new MolangJs()
+	const flatEnv = new ExecutionEnvironment(env, { isFlat: false }).get()
 
 	TESTS.forEach(([t, res]) => {
 		test(`Optimizer<false>: "${t}" => ${res}`, () => {
@@ -182,5 +186,9 @@ describe('parse(string)', () => {
 		test(`Optimizer<true>: "${t}" => ${res}`, () => {
 			expect(molang.execute(t)).toBe(res)
 		})
+
+		// test(`MolangJS: "${t}" => ${res}`, () => {
+		// 	expect(molangJs.parse(t, flatEnv)).toBe(res)
+		// })
 	})
 })
