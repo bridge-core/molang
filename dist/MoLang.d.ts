@@ -14,6 +14,6 @@ export declare class MoLang {
     execute(expression: string): unknown;
     executeAndCatch(expression: string): unknown;
     parse(expression: string): IExpression;
-    resolveStatic(ast: IExpression): void;
+    resolveStatic(ast: IExpression): IExpression;
     getParser(): MoLangParser;
 }

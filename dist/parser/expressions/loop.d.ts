@@ -5,6 +5,7 @@ export declare class LoopExpression extends Expression {
     type: string;
     constructor(count: IExpression, expression: IExpression);
     get allExpressions(): IExpression[];
+    get isNoopLoop(): boolean;
     setExpressionAt(index: number, expr: IExpression): void;
     get isReturn(): boolean | undefined;
     isStatic(): boolean;
