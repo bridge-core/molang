@@ -58,6 +58,6 @@ export class ForEachExpression extends Expression {
 	}
 
 	toString() {
-		return `loop(${this.variable.toString()},${this.arrayExpression.toString()},${this.expression.toString()})`
+		return `for_each(${this.variable.toString()},${this.arrayExpression.toString()},${this.expression.toString()})`
 	}
 }
