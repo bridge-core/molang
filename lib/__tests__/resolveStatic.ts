@@ -1,4 +1,4 @@
-import { Molang } from '../_Molang'
+import { Molang } from '../Molang'
 
 test('Molang.resolveStatic(expr)', () => {
 	const molang = new Molang(
