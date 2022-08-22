@@ -1,9 +1,9 @@
-import { CustomMoLang } from '../../custom/main'
+import { CustomMolang } from '../../custom/main'
 
 test('Custom syntax', () => {
-	const customMoLang = new CustomMoLang({})
+	const customMolang = new CustomMolang({})
 
-	// customMoLang.parse(
+	// customMolang.parse(
 	// 	`
 	// 		# A basic custom class
 	//         class('linked_list', {
@@ -56,7 +56,7 @@ test('Custom syntax', () => {
 	// )
 
 	// expect(
-	// 	customMoLang.transform(
+	// 	customMolang.transform(
 	// 		'v.list = class.linked_list(); v.list.add_first(1); return v.list.get_element(0);'
 	// 	)
 	// ).toBe(`v.list.length=0;v.list.first=0;v.list.length=v.list.length+1;`)

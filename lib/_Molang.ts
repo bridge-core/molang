@@ -3,14 +3,14 @@ import { IExpression, IParserConfig } from './main'
 import { GenericOperatorExpression } from './parser/expressions/genericOperator'
 import { StaticExpression } from './parser/expressions/static'
 import { StringExpression } from './parser/expressions/string'
-import { MoLangParser } from './parser/molang'
+import { MolangParser } from './parser/molang'
 
-export class MoLang {
+export class Molang {
 	protected expressionCache: Record<string, IExpression> = {}
 	protected totalCacheEntries = 0
 	protected executionEnvironment!: ExecutionEnvironment
 
-	protected parser: MoLangParser
+	protected parser: MolangParser
 
 	constructor(
 		env: Record<string, unknown> = {},
@@ -25,7 +25,7 @@ export class MoLang {
 		if (config.convertUndefined === undefined)
 			this.config.convertUndefined = false
 
-		this.parser = new MoLangParser({
+		this.parser = new MolangParser({
 			...this.config,
 			tokenizer: undefined,
 		})
@@ -50,7 +50,7 @@ export class MoLang {
 		this.parser.setExecutionEnvironment(this.executionEnvironment)
 	}
 	/**
-	 * Clears the MoLang expression cache
+	 * Clears the Molang expression cache
 	 */
 	clearCache() {
 		this.expressionCache = {}
@@ -58,10 +58,10 @@ export class MoLang {
 	}
 
 	/**
-	 * Execute the given MoLang string `expression`
-	 * @param expression The MoLang string to execute
+	 * Execute the given Molang string `expression`
+	 * @param expression The Molang string to execute
 	 *
-	 * @returns The value the MoLang expression corresponds to
+	 * @returns The value the Molang expression corresponds to
 	 */
 	execute(expression: string) {
 		this.parser.setExecutionEnvironment(this.executionEnvironment)
@@ -73,11 +73,11 @@ export class MoLang {
 		return result
 	}
 	/**
-	 * Execute the given MoLang string `expression`
+	 * Execute the given Molang string `expression`
 	 * In case of errors, return 0
-	 * @param expression The MoLang string to execute
+	 * @param expression The Molang string to execute
 	 *
-	 * @returns The value the MoLang expression corresponds to and 0 if the statement is invalid
+	 * @returns The value the Molang expression corresponds to and 0 if the statement is invalid
 	 */
 	executeAndCatch(expression: string) {
 		try {
@@ -88,10 +88,10 @@ export class MoLang {
 	}
 
 	/**
-	 * Parse the given MoLang string `expression`
-	 * @param expression The MoLang string to parse
+	 * Parse the given Molang string `expression`
+	 * @param expression The Molang string to parse
 	 *
-	 * @returns An AST that corresponds to the MoLang expression
+	 * @returns An AST that corresponds to the Molang expression
 	 */
 	parse(expression: string): IExpression {
 		if (this.config.useCache ?? true) {

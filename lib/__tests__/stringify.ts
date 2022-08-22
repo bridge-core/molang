@@ -1,7 +1,7 @@
-import { MoLang } from '../main'
+import { Molang } from '../main'
 
 test('Parse & stringify statements', () => {
-	const molang = new MoLang(
+	const molang = new Molang(
 		{ 'variable.is_true': 1 },
 		{
 			useCache: false,

@@ -1,6 +1,6 @@
 //@ts-ignore
 import MolangJS from 'molangjs'
-import { MoLang } from '../main'
+import { Molang } from '../main'
 import { Tokenizer } from '../tokenizer/Tokenizer'
 
 const iterations = 100000
@@ -15,7 +15,7 @@ const env = {
 	'query.position_delta': () => 2,
 }
 
-const molang = new MoLang(env, { useCache: false, useOptimizer: true })
+const molang = new Molang(env, { useCache: false, useOptimizer: true })
 
 console.log('-- MOLANG --')
 console.time('[PARSE & EXECUTE] Raw Performance')

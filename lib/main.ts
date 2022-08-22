@@ -2,14 +2,14 @@ import { TVariableHandler } from './env/env'
 import { Tokenizer } from './tokenizer/Tokenizer'
 
 /**
- * How the parser and interpreter should handle your MoLang expression
+ * How the parser and interpreter should handle your Molang expression
  */
 
 export interface IParserConfig {
 	/**
-	 * Whether a cache should be used to speed up executing MoLang.
+	 * Whether a cache should be used to speed up executing Molang.
 	 * The cache saves an AST for every parsed expression.
-	 * This allows us to skip the tokenization & parsing step before executing known MoLang expressions
+	 * This allows us to skip the tokenization & parsing step before executing known Molang expressions
 	 *
 	 * @default true
 	 */
@@ -22,7 +22,7 @@ export interface IParserConfig {
 	 */
 	maxCacheSize: number
 	/**
-	 * The optimizer can drastically speed up parsing & executing MoLang.
+	 * The optimizer can drastically speed up parsing & executing Molang.
 	 * It enables skipping of unreachable statements, pre-evaluating static expressions and skipping of statements with no effect
 	 * when used together with the `useAgressiveStaticOptimizer` option
 	 *
@@ -94,7 +94,7 @@ export interface IParserConfig {
 
 export { Tokenizer } from './tokenizer/Tokenizer'
 export { IExpression } from './parser/expression'
-export { CustomMoLang } from './custom/main'
-export { MoLang } from './MoLang'
+export { CustomMolang } from './custom/main'
+export { Molang } from './_Molang'
 export * as expressions from './parser/expressions/index'
 export { Context } from './env/env'

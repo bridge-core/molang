@@ -4,7 +4,7 @@ import { IPrefixParselet } from '../parser/parselets/prefix'
 import { Expression, IExpression } from '../parser/expression'
 import { StringExpression } from '../parser/expressions/string'
 import { StatementExpression } from '../parser/expressions/statement'
-import { CustomMoLangParser } from './main'
+import { CustomMolangParser } from './main'
 import { GroupExpression } from '../parser/expressions/group'
 
 export class CustomFunctionParselet implements IPrefixParselet {
@@ -49,7 +49,7 @@ export class CustomFunctionParselet implements IPrefixParselet {
 			throw new Error(`Missing semicolon after function expression`)
 
 		return new CustomFunctionExpression(
-			(<CustomMoLangParser>parser).functions,
+			(<CustomMolangParser>parser).functions,
 			functionName,
 			args,
 			functionBody

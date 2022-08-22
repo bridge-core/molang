@@ -1,9 +1,9 @@
 import { ExecutionEnvironment } from '../env/env'
 import { IParserConfig } from '../main'
-import { MoLangParser } from '../parser/molang'
+import { MolangParser } from '../parser/molang'
 import { Tokenizer } from '../tokenizer/Tokenizer'
 import { CustomFunctionParselet } from './function'
-import { MoLang } from '../MoLang'
+import { Molang } from '../_Molang'
 import { StatementExpression } from '../parser/expressions/statement'
 import { transformStatement } from './transformStatement'
 import { NameExpression } from '../parser/expressions/name'
@@ -15,7 +15,7 @@ import { VoidExpression } from '../parser/expressions/void'
 import { GroupExpression } from '../parser/expressions/group'
 import { CustomClassParselet } from './class'
 
-export class CustomMoLangParser extends MoLangParser {
+export class CustomMolangParser extends MolangParser {
 	public readonly functions = new Map<string, [string[], string]>()
 	public readonly classes = new Map<string, any>() // TODO: Make class data more specific than "any"
 
@@ -30,11 +30,11 @@ export class CustomMoLangParser extends MoLangParser {
 	}
 }
 
-export class CustomMoLang {
-	protected parser: CustomMoLangParser
+export class CustomMolang {
+	protected parser: CustomMolangParser
 
 	constructor(env: any) {
-		this.parser = new CustomMoLangParser({
+		this.parser = new CustomMolangParser({
 			useCache: false,
 			useOptimizer: true,
 			useAgressiveStaticOptimizer: true,
@@ -62,7 +62,7 @@ export class CustomMoLang {
 	}
 
 	transform(source: string) {
-		const molang = new MoLang(
+		const molang = new Molang(
 			{},
 			{
 				useCache: false,

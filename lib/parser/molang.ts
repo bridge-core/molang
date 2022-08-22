@@ -25,7 +25,7 @@ import { SmallerOperator } from './parselets/SmallerOperator'
 import { GreaterOperator } from './parselets/GreaterOperator'
 import { QuestionOperator } from './parselets/QuestionOperator'
 
-export class MoLangParser extends Parser {
+export class MolangParser extends Parser {
 	constructor(config: Partial<IParserConfig>) {
 		super(config)
 

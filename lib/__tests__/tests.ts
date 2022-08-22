@@ -1,5 +1,5 @@
 import { Context, ExecutionEnvironment } from '../env/env'
-import { MoLang } from '../main'
+import { Molang } from '../main'
 import MolangJs from 'molangjs'
 
 const TESTS: [string, number | string][] = [
@@ -29,14 +29,14 @@ const TESTS: [string, number | string][] = [
 	['return 0 ? 1;', 0],
 	['return 1 ? 1;', 1],
 	['(0 ? 1 : 2) ? 3 : 4', 3],
-	// MoLang should parse A?B?C:D:E as A?(B?C:D):E
+	// Molang should parse A?B?C:D:E as A?(B?C:D):E
 	['q.variant == 11 ? 1 ? 2 : 0 : q.variant == 27', 2],
-	// MoLang should parse A?B:C?D:E as A?B:(C?D:E), not (A?B:C)?D:E
+	// Molang should parse A?B:C?D:E as A?B:(C?D:E), not (A?B:C)?D:E
 	['q.variant == 11 ? 1 : q.variant == 27 ? 2 : 0', 1],
 	['t.v = 1 ? 2 : 1; return t.v;', 2],
-	//  MoLang should parse "A && B || C" as "(A && B) || C"
+	//  Molang should parse "A && B || C" as "(A && B) || C"
 	['t.v = 0; return ({t.v = 1;}+1) && 0 || t.v;', 1],
-	// MoLang should parse "A == C > D" as "A == (C > D)"
+	// Molang should parse "A == C > D" as "A == (C > D)"
 	['2 == 2 > 0', 0],
 	['0 ? 1 : 2; return 1;', 1],
 	["(1 && 0) + 1 ? 'true' : 'false'", 'true'],
@@ -174,7 +174,7 @@ const env = {
 }
 
 describe('parse(string)', () => {
-	const molang = new MoLang(env, { useOptimizer: false })
+	const molang = new Molang(env, { useOptimizer: false })
 	const molangJs = new MolangJs()
 	const flatEnv = new ExecutionEnvironment(env, { isFlat: false }).get()
 

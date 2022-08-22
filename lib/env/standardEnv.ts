@@ -1,7 +1,7 @@
-import { MoLangMathLib } from './math'
+import { MolangMathLib } from './math'
 import { standardQueries } from './queries'
 
 export const standardEnv = (useRadians: boolean) => ({
-	...MoLangMathLib(useRadians),
+	...MolangMathLib(useRadians),
 	...standardQueries,
 })

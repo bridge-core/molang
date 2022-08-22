@@ -1,12 +1,12 @@
-import { MoLang } from '../main'
+import { Molang } from '../main'
 
 test('execute without provided env', () => {
-	const molang = new MoLang()
+	const molang = new Molang()
 	expect(molang.execute('math.pow(2,2)')).toBe(4)
 })
 
 // Test standard env
-const molang = new MoLang({
+const molang = new Molang({
 	'query.array': [1, 2, 3],
 	'query.simple': 2,
 })

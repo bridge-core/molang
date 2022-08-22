@@ -23,7 +23,7 @@ const lerp = (start: number, end: number, amount: number) => {
 
 	return start + (end - start) * amount
 }
-// Written by @JannisX11 (https://github.com/JannisX11/MolangJS/blob/master/molang.js#L383); modified for usage inside of this MoLang parser
+// Written by @JannisX11 (https://github.com/JannisX11/MolangJS/blob/master/molang.js#L383); modified for usage inside of this Molang parser
 const lerprotate = (start: number, end: number, amount: number) => {
 	const radify = (n: number) => (((n + 180) % 360) + 180) % 360
 	start = radify(start)
@@ -50,7 +50,7 @@ const minAngle = (value: number) => {
 	return value
 }
 
-export const MoLangMathLib = (useRadians: boolean) => {
+export const MolangMathLib = (useRadians: boolean) => {
 	const degRadFactor = useRadians ? 1 : Math.PI / 180
 
 	return {

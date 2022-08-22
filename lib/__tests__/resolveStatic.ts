@@ -1,7 +1,7 @@
-import { MoLang } from '../MoLang'
+import { Molang } from '../_Molang'
 
-test('MoLang.resolveStatic(expr)', () => {
-	const molang = new MoLang(
+test('Molang.resolveStatic(expr)', () => {
+	const molang = new Molang(
 		{ 'variable.is_true': 1 },
 		{
 			useCache: false,

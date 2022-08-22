@@ -21,7 +21,7 @@ export default (commandLineArgs) => {
 			{
 				file: pkg.unpkg,
 				format: 'iife',
-				name: 'MoLang',
+				name: 'Molang',
 			},
 		],
 		plugins: [
