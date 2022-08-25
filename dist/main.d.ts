@@ -16,7 +16,7 @@ export interface IParserConfig {
 }
 export { Tokenizer } from './tokenizer/Tokenizer';
 export { IExpression } from './parser/expression';
-export { CustomMoLang } from './custom/main';
-export { MoLang } from './MoLang';
+export { CustomMolang } from './custom/main';
+export { Molang } from './Molang';
 export * as expressions from './parser/expressions/index';
 export { Context } from './env/env';

@@ -1,12 +1,12 @@
 import { ExecutionEnvironment } from './env/env';
 import { IExpression, IParserConfig } from './main';
-import { MoLangParser } from './parser/molang';
-export declare class MoLang {
+import { MolangParser } from './parser/molang';
+export declare class Molang {
     protected config: Partial<IParserConfig>;
     protected expressionCache: Record<string, IExpression>;
     protected totalCacheEntries: number;
     protected executionEnvironment: ExecutionEnvironment;
-    protected parser: MoLangParser;
+    protected parser: MolangParser;
     constructor(env?: Record<string, unknown>, config?: Partial<IParserConfig>);
     updateConfig(newConfig: Partial<IParserConfig>): void;
     updateExecutionEnv(env: Record<string, unknown>, isFlat?: boolean): void;
@@ -15,5 +15,6 @@ export declare class MoLang {
     executeAndCatch(expression: string): unknown;
     parse(expression: string): IExpression;
     resolveStatic(ast: IExpression): IExpression;
-    getParser(): MoLangParser;
+    minimize(ast: IExpression): IExpression;
+    getParser(): MolangParser;
 }

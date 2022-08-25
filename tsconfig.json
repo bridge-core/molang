@@ -12,6 +12,8 @@
 		"sourceMap": false,
 		"declaration": true,
 
+		"forceConsistentCasingInFileNames": true,
+
 		/* Strict Type-Checking Options */
 		"strict": true,
 		"strictFunctionTypes": true,
