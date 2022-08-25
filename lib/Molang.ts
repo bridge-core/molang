@@ -1,5 +1,6 @@
 import { ExecutionEnvironment } from './env/env'
 import { IExpression, IParserConfig } from './main'
+import { NameExpression } from './parser/expressions'
 import { GenericOperatorExpression } from './parser/expressions/genericOperator'
 import { StaticExpression } from './parser/expressions/static'
 import { StringExpression } from './parser/expressions/string'
@@ -171,6 +172,56 @@ export class Molang {
 						break
 					}
 				}
+			}
+		})
+
+		return ast
+	}
+
+	minimize(ast: IExpression) {
+		// 1. Resolve all static expressions
+		ast = this.resolveStatic(ast)
+
+		// 2. Rename accessors to short hand
+		const replaceMap = new Map(
+			Object.entries({
+				query: 'q',
+				variables: 'v',
+				context: 'c',
+				temp: 't',
+			})
+		)
+		ast = ast.walk((expr) => {
+			if (expr instanceof NameExpression) {
+				const name = expr.toString()
+
+				for (const [key, replaceWith] of replaceMap) {
+					if (name.startsWith(`${key}.`)) {
+						expr.setName(name.replace(`${key}.`, `${replaceWith}.`))
+					}
+				}
+
+				return expr
+			}
+		})
+
+		// 3. Rename variables
+		const variableMap = new Map()
+		ast = ast.walk((expr) => {
+			if (expr instanceof NameExpression) {
+				const name = expr.toString()
+
+				if (!name.startsWith('v.') && !name.startsWith('t.')) return
+
+				if (variableMap.has(name)) {
+					expr.setName(variableMap.get(name))
+				} else {
+					const newName = `v.v${variableMap.size}`
+					variableMap.set(name, newName)
+					expr.setName(newName)
+				}
+
+				return expr
 			}
 		})
 
