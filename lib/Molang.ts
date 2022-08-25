@@ -183,21 +183,19 @@ export class Molang {
 		ast = this.resolveStatic(ast)
 
 		// 2. Rename accessors to short hand
-		const replaceMap = new Map(
-			Object.entries({
-				query: 'q',
-				variables: 'v',
-				context: 'c',
-				temp: 't',
-			})
-		)
+		const replaceMap = new Map([
+			['query.', 'q.'],
+			['variable.', 'v.'],
+			['context.', 'c.'],
+			['temp.', 't.'],
+		])
 		ast = ast.walk((expr) => {
 			if (expr instanceof NameExpression) {
 				const name = expr.toString()
 
 				for (const [key, replaceWith] of replaceMap) {
-					if (name.startsWith(`${key}.`)) {
-						expr.setName(name.replace(`${key}.`, `${replaceWith}.`))
+					if (name.startsWith(key)) {
+						expr.setName(name.replace(key, replaceWith))
 					}
 				}
 
@@ -216,6 +214,7 @@ export class Molang {
 				if (variableMap.has(name)) {
 					expr.setName(variableMap.get(name))
 				} else {
+					// Get unique name
 					const newName = `v.v${variableMap.size}`
 					variableMap.set(name, newName)
 					expr.setName(newName)
