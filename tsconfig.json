@@ -5,12 +5,13 @@
 		"target": "ESNext",
 		"module": "CommonJS",
 		"moduleResolution": "node",
-		"outDir": "./perf/",
+		"outDir": "./dist/",
 		"rootDir": "./lib/",
 		"composite": true,
 		"removeComments": true,
 		"sourceMap": false,
 		"declaration": true,
+		"emitDeclarationOnly": true,
 
 		"forceConsistentCasingInFileNames": true,
 
@@ -24,5 +25,5 @@
 		"resolveJsonModule": true
 	},
 	"include": ["./lib/**/*.ts"],
-	"types": ["node", "jest"]
+	"types": ["node"]
 }

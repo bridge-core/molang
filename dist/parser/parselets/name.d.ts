@@ -6,5 +6,5 @@ import { ContextSwitchExpression } from '../expressions/ContextSwitch';
 export declare class NameParselet implements IPrefixParselet {
     precedence: number;
     constructor(precedence?: number);
-    parse(parser: Parser, token: Token): ContextSwitchExpression | NameExpression;
+    parse(parser: Parser, token: Token): NameExpression | ContextSwitchExpression;
 }

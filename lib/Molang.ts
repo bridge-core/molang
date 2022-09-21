@@ -65,7 +65,7 @@ export class Molang {
 	 * @returns The value the Molang expression corresponds to
 	 */
 	execute(expression: string) {
-		this.parser.setExecutionEnvironment(this.executionEnvironment)
+		// this.parser.setExecutionEnvironment(this.executionEnvironment)
 		const abstractSyntaxTree = this.parse(expression)
 
 		const result = abstractSyntaxTree.eval()

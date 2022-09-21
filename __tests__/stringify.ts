@@ -1,4 +1,5 @@
-import { Molang } from '../main'
+import { Molang } from '../lib/main'
+import { test, expect } from 'vitest'
 
 test('Parse & stringify statements', () => {
 	const molang = new Molang(

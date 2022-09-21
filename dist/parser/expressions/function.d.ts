@@ -6,7 +6,7 @@ export declare class FunctionExpression extends Expression {
     protected args: IExpression[];
     type: string;
     constructor(name: NameExpression, args: IExpression[]);
-    get allExpressions(): (NameExpression | IExpression)[];
+    get allExpressions(): (IExpression | NameExpression)[];
     setExpressionAt(index: number, expr: Expression): void;
     setExecutionEnv(executionEnv: ExecutionEnvironment): void;
     get executionEnv(): ExecutionEnvironment;
