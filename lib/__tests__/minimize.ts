@@ -17,6 +17,8 @@ test('Parse & stringify statements', () => {
 		'query.position()': 'q.position()',
 		'variable.x = 1; return variable.x;': 'v.v0=1;return v.v0;',
 		'20 + 50': '70',
+		'variable.x + 0' : 'v.v0',
+		'0 + variable.x' : 'v.v0'
 	}
 
 	for (const [test, result] of Object.entries(tests)) {

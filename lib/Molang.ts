@@ -1,7 +1,8 @@
 import { ExecutionEnvironment } from './env/env'
 import { IExpression, IParserConfig } from './main'
-import { NameExpression } from './parser/expressions'
+import { NameExpression, PrefixExpression } from './parser/expressions'
 import { GenericOperatorExpression } from './parser/expressions/genericOperator'
+import { plusHelper, minusHelper, multiplyHelper, divideHelper } from './parser/parselets/binaryOperator'
 import { StaticExpression } from './parser/expressions/static'
 import { StringExpression } from './parser/expressions/string'
 import { MolangParser } from './parser/molang'
@@ -117,8 +118,85 @@ export class Molang {
 		return abstractSyntaxTree
 	}
 
+	rearrangeOptimally(ast: IExpression): IExpression {
+
+		let lastAst
+		do {
+			lastAst = ast.toString()
+			ast = ast.walk((expr) => {
+				if (expr instanceof GenericOperatorExpression) {
+
+					let leftExpr = expr.allExpressions[0]
+					let rightExpr = expr.allExpressions[1]
+
+					if (leftExpr instanceof GenericOperatorExpression && rightExpr.isStatic()) {
+
+						let rightSubExpr = leftExpr.allExpressions[1]
+						let leftSubExpr = leftExpr.allExpressions[0]
+
+						//If leftmost is nonstatic and right is, swap
+						if (!leftSubExpr.isStatic() && !(leftSubExpr instanceof GenericOperatorExpression) && rightSubExpr.isStatic()) {
+							let temp = leftSubExpr
+							leftSubExpr = rightSubExpr
+							rightSubExpr = temp
+						}
+
+						if (!rightSubExpr.isStatic()) {
+
+							//Both are additions
+							if (expr.operator === '+' && leftExpr.operator === '+') {
+								const newSubExpr = new GenericOperatorExpression(leftSubExpr, rightExpr, '+', plusHelper);
+								return new GenericOperatorExpression(newSubExpr, rightSubExpr, '+', plusHelper)
+							}
+
+							//Both are subtractions
+							if (expr.operator === '-' && leftExpr.operator === '-') {
+								const newSubExpr = new GenericOperatorExpression(leftSubExpr, rightExpr, '-', minusHelper);
+								return new GenericOperatorExpression(newSubExpr, rightSubExpr, '-', minusHelper)
+							}
+
+							//Both are multiplications
+							if (expr.operator === '*' && leftExpr.operator === '*') {
+								const newSubExpr = new GenericOperatorExpression(leftSubExpr, rightExpr, '*', multiplyHelper);
+								return new GenericOperatorExpression(newSubExpr, rightSubExpr, '*', multiplyHelper)
+							}
+
+							//One is a division, other is a multiplication
+							if (expr.operator === '/' && leftExpr.operator === '*' || expr.operator === '*' && leftExpr.operator === '/') {
+								const newSubExpr = new GenericOperatorExpression(leftSubExpr, rightExpr, '/', divideHelper);
+								return new GenericOperatorExpression(newSubExpr, rightSubExpr, '*', multiplyHelper)
+							}
+
+							//Two divisions
+							if (expr.operator === '/' && leftExpr.operator === '/') {
+								const newSubExpr = new GenericOperatorExpression(leftSubExpr, rightExpr, '*', multiplyHelper);
+								return new GenericOperatorExpression(rightSubExpr, newSubExpr, '/', divideHelper)
+							}
+
+							//First is a subtraction, other is an subtraction
+							if (expr.operator === '-' && leftExpr.operator === '+') {
+								const newSubExpr = new GenericOperatorExpression(leftSubExpr, rightExpr, '-', minusHelper);
+								return new GenericOperatorExpression(newSubExpr, rightSubExpr, '+', plusHelper)
+							}
+
+							//First is an addition, other is an subtraction
+							if (expr.operator === '+' && leftExpr.operator === '-') {
+								const newSubExpr = new GenericOperatorExpression(leftSubExpr, rightExpr, '+', plusHelper);
+								return new GenericOperatorExpression(newSubExpr, rightSubExpr, '-', minusHelper)
+							}
+						}
+					}
+				}
+			})
+		} while (ast.toString() !== lastAst)
+
+		return ast;
+	}
+
+
 	resolveStatic(ast: IExpression) {
-		// 0. TODO: Rearrange statements so all static expressions can be resolved
+		// 0. Rearrange statements so all static expressions can be resolved
+		ast = this.rearrangeOptimally(ast)
 
 		// 1. Resolve all static expressions
 		ast = ast.walk((expr) => {
@@ -138,10 +216,18 @@ export class Molang {
 						const zeroEquivalentOperand = expr.allExpressions.find(
 							(expr) => expr.isStatic() && expr.eval() === 0
 						)
+						//We check if the first operand is the zero equivalent operand
+						const firstOperand = expr.allExpressions[0] === zeroEquivalentOperand
 						if (zeroEquivalentOperand) {
-							return expr.allExpressions.find(
+							const otherOperand = expr.allExpressions.find(
 								(expr) => expr !== zeroEquivalentOperand
 							)
+							//If have subtraction and the first operand is the zero equivalent operand, we need to negate the other operand
+							if (expr.operator === '-' && firstOperand && otherOperand) {
+								return new PrefixExpression('MINUS', otherOperand)
+							}
+							//Fallback to only returning the other operand
+							return otherOperand
 						}
 
 						break
@@ -155,21 +241,53 @@ export class Molang {
 						if (zeroEquivalentOperand) {
 							return new StaticExpression(0)
 						}
-					}
-					case '*':
-					case '/': {
+
 						// If one of the two operands is 1,
 						// we can simplify the expression to only return the other operand
 						const oneEquivalentOperand = expr.allExpressions.find(
 							(expr) => expr.isStatic() && expr.eval() === 1
 						)
 						if (oneEquivalentOperand) {
-							return expr.allExpressions.find(
+							const otherOperand = expr.allExpressions.find(
 								(expr) => expr !== oneEquivalentOperand
 							)
+							return otherOperand
+						}
+					}
+					case '/': {
+
+						const leftOperand = expr.allExpressions[0]
+						const rightOperand = expr.allExpressions[1]
+						// If the right operand is 1, we can simplify the expression to only return the left operand
+						if (rightOperand.isStatic() && rightOperand.eval() === 1) {
+							return leftOperand
+						}
+
+						// If the left operand is 0, we can simplify the expression to 0
+						if (leftOperand.isStatic() && leftOperand.eval() === 0) {
+							return new StaticExpression(0)
 						}
 
 						break
+					}
+				}
+
+				//Limited common subexpression elimination
+				switch (expr.operator) {
+					case '+': {
+						const leftOperand = expr.allExpressions[0]
+						const rightOperand = expr.allExpressions[1]
+						if (leftOperand.toString() === rightOperand.toString()) {
+							return new GenericOperatorExpression(new StaticExpression(2), leftOperand, '*', multiplyHelper)
+						}
+						break
+					}
+					case '-':{
+						const leftOperand = expr.allExpressions[0]
+						const rightOperand = expr.allExpressions[1]
+						if (leftOperand.toString() === rightOperand.toString()) {
+							return new StaticExpression(0)
+						}
 					}
 				}
 			}
