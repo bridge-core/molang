@@ -15,7 +15,9 @@ const env = {
 	'query.position_delta': () => 2,
 }
 
-const molang = new Molang(env, { useCache: false, useOptimizer: true })
+const molang = new Molang(env, {
+	useCache: false,
+})
 
 const tokenizer = new Tokenizer()
 describe('Molang Tokenizer', () => {
