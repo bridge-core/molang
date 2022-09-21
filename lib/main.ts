@@ -93,7 +93,7 @@ export interface IParserConfig {
 }
 
 export { Tokenizer } from './tokenizer/Tokenizer'
-export { IExpression } from './parser/expression'
+export type { IExpression } from './parser/expression'
 export { CustomMolang } from './custom/main'
 export { Molang } from './Molang'
 export * as expressions from './parser/expressions/index'

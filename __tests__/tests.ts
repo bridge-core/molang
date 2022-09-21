@@ -1,6 +1,7 @@
-import { Context, ExecutionEnvironment } from '../env/env'
-import { Molang } from '../main'
+import { Context, ExecutionEnvironment } from '../lib/env/env'
+import { Molang } from '../lib/main'
 import MolangJs from 'molangjs'
+import { describe, test, expect } from 'vitest'
 
 const TESTS: [string, number | string][] = [
 	/**

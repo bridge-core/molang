@@ -72,7 +72,7 @@ export class ExecutionEnvironment {
 				}
 			}
 
-			if (newEnv[key].__isContext) {
+			if (newEnv[key]?.__isContext) {
 				current[`${addKey}${newKey}`] = newEnv[key].env
 			} else if (
 				typeof newEnv[key] === 'object' &&

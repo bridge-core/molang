@@ -1,4 +1,5 @@
-import { CustomMolang } from '../../custom/main'
+import { CustomMolang } from '../../lib/custom/main'
+import { test, expect } from 'vitest'
 
 test('Custom syntax', () => {
 	const customMolang = new CustomMolang({})

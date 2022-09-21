@@ -1,4 +1,5 @@
-import { Molang } from '../Molang'
+import { Molang } from '../lib/Molang'
+import { test, expect } from 'vitest'
 
 test('Molang.resolveStatic(expr)', () => {
 	const molang = new Molang(

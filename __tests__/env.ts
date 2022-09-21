@@ -1,4 +1,5 @@
-import { Molang } from '../main'
+import { Molang } from '../lib/main'
+import { test, expect } from 'vitest'
 
 test('execute without provided env', () => {
 	const molang = new Molang()
@@ -29,4 +30,16 @@ test('Standard Environment', () => {
 	for (const test in tests) {
 		expect(molang.execute(test)).toBe(tests[test])
 	}
+})
+
+test('Object within env', () => {
+	const molang = new Molang({
+		'context.position': {
+			x: () => 1,
+			y: () => 2,
+		},
+	})
+
+	expect(molang.execute('c.position.x')).toBe(1)
+	expect(molang.execute('c.position.y')).toBe(2)
 })
