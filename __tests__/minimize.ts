@@ -16,7 +16,8 @@ test('Parse & stringify statements', () => {
 
 	const tests = {
 		'query.position()': 'q.position()',
-		'variable.x = 1; return variable.x;': 'v.v0=1;return v.v0;',
+		'variable.x = 1; return variable.x;': 'v.x=1;return v.x;',
+		'return temp.my_var;': 'return t.v0;',
 		'20 + 50': '70',
 	}
 

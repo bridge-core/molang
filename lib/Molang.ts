@@ -210,12 +210,16 @@ export class Molang {
 				const name = expr.toString()
 
 				if (!name.startsWith('v.') && !name.startsWith('t.')) return
+				// Don't minify vars like "v.x" or "t.x"
+				if (name.length === 3) return
+
+				const varPrefix = name.startsWith('v.') ? 'v.' : 't.'
 
 				if (variableMap.has(name)) {
 					expr.setName(variableMap.get(name))
 				} else {
 					// Get unique name
-					const newName = `v.v${variableMap.size}`
+					const newName = `${varPrefix}v${variableMap.size}`
 					variableMap.set(name, newName)
 					expr.setName(newName)
 				}
