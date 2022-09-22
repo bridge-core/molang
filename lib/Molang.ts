@@ -173,7 +173,7 @@ export class Molang {
 								return new GenericOperatorExpression(rightSubExpr, newSubExpr, '/', divideHelper)
 							}
 
-							//First is a subtraction, other is an subtraction
+							//First is a subtraction, other is an addition
 							if (expr.operator === '-' && leftExpr.operator === '+') {
 								const newSubExpr = new GenericOperatorExpression(leftSubExpr, rightExpr, '-', minusHelper);
 								return new GenericOperatorExpression(newSubExpr, rightSubExpr, '+', plusHelper)
