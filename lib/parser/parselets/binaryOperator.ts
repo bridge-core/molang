@@ -4,7 +4,7 @@ import { IExpression } from '../expression'
 import { Token } from '../../tokenizer/token'
 import { GenericOperatorExpression } from '../expressions/genericOperator'
 
-const plusHelper = (
+export const plusHelper = (
 	leftExpression: IExpression,
 	rightExpression: IExpression
 ) => {
@@ -20,7 +20,7 @@ const plusHelper = (
 	//@ts-ignore
 	return leftValue + rightValue
 }
-const minusHelper = (
+export const minusHelper = (
 	leftExpression: IExpression,
 	rightExpression: IExpression
 ) => {
@@ -36,7 +36,7 @@ const minusHelper = (
 	//@ts-ignore
 	return leftValue - rightValue
 }
-const divideHelper = (
+export const divideHelper = (
 	leftExpression: IExpression,
 	rightExpression: IExpression
 ) => {
@@ -52,7 +52,7 @@ const divideHelper = (
 	//@ts-ignore
 	return leftValue / rightValue
 }
-const multiplyHelper = (
+export const multiplyHelper = (
 	leftExpression: IExpression,
 	rightExpression: IExpression
 ) => {
@@ -68,7 +68,7 @@ const multiplyHelper = (
 	//@ts-ignore
 	return leftValue * rightValue
 }
-const assignHelper = (
+export const assignHelper = (
 	leftExpression: IExpression,
 	rightExpression: IExpression
 ) => {

@@ -19,6 +19,8 @@ test('Parse & stringify statements', () => {
 		'variable.x = 1; return variable.x;': 'v.x=1;return v.x;',
 		'return temp.my_var;': 'return t.v0;',
 		'20 + 50': '70',
+		'variable.x + 0' : 'v.v0',
+		'0 + variable.x' : 'v.v0'
 	}
 
 	for (const [test, result] of Object.entries(tests)) {
