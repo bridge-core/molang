@@ -55,6 +55,12 @@ export class Parser {
 			if (tokenType === 'EQUALS' && !this.match('EQUALS')) {
 				tokenType = 'ASSIGN'
 			}
+			if(tokenType === 'PLUS' && this.match('PLUS')) {
+				tokenType = 'PLUSPLUS'
+			}
+			if(tokenType === 'MINUS' && this.match('MINUS')) {
+				tokenType = 'MINUSMINUS'
+			}
 
 			const infix = <IInfixParselet>this.infixParselets.get(tokenType)
 			if (!infix)

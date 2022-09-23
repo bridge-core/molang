@@ -27,6 +27,12 @@ test('Parse & stringify statements', () => {
 		'array.t[v.t]': 'array.t[v.t]',
 		'return -(1+1);': 'return -(1+1);',
 		'return .5;': 'return .5;',
+		'return 1.5;': 'return 1.5;',
+		'v.x++': '(v.x=v.x+1;0)+v.x-1',
+		'v.x++;': '(v.x=v.x+1;0)+v.x-1;',
+		'v.x--': '(v.x=v.x-1;0)+v.x+1',
+		'v.x--;': '(v.x=v.x-1;0)+v.x+1;',
+		'v.x = 1 + v.y++ + 2;': 'v.x=1+(v.y=v.y+1;0)+v.y-1+2;',
 	}
 
 	for (const [test, result] of Object.entries(tests)) {

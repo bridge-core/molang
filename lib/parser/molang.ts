@@ -24,6 +24,7 @@ import { OrOperator } from './parselets/OrOperator'
 import { SmallerOperator } from './parselets/SmallerOperator'
 import { GreaterOperator } from './parselets/GreaterOperator'
 import { QuestionOperator } from './parselets/QuestionOperator'
+import { PostInDecrementOperator } from './parselets/postInDecremet'
 
 export class MolangParser extends Parser {
 	constructor(config: Partial<IParserConfig>) {
@@ -84,5 +85,7 @@ export class MolangParser extends Parser {
 		this.registerInfix('AND', new AndOperator(EPrecedence.AND))
 		this.registerInfix('OR', new OrOperator(EPrecedence.OR))
 		this.registerInfix('ASSIGN', new BinaryOperator(EPrecedence.ASSIGNMENT))
+		this.registerInfix('PLUSPLUS', new PostInDecrementOperator(EPrecedence.POSTFIX))
+		this.registerInfix('MINUSMINUS', new PostInDecrementOperator(EPrecedence.POSTFIX))
 	}
 }

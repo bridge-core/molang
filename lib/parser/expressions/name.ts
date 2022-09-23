@@ -28,6 +28,11 @@ export class NameExpression extends Expression {
 	setFunctionCall(value = true) {
 		this.isFunctionCall = value
 	}
+
+	isFunction() {
+		return this.isFunctionCall
+	}
+
 	setName(name: string) {
 		this.name = name
 	}
