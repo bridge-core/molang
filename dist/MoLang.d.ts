@@ -14,6 +14,7 @@ export declare class Molang {
     execute(expression: string): unknown;
     executeAndCatch(expression: string): unknown;
     parse(expression: string): IExpression;
+    rearrangeOptimally(ast: IExpression): IExpression;
     resolveStatic(ast: IExpression): IExpression;
     minimize(ast: IExpression): IExpression;
     getParser(): MolangParser;

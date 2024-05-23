@@ -1,6 +1,6 @@
 {
 	"name": "@bridge-editor/molang",
-	"version": "2.0.1",
+	"version": "2.0.2",
 	"description": "A fast parser for Minecraft's MoLang",
 	"main": "./dist/molang.umd.js",
 	"module": "./dist/molang.es.js",

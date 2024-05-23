@@ -1,7 +1,7 @@
-var oe = Object.defineProperty;
-var ae = (r, e, t) => e in r ? oe(r, e, { enumerable: !0, configurable: !0, writable: !0, value: t }) : r[e] = t;
-var o = (r, e, t) => (ae(r, typeof e != "symbol" ? e + "" : e, t), t);
-const he = {
+var ce = Object.defineProperty;
+var le = (r, e, t) => e in r ? ce(r, e, { enumerable: !0, configurable: !0, writable: !0, value: t }) : r[e] = t;
+var a = (r, e, t) => (le(r, typeof e != "symbol" ? e + "" : e, t), t);
+const pe = {
   "!": "BANG",
   "&": "AND",
   "(": "LEFT_PARENT",
@@ -22,7 +22,7 @@ const he = {
   "{": "CURLY_LEFT",
   "|": "OR",
   "}": "CURLY_RIGHT"
-}, H = /* @__PURE__ */ new Set([
+}, V = /* @__PURE__ */ new Set([
   "return",
   "continue",
   "break",
@@ -50,15 +50,15 @@ class N {
     };
   }
 }
-class D {
+class K {
   constructor(e) {
-    o(this, "keywordTokens");
-    o(this, "i", 0);
-    o(this, "currentColumn", 0);
-    o(this, "currentLine", 0);
-    o(this, "lastColumns", 0);
-    o(this, "expression");
-    e ? this.keywordTokens = /* @__PURE__ */ new Set([...H, ...e]) : this.keywordTokens = H;
+    a(this, "keywordTokens");
+    a(this, "i", 0);
+    a(this, "currentColumn", 0);
+    a(this, "currentLine", 0);
+    a(this, "lastColumns", 0);
+    a(this, "expression");
+    e ? this.keywordTokens = /* @__PURE__ */ new Set([...V, ...e]) : this.keywordTokens = V;
   }
   init(e) {
     this.currentLine = 0, this.currentColumn = 0, this.lastColumns = 0, this.i = 0, this.expression = e;
@@ -73,7 +73,7 @@ class D {
 `, this.i + 1);
       return this.i = t === -1 ? this.expression.length : t, this.currentLine++, this.lastColumns = this.i + 1, this.currentColumn = 0, this.next();
     }
-    let e = he[this.expression[this.i]];
+    let e = pe[this.expression[this.i]];
     if (e)
       return new N(
         e,
@@ -128,24 +128,24 @@ class D {
     return e >= "0" && e <= "9";
   }
 }
-const ue = (r, e, t) => typeof r != "number" || Number.isNaN(r) ? e : r > t ? t : r < e ? e : r, ce = (r, e, t) => {
+const fe = (r, e, t) => typeof r != "number" || Number.isNaN(r) ? e : r > t ? t : r < e ? e : r, xe = (r, e, t) => {
   let s = 0, n = 0;
   for (; s < r; )
-    n += V(e, t);
+    n += Z(e, t);
   return n;
-}, le = (r, e, t) => {
+}, Ee = (r, e, t) => {
   let s = 0, n = 0;
   for (; s < r; )
-    n += j(e, t);
+    n += J(e, t);
   return n;
-}, pe = (r) => 3 * r ** 2 - 2 * r ** 3, fe = (r, e, t) => (t < 0 ? t = 0 : t > 1 && (t = 1), r + (e - r) * t), xe = (r, e, t) => {
+}, ge = (r) => 3 * r ** 2 - 2 * r ** 3, me = (r, e, t) => (t < 0 ? t = 0 : t > 1 && (t = 1), r + (e - r) * t), we = (r, e, t) => {
   const s = (n) => ((n + 180) % 360 + 180) % 360;
   if (r = s(r), e = s(e), r > e) {
     let n = r;
     r = e, e = n;
   }
   return e - r > 180 ? s(e + t * (360 - (e - r))) : r + t * (e - r);
-}, Ee = (r, e) => r % e, V = (r, e) => r + Math.random() * (e - r), j = (r, e) => Math.round(r + Math.random() * (e - r)), ge = (r) => (r = r % 360, r = (r + 360) % 360, r > 179 && (r -= 360), r), me = (r) => {
+}, Se = (r, e) => r % e, Z = (r, e) => r + Math.random() * (e - r), J = (r, e) => Math.round(r + Math.random() * (e - r)), ve = (r) => (r = r % 360, r = (r + 360) % 360, r > 179 && (r -= 360), r), de = (r) => {
   const e = r ? 1 : Math.PI / 180;
   return {
     "math.abs": Math.abs,
@@ -154,46 +154,46 @@ const ue = (r, e, t) => typeof r != "number" || Number.isNaN(r) ? e : r > t ? t 
     "math.atan": (t) => Math.atan(t) / e,
     "math.atan2": (t, s) => Math.atan2(t, s) / e,
     "math.ceil": Math.ceil,
-    "math.clamp": ue,
+    "math.clamp": fe,
     "math.cos": (t) => Math.cos(t * e),
-    "math.die_roll": ce,
-    "math.die_roll_integer": le,
+    "math.die_roll": xe,
+    "math.die_roll_integer": Ee,
     "math.exp": Math.exp,
     "math.floor": Math.floor,
-    "math.hermite_blend": pe,
-    "math.lerp": fe,
-    "math.lerp_rotate": xe,
+    "math.hermite_blend": ge,
+    "math.lerp": me,
+    "math.lerp_rotate": we,
     "math.ln": Math.log,
     "math.max": Math.max,
     "math.min": Math.min,
-    "math.min_angle": ge,
-    "math.mod": Ee,
+    "math.min_angle": ve,
+    "math.mod": Se,
     "math.pi": Math.PI,
     "math.pow": Math.pow,
-    "math.random": V,
-    "math.random_integer": j,
+    "math.random": Z,
+    "math.random_integer": J,
     "math.round": Math.round,
     "math.sin": (t) => Math.sin(t * e),
     "math.sqrt": Math.sqrt,
     "math.trunc": Math.trunc
   };
-}, we = (r, e, t) => typeof r != "number" || typeof e != "number" || typeof t != "number" ? (console.error('"query.in_range": value, min and max must be numbers'), !1) : r >= e && r <= t, Se = (r, ...e) => e.every((t) => t === r), ve = (r, ...e) => e.some((t) => t === r), Re = (r) => Array.isArray(r) ? r.length : 1, de = {
-  "query.in_range": we,
-  "query.all": Se,
-  "query.any": ve,
-  "query.count": Re
-}, q = (r) => ({
-  ...me(r),
-  ...de
+}, Re = (r, e, t) => typeof r != "number" || typeof e != "number" || typeof t != "number" ? (console.error('"query.in_range": value, min and max must be numbers'), !1) : r >= e && r <= t, ye = (r, ...e) => e.every((t) => t === r), Te = (r, ...e) => e.some((t) => t === r), Ae = (r) => Array.isArray(r) ? r.length : 1, Ce = {
+  "query.in_range": Re,
+  "query.all": ye,
+  "query.any": Te,
+  "query.count": Ae
+}, j = (r) => ({
+  ...de(r),
+  ...Ce
 });
-class I {
+class $ {
   constructor(e, t) {
-    o(this, "env");
+    a(this, "env");
     var s;
     if (this.config = t, !e)
       throw new Error("Provided environment must be an object");
     this.env = {
-      ...q((s = t.useRadians) != null ? s : !1),
+      ...j((s = t.useRadians) != null ? s : !1),
       "query.self": () => this.env,
       ...t.isFlat ? e : this.flattenEnv(e)
     };
@@ -203,7 +203,7 @@ class I {
     convertUndefined: t,
     useRadians: s
   }) {
-    t !== void 0 && (this.config.convertUndefined = t), typeof e == "function" && (this.config.variableHandler = e), !!this.config.useRadians != !!s && (this.env = Object.assign(this.env, q(!!s)));
+    t !== void 0 && (this.config.convertUndefined = t), typeof e == "function" && (this.config.variableHandler = e), !!this.config.useRadians != !!s && (this.env = Object.assign(this.env, j(!!s)));
   }
   get() {
     return this.env;
@@ -211,26 +211,26 @@ class I {
   flattenEnv(e, t = "", s = {}) {
     var n;
     for (let i in e) {
-      let a = i;
+      let o = i;
       if (i[1] === ".")
         switch (i[0]) {
           case "q":
-            a = "query" + i.substring(1, i.length);
+            o = "query" + i.substring(1, i.length);
             break;
           case "t":
-            a = "temp" + i.substring(1, i.length);
+            o = "temp" + i.substring(1, i.length);
             break;
           case "v":
-            a = "variable" + i.substring(1, i.length);
+            o = "variable" + i.substring(1, i.length);
             break;
           case "c":
-            a = "context" + i.substring(1, i.length);
+            o = "context" + i.substring(1, i.length);
             break;
           case "f":
-            a = "function" + i.substring(1, i.length);
+            o = "function" + i.substring(1, i.length);
             break;
         }
-      (n = e[i]) != null && n.__isContext ? s[`${t}${a}`] = e[i].env : typeof e[i] == "object" && !Array.isArray(e[i]) ? this.flattenEnv(e[i], `${t}${i}.`, s) : s[`${t}${a}`] = e[i];
+      (n = e[i]) != null && n.__isContext ? s[`${t}${o}`] = e[i].env : typeof e[i] == "object" && !Array.isArray(e[i]) ? this.flattenEnv(e[i], `${t}${i}.`, s) : s[`${t}${o}`] = e[i];
     }
     return s;
   }
@@ -281,11 +281,11 @@ class I {
 }
 class at {
   constructor(e) {
-    o(this, "__isContext", !0);
+    a(this, "__isContext", !0);
     this.env = e;
   }
 }
-class u {
+class l {
   toString() {
     return `${this.eval()}`;
   }
@@ -301,8 +301,8 @@ class u {
       if (t.has(i))
         continue;
       t.add(i);
-      const a = (s = e(i)) != null ? s : i;
-      a !== i && t.has(a) || (t.add(a), this.setExpressionAt(n, a), a.iterate(e, t));
+      const o = (s = e(i)) != null ? s : i;
+      o !== i && t.has(o) || (t.add(o), this.setExpressionAt(n, o), o.iterate(e, t));
     }
   }
   some(e) {
@@ -311,10 +311,10 @@ class u {
     );
   }
 }
-class d extends u {
+class A extends l {
   constructor() {
     super(...arguments);
-    o(this, "type", "VoidExpression");
+    a(this, "type", "VoidExpression");
   }
   get allExpressions() {
     return [];
@@ -331,13 +331,13 @@ class d extends u {
     return "";
   }
 }
-class ye {
+class be {
   constructor(e) {
-    o(this, "prefixParselets", /* @__PURE__ */ new Map());
-    o(this, "infixParselets", /* @__PURE__ */ new Map());
-    o(this, "readTokens", []);
-    o(this, "tokenIterator", new D());
-    o(this, "executionEnv");
+    a(this, "prefixParselets", /* @__PURE__ */ new Map());
+    a(this, "infixParselets", /* @__PURE__ */ new Map());
+    a(this, "readTokens", []);
+    a(this, "tokenIterator", new K());
+    a(this, "executionEnv");
     this.config = e;
   }
   updateConfig(e) {
@@ -355,7 +355,7 @@ class ye {
   parseExpression(e = 0) {
     let t = this.consume();
     if (t.getType() === "EOF")
-      return new d();
+      return new A();
     const s = this.prefixParselets.get(t.getType());
     if (!s)
       throw new Error(
@@ -411,10 +411,10 @@ class ye {
     return this.prefixParselets.get(e);
   }
 }
-class c extends u {
+class h extends l {
   constructor(t, s, n, i) {
     super();
-    o(this, "type", "GenericOperatorExpression");
+    a(this, "type", "GenericOperatorExpression");
     this.left = t, this.right = s, this.operator = n, this.evalHelper = i;
   }
   get allExpressions() {
@@ -433,35 +433,35 @@ class c extends u {
     return `${this.left.toString()}${this.operator}${this.right.toString()}`;
   }
 }
-const Te = (r, e) => {
+const O = (r, e) => {
   const t = r.eval(), s = e.eval();
   if (!(typeof t == "number" || typeof t == "boolean") || !(typeof s == "number" || typeof s == "boolean"))
     throw new Error(
       `Cannot use numeric operators for expression "${t} + ${s}"`
     );
   return t + s;
-}, Ae = (r, e) => {
+}, I = (r, e) => {
   const t = r.eval(), s = e.eval();
   if (!(typeof t == "number" || typeof t == "boolean") || !(typeof s == "number" || typeof s == "boolean"))
     throw new Error(
       `Cannot use numeric operators for expression "${t} - ${s}"`
     );
   return t - s;
-}, Ce = (r, e) => {
+}, M = (r, e) => {
   const t = r.eval(), s = e.eval();
   if (!(typeof t == "number" || typeof t == "boolean") || !(typeof s == "number" || typeof s == "boolean"))
     throw new Error(
       `Cannot use numeric operators for expression "${t} / ${s}"`
     );
   return t / s;
-}, Ne = (r, e) => {
+}, T = (r, e) => {
   const t = r.eval(), s = e.eval();
   if (!(typeof t == "number" || typeof t == "boolean") || !(typeof s == "number" || typeof s == "boolean"))
     throw new Error(
       `Cannot use numeric operators for expression "${t} * ${s}"`
     );
   return t * s;
-}, ke = (r, e) => {
+}, Ne = (r, e) => {
   if (r.setPointer)
     return r.setPointer(e.eval()), 0;
   throw Error(`Cannot assign to ${r.type}`);
@@ -474,50 +474,50 @@ class k {
     const n = e.parseExpression(this.precedence), i = s.getText();
     switch (i) {
       case "+":
-        return new c(
+        return new h(
           t,
           n,
           i,
-          Te
+          O
         );
       case "-":
-        return new c(
+        return new h(
           t,
           n,
           i,
-          Ae
+          I
         );
       case "*":
-        return new c(
+        return new h(
           t,
           n,
           i,
-          Ne
+          T
         );
       case "/":
-        return new c(
+        return new h(
           t,
           n,
           i,
-          Ce
+          M
         );
       case "=":
-        return new c(
+        return new h(
           t,
           n,
           "=",
-          ke
+          Ne
         );
       default:
         throw new Error("Operator not implemented");
     }
   }
 }
-var h = /* @__PURE__ */ ((r) => (r[r.SCOPE = 1] = "SCOPE", r[r.STATEMENT = 2] = "STATEMENT", r[r.ASSIGNMENT = 3] = "ASSIGNMENT", r[r.CONDITIONAL = 4] = "CONDITIONAL", r[r.ARRAY_ACCESS = 5] = "ARRAY_ACCESS", r[r.NULLISH_COALESCING = 6] = "NULLISH_COALESCING", r[r.AND = 7] = "AND", r[r.OR = 8] = "OR", r[r.EQUALS_COMPARE = 9] = "EQUALS_COMPARE", r[r.COMPARE = 10] = "COMPARE", r[r.SUM = 11] = "SUM", r[r.PRODUCT = 12] = "PRODUCT", r[r.EXPONENT = 13] = "EXPONENT", r[r.PREFIX = 14] = "PREFIX", r[r.POSTFIX = 15] = "POSTFIX", r[r.FUNCTION = 16] = "FUNCTION", r))(h || {});
-class X extends u {
+var u = /* @__PURE__ */ ((r) => (r[r.SCOPE = 1] = "SCOPE", r[r.STATEMENT = 2] = "STATEMENT", r[r.ASSIGNMENT = 3] = "ASSIGNMENT", r[r.CONDITIONAL = 4] = "CONDITIONAL", r[r.ARRAY_ACCESS = 5] = "ARRAY_ACCESS", r[r.NULLISH_COALESCING = 6] = "NULLISH_COALESCING", r[r.AND = 7] = "AND", r[r.OR = 8] = "OR", r[r.EQUALS_COMPARE = 9] = "EQUALS_COMPARE", r[r.COMPARE = 10] = "COMPARE", r[r.SUM = 11] = "SUM", r[r.PRODUCT = 12] = "PRODUCT", r[r.EXPONENT = 13] = "EXPONENT", r[r.PREFIX = 14] = "PREFIX", r[r.POSTFIX = 15] = "POSTFIX", r[r.FUNCTION = 16] = "FUNCTION", r))(u || {});
+class _ extends l {
   constructor(t, s) {
     super();
-    o(this, "type", "PrefixExpression");
+    a(this, "type", "PrefixExpression");
     this.tokenType = t, this.expression = s;
   }
   get allExpressions() {
@@ -552,21 +552,21 @@ class X extends u {
     throw new Error(`Unknown prefix operator: "${this.tokenType}"`);
   }
 }
-class Q {
+class X {
   constructor(e = 0) {
     this.precedence = e;
   }
   parse(e, t) {
-    return new X(
+    return new _(
       t.getType(),
       e.parseExpression(this.precedence)
     );
   }
 }
-class L extends u {
+class U extends l {
   constructor(t) {
     super();
-    o(this, "type", "NumberExpression");
+    a(this, "type", "NumberExpression");
     this.value = t;
   }
   get allExpressions() {
@@ -585,18 +585,18 @@ class L extends u {
     return t.startsWith("0.") ? t.slice(1) : t;
   }
 }
-class be {
+class ke {
   constructor(e = 0) {
     this.precedence = e;
   }
   parse(e, t) {
-    return new L(Number(t.getText()));
+    return new U(Number(t.getText()));
   }
 }
-class v extends u {
+class R extends l {
   constructor(t, s, n = !1) {
     super();
-    o(this, "type", "NameExpression");
+    a(this, "type", "NameExpression");
     this.executionEnv = t, this.name = s, this.isFunctionCall = n;
   }
   get allExpressions() {
@@ -627,17 +627,17 @@ class v extends u {
     return this.name;
   }
 }
-class Oe extends u {
+class Oe extends l {
   constructor(t, s) {
     super();
-    o(this, "type", "NameExpression");
+    a(this, "type", "NameExpression");
     this.leftExpr = t, this.rightExpr = s;
   }
   get allExpressions() {
     return [this.leftExpr, this.rightExpr];
   }
   setExpressionAt(t, s) {
-    if (!(s instanceof v))
+    if (!(s instanceof R))
       throw new Error(
         `Cannot use context switch operator "->" on ${s.type}`
       );
@@ -649,7 +649,7 @@ class Oe extends u {
   eval() {
     const t = this.leftExpr.eval();
     return typeof t != "object" ? 0 : (this.rightExpr.setExecutionEnv(
-      new I(
+      new $(
         t,
         this.rightExpr.executionEnv.config
       )
@@ -664,13 +664,13 @@ class Ie {
     this.precedence = e;
   }
   parse(e, t) {
-    const s = new v(
+    const s = new R(
       e.executionEnv,
       t.getText()
     ), n = [e.lookAhead(0), e.lookAhead(1)];
     if (n[0].getType() === "MINUS" && n[1].getType() === "GREATER") {
       e.consume("MINUS"), e.consume("GREATER");
-      const i = e.parseExpression(h.FUNCTION - 1);
+      const i = e.parseExpression(u.FUNCTION - 1);
       if (i.type !== "NameExpression" && i.type !== "FunctionExpression")
         throw new Error(
           `Cannot use context switch operator "->" on ${i.type}`
@@ -683,10 +683,10 @@ class Ie {
     return s;
   }
 }
-class g extends u {
+class S extends l {
   constructor(t, s) {
     super();
-    o(this, "type", "GroupExpression");
+    a(this, "type", "GroupExpression");
     this.expression = t, this.brackets = s;
   }
   get allExpressions() {
@@ -720,14 +720,14 @@ class Le {
   }
   parse(e, t) {
     const s = e.parseExpression(this.precedence);
-    return e.consume("RIGHT_PARENT"), e.config.keepGroups ? new g(s, "()") : s;
+    return e.consume("RIGHT_PARENT"), e.config.keepGroups ? new S(s, "()") : s;
   }
 }
-class w extends u {
+class d extends l {
   constructor(t) {
     super();
-    o(this, "type", "ReturnExpression");
-    o(this, "isReturn", !0);
+    a(this, "type", "ReturnExpression");
+    a(this, "isReturn", !0);
     this.expression = t;
   }
   get allExpressions() {
@@ -751,16 +751,16 @@ class Pe {
     this.precedence = e;
   }
   parse(e, t) {
-    const s = e.parseExpression(h.STATEMENT + 1);
-    return new w(
-      e.match("SEMICOLON", !1) ? s : new L(0)
+    const s = e.parseExpression(u.STATEMENT + 1);
+    return new d(
+      e.match("SEMICOLON", !1) ? s : new U(0)
     );
   }
 }
-class S extends u {
+class w extends l {
   constructor(t, s = !1) {
     super();
-    o(this, "type", "StaticExpression");
+    a(this, "type", "StaticExpression");
     this.value = t, this.isReturn = s;
   }
   get allExpressions() {
@@ -779,13 +779,13 @@ class S extends u {
     return typeof t == "string" && (t = `'${t}'`), this.isReturn ? `return ${t}` : "" + t;
   }
 }
-class x extends u {
+class g extends l {
   constructor(t) {
     super();
-    o(this, "type", "StatementExpression");
-    o(this, "didReturn");
-    o(this, "wasLoopBroken", !1);
-    o(this, "wasLoopContinued", !1);
+    a(this, "type", "StatementExpression");
+    a(this, "didReturn");
+    a(this, "wasLoopBroken", !1);
+    a(this, "wasLoopContinued", !1);
     this.expressions = t;
   }
   get allExpressions() {
@@ -844,7 +844,7 @@ class x extends u {
   toString() {
     let t = "";
     for (const s of this.expressions) {
-      if (s instanceof d || s instanceof S && !s.isReturn)
+      if (s instanceof A || s instanceof w && !s.isReturn)
         continue;
       const n = s.toString();
       n && (t += `${n};`);
@@ -862,30 +862,30 @@ class Me {
       e.consume(), s = e.lookAhead(0).getType();
   }
   parse(e, t, s) {
-    if (e.config.useOptimizer && (t.isStatic() && (t = new S(t.eval(), t.isReturn)), e.config.earlyReturnsSkipParsing && t.isReturn))
-      return e.config.earlyReturnsSkipTokenization || this.findReEntryPoint(e), new x([t]);
+    if (e.config.useOptimizer && (t.isStatic() && (t = new w(t.eval(), t.isReturn)), e.config.earlyReturnsSkipParsing && t.isReturn))
+      return e.config.earlyReturnsSkipTokenization || this.findReEntryPoint(e), new g([t]);
     const n = [t];
     if (!e.match("CURLY_RIGHT", !1))
       do {
-        let a = e.parseExpression(this.precedence);
+        let o = e.parseExpression(this.precedence);
         if (e.config.useOptimizer) {
-          if (a.isStatic()) {
-            if (e.config.useAgressiveStaticOptimizer && !a.isReturn)
+          if (o.isStatic()) {
+            if (e.config.useAgressiveStaticOptimizer && !o.isReturn)
               continue;
-            a = new S(a.eval(), a.isReturn);
+            o = new w(o.eval(), o.isReturn);
           }
-          if (e.config.earlyReturnsSkipParsing && (a.isBreak || a.isContinue || a.isReturn))
-            return n.push(a), e.config.earlyReturnsSkipTokenization || this.findReEntryPoint(e), new x(n);
+          if (e.config.earlyReturnsSkipParsing && (o.isBreak || o.isContinue || o.isReturn))
+            return n.push(o), e.config.earlyReturnsSkipTokenization || this.findReEntryPoint(e), new g(n);
         }
-        n.push(a);
+        n.push(o);
       } while (e.match("SEMICOLON") && !e.match("EOF") && !e.match("CURLY_RIGHT", !1));
-    return e.match("SEMICOLON"), new x(n);
+    return e.match("SEMICOLON"), new g(n);
   }
 }
-class O extends u {
+class P extends l {
   constructor(t) {
     super();
-    o(this, "type", "StringExpression");
+    a(this, "type", "StringExpression");
     this.name = t;
   }
   get allExpressions() {
@@ -908,13 +908,13 @@ class $e {
     this.precedence = e;
   }
   parse(e, t) {
-    return new O(t.getText());
+    return new P(t.getText());
   }
 }
-class W extends u {
+class ee extends l {
   constructor(t, s) {
     super();
-    o(this, "type", "FunctionExpression");
+    a(this, "type", "FunctionExpression");
     this.name = t, this.args = s;
   }
   get allExpressions() {
@@ -965,13 +965,13 @@ class _e {
       while (e.match("COMMA"));
       e.consume("RIGHT_PARENT");
     }
-    return new W(t, n);
+    return new ee(t, n);
   }
 }
-class K extends u {
+class te extends l {
   constructor(t, s) {
     super();
-    o(this, "type", "ArrayAccessExpression");
+    a(this, "type", "ArrayAccessExpression");
     this.name = t, this.lookup = s;
   }
   get allExpressions() {
@@ -1005,7 +1005,7 @@ class Ue {
       throw new Error(
         `No closing bracket for opening bracket "[${n.eval()}"`
       );
-    return new K(t, n);
+    return new te(t, n);
   }
 }
 class Fe {
@@ -1014,13 +1014,13 @@ class Fe {
   }
   parse(e, t) {
     let s = e.parseExpression(this.precedence);
-    return e.config.useOptimizer && e.config.earlyReturnsSkipTokenization && s.isReturn ? e.match("CURLY_RIGHT") : e.consume("CURLY_RIGHT"), e.config.keepGroups ? new g(s, "{}") : s;
+    return e.config.useOptimizer && e.config.earlyReturnsSkipTokenization && s.isReturn ? e.match("CURLY_RIGHT") : e.consume("CURLY_RIGHT"), e.config.keepGroups ? new S(s, "{}") : s;
   }
 }
-class Z extends u {
+class se extends l {
   constructor(t, s) {
     super();
-    o(this, "type", "LoopExpression");
+    a(this, "type", "LoopExpression");
     this.count = t, this.expression = s;
   }
   get allExpressions() {
@@ -1083,13 +1083,13 @@ class Ge {
       throw new Error(
         `There must be exactly two loop() arguments; found ${s.length}`
       );
-    return new Z(s[0], s[1]);
+    return new se(s[0], s[1]);
   }
 }
-class J extends u {
+class re extends l {
   constructor(t, s, n) {
     super();
-    o(this, "type", "ForEachExpression");
+    a(this, "type", "ForEachExpression");
     if (this.variable = t, this.arrayExpression = s, this.expression = n, !this.variable.setPointer)
       throw new Error(
         `First for_each() argument must be a variable, received "${typeof this.variable.eval()}"`
@@ -1117,13 +1117,13 @@ class J extends u {
     let s = 0;
     for (; s < t.length; ) {
       (i = (n = this.variable).setPointer) == null || i.call(n, t[s++]);
-      const a = this.expression.eval();
+      const o = this.expression.eval();
       if (this.expression.isBreak)
         break;
       if (this.expression.isContinue)
         continue;
       if (this.expression.isReturn)
-        return a;
+        return o;
     }
     return 0;
   }
@@ -1147,14 +1147,14 @@ class Be {
       throw new Error(
         `There must be exactly three for_each() arguments; found ${s.length}`
       );
-    return new J(s[0], s[1], s[2]);
+    return new re(s[0], s[1], s[2]);
   }
 }
-class ee extends u {
+class ne extends l {
   constructor() {
     super();
-    o(this, "type", "ContinueExpression");
-    o(this, "isContinue", !0);
+    a(this, "type", "ContinueExpression");
+    a(this, "isContinue", !0);
   }
   get allExpressions() {
     return [];
@@ -1176,14 +1176,14 @@ class ze {
     this.precedence = e;
   }
   parse(e, t) {
-    return new ee();
+    return new ne();
   }
 }
-class te extends u {
+class ie extends l {
   constructor() {
     super();
-    o(this, "type", "BreakExpression");
-    o(this, "isBreak", !0);
+    a(this, "type", "BreakExpression");
+    a(this, "isBreak", !0);
   }
   get allExpressions() {
     return [];
@@ -1205,13 +1205,13 @@ class He {
     this.precedence = e;
   }
   parse(e, t) {
-    return new te();
+    return new ie();
   }
 }
-class se extends u {
+class oe extends l {
   constructor(t) {
     super();
-    o(this, "type", "BooleanExpression");
+    a(this, "type", "BooleanExpression");
     this.value = t;
   }
   get allExpressions() {
@@ -1226,12 +1226,12 @@ class se extends u {
     return this.value;
   }
 }
-class Y {
+class W {
   constructor(e = 0) {
     this.precedence = e;
   }
   parse(e, t) {
-    return new se(t.getText() === "true");
+    return new oe(t.getText() === "true");
   }
 }
 class qe {
@@ -1239,7 +1239,7 @@ class qe {
     this.precedence = e;
   }
   parse(e, t, s) {
-    return new c(
+    return new h(
       t,
       e.parseExpression(this.precedence),
       "==",
@@ -1253,7 +1253,7 @@ class Qe {
   }
   parse(e, t, s) {
     if (e.match("EQUALS"))
-      return new c(
+      return new h(
         t,
         e.parseExpression(this.precedence),
         "!=",
@@ -1268,7 +1268,7 @@ class Ye {
   }
   parse(e, t, s) {
     if (e.match("AND"))
-      return new c(
+      return new h(
         t,
         e.parseExpression(this.precedence),
         "&&",
@@ -1283,7 +1283,7 @@ class De {
   }
   parse(e, t, s) {
     if (e.match("OR"))
-      return new c(
+      return new h(
         t,
         e.parseExpression(this.precedence),
         "||",
@@ -1297,12 +1297,12 @@ class Ve {
     this.precedence = e;
   }
   parse(e, t, s) {
-    return e.match("EQUALS") ? new c(
+    return e.match("EQUALS") ? new h(
       t,
       e.parseExpression(this.precedence),
       "<=",
       (n, i) => n.eval() <= i.eval()
-    ) : new c(
+    ) : new h(
       t,
       e.parseExpression(this.precedence),
       "<",
@@ -1315,12 +1315,12 @@ class je {
     this.precedence = e;
   }
   parse(e, t, s) {
-    return e.match("EQUALS") ? new c(
+    return e.match("EQUALS") ? new h(
       t,
       e.parseExpression(this.precedence),
       ">=",
       (n, i) => n.eval() >= i.eval()
-    ) : new c(
+    ) : new h(
       t,
       e.parseExpression(this.precedence),
       ">",
@@ -1328,11 +1328,11 @@ class je {
     );
   }
 }
-class P extends u {
+class F extends l {
   constructor(t, s, n) {
     super();
-    o(this, "type", "TernaryExpression");
-    o(this, "leftResult");
+    a(this, "type", "TernaryExpression");
+    a(this, "leftResult");
     this.leftExpression = t, this.thenExpression = s, this.elseExpression = n;
   }
   get allExpressions() {
@@ -1363,57 +1363,57 @@ class P extends u {
     return this.leftResult = this.leftExpression.eval(), this.leftResult ? this.thenExpression.eval() : this.elseExpression.eval();
   }
   toString() {
-    return this.elseExpression instanceof d ? `${this.leftExpression.toString()}?${this.thenExpression.toString()}` : `${this.leftExpression.toString()}?${this.thenExpression.toString()}:${this.elseExpression.toString()}`;
+    return this.elseExpression instanceof A ? `${this.leftExpression.toString()}?${this.thenExpression.toString()}` : `${this.leftExpression.toString()}?${this.thenExpression.toString()}:${this.elseExpression.toString()}`;
   }
 }
 class Xe {
   constructor(e = 0) {
-    o(this, "exprName", "Ternary");
+    a(this, "exprName", "Ternary");
     this.precedence = e;
   }
   parse(e, t, s) {
     let n = e.parseExpression(this.precedence - 1), i;
-    return e.match("COLON") ? i = e.parseExpression(this.precedence - 1) : i = new d(), e.config.useOptimizer && t.isStatic() ? t.eval() ? n : i : new P(t, n, i);
+    return e.match("COLON") ? i = e.parseExpression(this.precedence - 1) : i = new A(), e.config.useOptimizer && t.isStatic() ? t.eval() ? n : i : new F(t, n, i);
   }
 }
-const We = new Xe(h.CONDITIONAL);
+const We = new Xe(u.CONDITIONAL);
 class Ke {
   constructor(e = 0) {
     this.precedence = e;
   }
   parse(e, t, s) {
-    return e.match("QUESTION") ? new c(
+    return e.match("QUESTION") ? new h(
       t,
       e.parseExpression(this.precedence),
       "??",
       (n, i) => {
-        var a;
-        return (a = n.eval()) != null ? a : i.eval();
+        var o;
+        return (o = n.eval()) != null ? o : i.eval();
       }
     ) : We.parse(e, t, s);
   }
 }
-class re extends ye {
+class ae extends be {
   constructor(e) {
-    super(e), this.registerPrefix("NAME", new Ie()), this.registerPrefix("STRING", new $e()), this.registerPrefix("NUMBER", new be()), this.registerPrefix("TRUE", new Y(h.PREFIX)), this.registerPrefix("FALSE", new Y(h.PREFIX)), this.registerPrefix("RETURN", new Pe()), this.registerPrefix("CONTINUE", new ze()), this.registerPrefix("BREAK", new He()), this.registerPrefix("LOOP", new Ge()), this.registerPrefix("FOR_EACH", new Be()), this.registerInfix(
+    super(e), this.registerPrefix("NAME", new Ie()), this.registerPrefix("STRING", new $e()), this.registerPrefix("NUMBER", new ke()), this.registerPrefix("TRUE", new W(u.PREFIX)), this.registerPrefix("FALSE", new W(u.PREFIX)), this.registerPrefix("RETURN", new Pe()), this.registerPrefix("CONTINUE", new ze()), this.registerPrefix("BREAK", new He()), this.registerPrefix("LOOP", new Ge()), this.registerPrefix("FOR_EACH", new Be()), this.registerInfix(
       "QUESTION",
-      new Ke(h.CONDITIONAL)
+      new Ke(u.CONDITIONAL)
     ), this.registerPrefix("LEFT_PARENT", new Le()), this.registerInfix(
       "LEFT_PARENT",
-      new _e(h.FUNCTION)
+      new _e(u.FUNCTION)
     ), this.registerInfix(
       "ARRAY_LEFT",
-      new Ue(h.ARRAY_ACCESS)
-    ), this.registerPrefix("CURLY_LEFT", new Fe(h.SCOPE)), this.registerInfix(
+      new Ue(u.ARRAY_ACCESS)
+    ), this.registerPrefix("CURLY_LEFT", new Fe(u.SCOPE)), this.registerInfix(
       "SEMICOLON",
-      new Me(h.STATEMENT)
-    ), this.registerPrefix("MINUS", new Q(h.PREFIX)), this.registerPrefix("BANG", new Q(h.PREFIX)), this.registerInfix("PLUS", new k(h.SUM)), this.registerInfix("MINUS", new k(h.SUM)), this.registerInfix("ASTERISK", new k(h.PRODUCT)), this.registerInfix("SLASH", new k(h.PRODUCT)), this.registerInfix(
+      new Me(u.STATEMENT)
+    ), this.registerPrefix("MINUS", new X(u.PREFIX)), this.registerPrefix("BANG", new X(u.PREFIX)), this.registerInfix("PLUS", new k(u.SUM)), this.registerInfix("MINUS", new k(u.SUM)), this.registerInfix("ASTERISK", new k(u.PRODUCT)), this.registerInfix("SLASH", new k(u.PRODUCT)), this.registerInfix(
       "EQUALS",
-      new qe(h.EQUALS_COMPARE)
+      new qe(u.EQUALS_COMPARE)
     ), this.registerInfix(
       "BANG",
-      new Qe(h.EQUALS_COMPARE)
-    ), this.registerInfix("GREATER", new je(h.COMPARE)), this.registerInfix("SMALLER", new Ve(h.COMPARE)), this.registerInfix("AND", new Ye(h.AND)), this.registerInfix("OR", new De(h.OR)), this.registerInfix("ASSIGN", new k(h.ASSIGNMENT));
+      new Qe(u.EQUALS_COMPARE)
+    ), this.registerInfix("GREATER", new je(u.COMPARE)), this.registerInfix("SMALLER", new Ve(u.COMPARE)), this.registerInfix("AND", new Ye(u.AND)), this.registerInfix("OR", new De(u.OR)), this.registerInfix("ASSIGN", new k(u.ASSIGNMENT));
   }
 }
 class Ze {
@@ -1425,14 +1425,14 @@ class Ze {
       throw new Error("function() called without arguments");
     let s = [], n, i;
     do {
-      const a = e.parseExpression();
-      if (a instanceof O)
-        i ? s.push(a.eval()) : i = a.eval();
-      else if (a instanceof x || a instanceof g)
-        n = a;
+      const o = e.parseExpression();
+      if (o instanceof P)
+        i ? s.push(o.eval()) : i = o.eval();
+      else if (o instanceof g || o instanceof S)
+        n = o;
       else
         throw new Error(
-          `Unexpected expresion: found "${a.constructor.name}"`
+          `Unexpected expresion: found "${o.constructor.name}"`
         );
     } while (e.match("COMMA"));
     if (e.consume("RIGHT_PARENT"), !i)
@@ -1453,13 +1453,13 @@ class Ze {
     );
   }
 }
-class Je extends u {
+class Je extends l {
   constructor(t, s, n, i) {
     super();
-    o(this, "type", "CustomFunctionExpression");
+    a(this, "type", "CustomFunctionExpression");
     this.functionBody = i, t.set(s.toLowerCase(), [
       n,
-      i instanceof g ? i.allExpressions[0].toString() : i.toString()
+      i instanceof S ? i.allExpressions[0].toString() : i.toString()
     ]);
   }
   get allExpressions() {
@@ -1478,10 +1478,10 @@ class Je extends u {
     return 0;
   }
 }
-class et extends u {
+class et extends l {
   constructor(t, s) {
     super();
-    o(this, "type", "PostfixExpression");
+    a(this, "type", "PostfixExpression");
     this.expression = t, this.tokenType = s;
   }
   get allExpressions() {
@@ -1500,33 +1500,33 @@ class et extends u {
 }
 const ht = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
-  ArrayAccessExpression: K,
-  BooleanExpression: se,
-  BreakExpression: te,
-  ContinueExpression: ee,
-  ForEachExpression: J,
-  FunctionExpression: W,
-  GenericOperatorExpression: c,
-  GroupExpression: g,
-  LoopExpression: Z,
-  NameExpression: v,
-  NumberExpression: L,
+  ArrayAccessExpression: te,
+  BooleanExpression: oe,
+  BreakExpression: ie,
+  ContinueExpression: ne,
+  ForEachExpression: re,
+  FunctionExpression: ee,
+  GenericOperatorExpression: h,
+  GroupExpression: S,
+  LoopExpression: se,
+  NameExpression: R,
+  NumberExpression: U,
   PostfixExpression: et,
-  PrefixExpression: X,
-  ReturnExpression: w,
-  StatementExpression: x,
-  StaticExpression: S,
-  StringExpression: O,
-  TernaryExpression: P,
-  VoidExpression: d
+  PrefixExpression: _,
+  ReturnExpression: d,
+  StatementExpression: g,
+  StaticExpression: w,
+  StringExpression: P,
+  TernaryExpression: F,
+  VoidExpression: A
 }, Symbol.toStringTag, { value: "Module" }));
 class tt {
   constructor(e = {}, t = {}) {
-    o(this, "expressionCache", {});
-    o(this, "totalCacheEntries", 0);
-    o(this, "executionEnvironment");
-    o(this, "parser");
-    this.config = t, t.useOptimizer === void 0 && (this.config.useOptimizer = !0), t.useCache === void 0 && (this.config.useCache = !0), t.earlyReturnsSkipParsing === void 0 && (this.config.earlyReturnsSkipParsing = !0), t.earlyReturnsSkipTokenization === void 0 && (this.config.earlyReturnsSkipTokenization = !0), t.convertUndefined === void 0 && (this.config.convertUndefined = !1), this.parser = new re({
+    a(this, "expressionCache", {});
+    a(this, "totalCacheEntries", 0);
+    a(this, "executionEnvironment");
+    a(this, "parser");
+    this.config = t, t.useOptimizer === void 0 && (this.config.useOptimizer = !0), t.useCache === void 0 && (this.config.useCache = !0), t.earlyReturnsSkipParsing === void 0 && (this.config.earlyReturnsSkipParsing = !0), t.earlyReturnsSkipTokenization === void 0 && (this.config.earlyReturnsSkipTokenization = !0), t.convertUndefined === void 0 && (this.config.convertUndefined = !1), this.parser = new ae({
       ...this.config,
       tokenizer: void 0
     }), this.updateExecutionEnv(e, t.assumeFlatEnvironment);
@@ -1535,7 +1535,7 @@ class tt {
     e = Object.assign(this.config, e), e.tokenizer && this.parser.setTokenizer(e.tokenizer), this.parser.updateConfig({ ...this.config, tokenizer: void 0 }), this.executionEnvironment.updateConfig(e);
   }
   updateExecutionEnv(e, t = !1) {
-    this.executionEnvironment = new I(e, {
+    this.executionEnvironment = new $(e, {
       useRadians: this.config.useRadians,
       convertUndefined: this.config.convertUndefined,
       isFlat: t,
@@ -1560,49 +1560,196 @@ class tt {
   parse(e) {
     var s, n, i;
     if ((s = this.config.useCache) == null || s) {
-      const a = this.expressionCache[e];
-      if (a)
-        return a;
+      const o = this.expressionCache[e];
+      if (o)
+        return o;
     }
     this.parser.init(e);
     let t = this.parser.parseExpression();
-    return ((n = this.config.useOptimizer) != null ? n : !0) && t.isStatic() && (t = new S(t.eval())), ((i = this.config.useCache) == null || i) && (this.totalCacheEntries > (this.config.maxCacheSize || 256) && this.clearCache(), this.expressionCache[e] = t, this.totalCacheEntries++), t;
+    return ((n = this.config.useOptimizer) != null ? n : !0) && t.isStatic() && (t = new w(t.eval())), ((i = this.config.useCache) == null || i) && (this.totalCacheEntries > (this.config.maxCacheSize || 256) && this.clearCache(), this.expressionCache[e] = t, this.totalCacheEntries++), t;
+  }
+  rearrangeOptimally(e) {
+    let t;
+    do
+      t = e.toString(), e = e.walk((s) => {
+        if (s instanceof h) {
+          let n = s.allExpressions[0], i = s.allExpressions[1];
+          if (n instanceof h && i.isStatic()) {
+            let o = n.allExpressions[1], p = n.allExpressions[0];
+            if (!p.isStatic() && !(p instanceof h) && o.isStatic()) {
+              let c = p;
+              p = o, o = c;
+            }
+            if (!o.isStatic()) {
+              if (s.operator === "+" && n.operator === "+") {
+                const c = new h(
+                  p,
+                  i,
+                  "+",
+                  O
+                );
+                return new h(
+                  c,
+                  o,
+                  "+",
+                  O
+                );
+              }
+              if (s.operator === "-" && n.operator === "-") {
+                const c = new h(
+                  p,
+                  i,
+                  "-",
+                  I
+                );
+                return new h(
+                  c,
+                  o,
+                  "-",
+                  I
+                );
+              }
+              if (s.operator === "*" && n.operator === "*") {
+                const c = new h(
+                  p,
+                  i,
+                  "*",
+                  T
+                );
+                return new h(
+                  c,
+                  o,
+                  "*",
+                  T
+                );
+              }
+              if (s.operator === "/" && n.operator === "*" || s.operator === "*" && n.operator === "/") {
+                const c = new h(
+                  p,
+                  i,
+                  "/",
+                  M
+                );
+                return new h(
+                  c,
+                  o,
+                  "*",
+                  T
+                );
+              }
+              if (s.operator === "/" && n.operator === "/") {
+                const c = new h(
+                  p,
+                  i,
+                  "*",
+                  T
+                );
+                return new h(
+                  o,
+                  c,
+                  "/",
+                  M
+                );
+              }
+              if (s.operator === "-" && n.operator === "+") {
+                const c = new h(
+                  p,
+                  i,
+                  "-",
+                  I
+                );
+                return new h(
+                  c,
+                  o,
+                  "+",
+                  O
+                );
+              }
+              if (s.operator === "+" && n.operator === "-") {
+                const c = new h(
+                  p,
+                  i,
+                  "+",
+                  O
+                );
+                return new h(
+                  c,
+                  o,
+                  "-",
+                  I
+                );
+              }
+            }
+          }
+        }
+      });
+    while (e.toString() !== t);
+    return e;
   }
   resolveStatic(e) {
-    return e = e.walk((t) => {
-      if (!(t instanceof O) && t.isStatic())
-        return new S(t.eval());
+    return e = this.rearrangeOptimally(e), e = e.walk((t) => {
+      if (!(t instanceof P) && t.isStatic())
+        return new w(t.eval());
     }), e = e.walk((t) => {
-      if (t instanceof c)
+      if (t instanceof h) {
         switch (t.operator) {
           case "+":
           case "-": {
             const s = t.allExpressions.find(
-              (n) => n.isStatic() && n.eval() === 0
-            );
-            if (s)
-              return t.allExpressions.find(
-                (n) => n !== s
+              (i) => i.isStatic() && i.eval() === 0
+            ), n = t.allExpressions[0] === s;
+            if (s) {
+              const i = t.allExpressions.find(
+                (o) => o !== s
               );
+              return t.operator === "-" && n && i ? new _(
+                "MINUS",
+                i
+              ) : i;
+            }
             break;
           }
-          case "*":
+          case "*": {
             if (t.allExpressions.find(
-              (n) => n.isStatic() && n.eval() === 0
+              (i) => i.isStatic() && i.eval() === 0
             ))
-              return new S(0);
-          case "*":
-          case "/": {
-            const s = t.allExpressions.find(
-              (n) => n.isStatic() && n.eval() === 1
+              return new w(0);
+            const n = t.allExpressions.find(
+              (i) => i.isStatic() && i.eval() === 1
             );
-            if (s)
+            if (n)
               return t.allExpressions.find(
-                (n) => n !== s
+                (o) => o !== n
               );
+          }
+          case "/": {
+            const s = t.allExpressions[0], n = t.allExpressions[1];
+            if (n.isStatic() && n.eval() === 1)
+              return s;
+            if (s.isStatic() && s.eval() === 0)
+              return new w(0);
             break;
           }
         }
+        switch (t.operator) {
+          case "+": {
+            const s = t.allExpressions[0], n = t.allExpressions[1];
+            if (s.toString() === n.toString())
+              return new h(
+                new w(2),
+                s,
+                "*",
+                T
+              );
+            break;
+          }
+          case "-": {
+            const s = t.allExpressions[0], n = t.allExpressions[1];
+            if (s.toString() === n.toString())
+              return new w(0);
+          }
+        }
+      }
     }), e;
   }
   minimize(e) {
@@ -1614,24 +1761,25 @@ class tt {
       ["temp.", "t."]
     ]);
     e = e.walk((n) => {
-      if (n instanceof v) {
+      if (n instanceof R) {
         const i = n.toString();
-        for (const [a, y] of t)
-          i.startsWith(a) && n.setName(i.replace(a, y));
+        for (const [o, p] of t)
+          i.startsWith(o) && n.setName(i.replace(o, p));
         return n;
       }
     });
     const s = /* @__PURE__ */ new Map();
     return e = e.walk((n) => {
-      if (n instanceof v) {
+      if (n instanceof R) {
         const i = n.toString();
-        if (!i.startsWith("v.") && !i.startsWith("t."))
+        if (!i.startsWith("v.") && !i.startsWith("t.") || i.length === 3)
           return;
+        const o = i.startsWith("v.") ? "v." : "t.";
         if (s.has(i))
           n.setName(s.get(i));
         else {
-          const a = `v.v${s.size}`;
-          s.set(i, a), n.setName(a);
+          const p = `${o}v${s.size}`;
+          s.set(i, p), n.setName(p);
         }
         return n;
       }
@@ -1642,18 +1790,18 @@ class tt {
   }
 }
 function st(r) {
-  if (r instanceof w)
-    return new g(r.allExpressions[0], "()");
-  if (!(r instanceof x) || r.allExpressions.length > 1)
+  if (r instanceof d)
+    return new S(r.allExpressions[0], "()");
+  if (!(r instanceof g) || r.allExpressions.length > 1)
     return r;
   const e = r.allExpressions[0];
-  return e instanceof w ? new g(e.allExpressions[0], "()") : r;
+  return e instanceof d ? new S(e.allExpressions[0], "()") : r;
 }
-class rt extends re {
+class rt extends ae {
   constructor(t) {
     super(t);
-    o(this, "functions", /* @__PURE__ */ new Map());
-    o(this, "classes", /* @__PURE__ */ new Map());
+    a(this, "functions", /* @__PURE__ */ new Map());
+    a(this, "classes", /* @__PURE__ */ new Map());
     this.registerPrefix("FUNCTION", new Ze());
   }
   reset() {
@@ -1662,7 +1810,7 @@ class rt extends re {
 }
 class ut {
   constructor(e) {
-    o(this, "parser");
+    a(this, "parser");
     this.parser = new rt({
       useCache: !1,
       useOptimizer: !0,
@@ -1671,9 +1819,9 @@ class ut {
       earlyReturnsSkipParsing: !1,
       earlyReturnsSkipTokenization: !1
     }), this.parser.setExecutionEnvironment(
-      new I(this.parser, e)
+      new $(this.parser, e)
     ), this.parser.setTokenizer(
-      new D(/* @__PURE__ */ new Set(["function"]))
+      new K(/* @__PURE__ */ new Set(["function"]))
     );
   }
   get functions() {
@@ -1695,78 +1843,78 @@ class ut {
       }
     );
     let s = 0, n = t.parse(e), i = !1;
-    n instanceof x && (i = !0);
-    let a = !1;
-    n = n.walk((T) => {
-      var _, U, F, G, B;
-      if (T.type !== "FunctionExpression" || !((U = (_ = T.name.name).startsWith) != null && U.call(_, "f.")) && !((G = (F = T.name.name).startsWith) != null && G.call(F, "function.")))
+    n instanceof g && (i = !0);
+    let o = !1;
+    n = n.walk((c) => {
+      var z, H, q, Q, Y;
+      if (c.type !== "FunctionExpression" || !((H = (z = c.name.name).startsWith) != null && H.call(z, "f.")) && !((Q = (q = c.name.name).startsWith) != null && Q.call(q, "function.")))
         return;
-      const ne = T.name.name.replace(/(f|function)\./g, ""), ie = T.args;
-      let [M, A] = (B = this.functions.get(ne)) != null ? B : [];
-      if (!A || !M)
+      const he = c.name.name.replace(/(f|function)\./g, ""), ue = c.args;
+      let [G, C] = (Y = this.functions.get(he)) != null ? Y : [];
+      if (!C || !G)
         return;
-      A = A.replace(
+      C = C.replace(
         /(a|arg)\.(\w+)/g,
-        (p, E, l) => {
-          var R, C;
-          return ((C = (R = ie[M.indexOf(l)]) == null ? void 0 : R.toString()) != null ? C : "0").replace(/(t|temp)\./, "outer_temp.");
+        (x, m, f) => {
+          var y, b;
+          return ((b = (y = ue[G.indexOf(f)]) == null ? void 0 : y.toString()) != null ? b : "0").replace(/(t|temp)\./, "outer_temp.");
         }
       );
-      let m = st(t.parse(A));
-      if (m instanceof x) {
-        const p = m.allExpressions.some(
-          (l) => l instanceof w
-        ), E = p || m.some((l) => l instanceof w);
-        m = t.parse(
-          `({${A}}+${E ? p ? "t.return_value" : "(t.return_value??0)" : "0"})`
-        ), a = !0;
+      let v = st(t.parse(C));
+      if (v instanceof g) {
+        const x = v.allExpressions.some(
+          (f) => f instanceof d
+        ), m = x || v.some((f) => f instanceof d);
+        v = t.parse(
+          `({${C}}+${m ? x ? "t.return_value" : "(t.return_value??0)" : "0"})`
+        ), o = !0;
       }
-      const $ = /* @__PURE__ */ new Map();
-      return m = m.walk((p) => {
-        if (p instanceof v) {
-          let l = p.toString().split(".");
-          const f = l.shift(), [R, ...C] = l, z = C.length > 0 ? "." + C.join(".") : "";
-          if (f === "t" || f === "temp") {
-            let b = $.get(R);
-            b || (b = `t.__scvar${s++}`, $.set(R, b)), p.setName(`${b}${z}`);
+      const B = /* @__PURE__ */ new Map();
+      return v = v.walk((x) => {
+        if (x instanceof R) {
+          let f = x.toString().split(".");
+          const E = f.shift(), [y, ...b] = f, D = b.length > 0 ? "." + b.join(".") : "";
+          if (E === "t" || E === "temp") {
+            let L = B.get(y);
+            L || (L = `t.__scvar${s++}`, B.set(y, L)), x.setName(`${L}${D}`);
           } else
-            f === "outer_temp" && p.setName(`t.${R}${z}`);
+            E === "outer_temp" && x.setName(`t.${y}${D}`);
           return;
-        } else if (p instanceof w) {
-          const E = new v(
+        } else if (x instanceof d) {
+          const m = new R(
             t.getParser().executionEnv,
             "t.return_value"
-          ), l = p.allExpressions[0];
-          return new c(
-            E,
-            l,
+          ), f = x.allExpressions[0];
+          return new h(
+            m,
+            f,
             "=",
             () => {
-              E.setPointer(l.eval());
+              m.setPointer(f.eval());
             }
           );
-        } else if (p instanceof x) {
-          const E = [];
-          for (let l = 0; l < p.allExpressions.length; l++) {
-            const f = p.allExpressions[l];
-            if (f instanceof P && f.hasReturn) {
+        } else if (x instanceof g) {
+          const m = [];
+          for (let f = 0; f < x.allExpressions.length; f++) {
+            const E = x.allExpressions[f];
+            if (E instanceof F && E.hasReturn) {
               nt(
-                f,
-                p.allExpressions.slice(l + 1)
-              ), E.push(f);
+                E,
+                x.allExpressions.slice(f + 1)
+              ), m.push(E);
               break;
-            } else if (f.isReturn) {
-              E.push(f);
+            } else if (E.isReturn) {
+              m.push(E);
               break;
             }
-            E.push(f);
+            m.push(E);
           }
-          return new x(E);
+          return new g(m);
         }
-      }), m;
+      }), v;
     });
-    const y = t.parse(n.toString());
-    return t.resolveStatic(y), !i && a ? `return ${y.toString()};` : y.toString();
+    const p = t.parse(n.toString());
+    return t.resolveStatic(p), !i && o ? `return ${p.toString()};` : p.toString();
   }
   reset() {
     this.functions.clear();
@@ -1776,10 +1924,10 @@ function nt(r, e) {
   if (r.isReturn)
     return;
   const t = r.allExpressions[2].isReturn ? 1 : 2, s = r.allExpressions[t];
-  s instanceof d || (s instanceof g && s.allExpressions[0] instanceof x ? e.unshift(...s.allExpressions) : e.unshift(s)), e.length > 0 && r.setExpressionAt(
+  s instanceof A || (s instanceof S && s.allExpressions[0] instanceof g ? e.unshift(...s.allExpressions) : e.unshift(s)), e.length > 0 && r.setExpressionAt(
     t,
-    new g(
-      new x(e),
+    new S(
+      new g(e),
       "{}"
     )
   );
@@ -1788,6 +1936,6 @@ export {
   at as Context,
   ut as CustomMolang,
   tt as Molang,
-  D as Tokenizer,
+  K as Tokenizer,
   ht as expressions
 };
