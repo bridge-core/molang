@@ -1,5 +1,5 @@
 {
-	"name": "molang",
+	"name": "@bridge-editor/molang",
 	"version": "2.0.1",
 	"description": "A fast parser for Minecraft's MoLang",
 	"main": "./dist/molang.umd.js",
@@ -23,14 +23,14 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/solvedDev/MoLang.git"
+		"url": "git+https://github.com/bridge-core/molang.git"
 	},
 	"author": "solvedDev",
 	"license": "MIT",
 	"bugs": {
-		"url": "https://github.com/solvedDev/MoLang/issues"
+		"url": "https://github.com/bridge-core/molang/issues"
 	},
-	"homepage": "https://github.com/solvedDev/MoLang#readme",
+	"homepage": "https://github.com/bridge-core/molang#readme",
 	"devDependencies": {
 		"@types/node": "^13.1.2",
 		"molangjs": "^1.5.0",
