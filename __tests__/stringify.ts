@@ -7,7 +7,7 @@ test('Parse & stringify statements', () => {
 		{
 			useCache: false,
 			useOptimizer: true,
-			useAgressiveStaticOptimizer: true,
+			useAggressiveStaticOptimizer: true,
 			keepGroups: true,
 			earlyReturnsSkipTokenization: false,
 			earlyReturnsSkipParsing: false,

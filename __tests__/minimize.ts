@@ -5,7 +5,7 @@ test('Parse & stringify statements', () => {
 	const molang = new Molang(undefined, {
 		useCache: false,
 		useOptimizer: true,
-		useAgressiveStaticOptimizer: true,
+		useAggressiveStaticOptimizer: true,
 		keepGroups: true,
 		earlyReturnsSkipTokenization: false,
 		earlyReturnsSkipParsing: false,

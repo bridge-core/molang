@@ -42,7 +42,7 @@ export class StatementParselet implements IInfixParselet {
 				if (parser.config.useOptimizer) {
 					if (expr.isStatic()) {
 						if (
-							parser.config.useAgressiveStaticOptimizer &&
+							parser.config.useAggressiveStaticOptimizer &&
 							!expr.isReturn
 						)
 							continue

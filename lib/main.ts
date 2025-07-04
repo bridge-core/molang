@@ -24,7 +24,7 @@ export interface IParserConfig {
 	/**
 	 * The optimizer can drastically speed up parsing & executing Molang.
 	 * It enables skipping of unreachable statements, pre-evaluating static expressions and skipping of statements with no effect
-	 * when used together with the `useAgressiveStaticOptimizer` option
+	 * when used together with the `useAggressiveStaticOptimizer` option
 	 *
 	 * @default true
 	 */
@@ -35,7 +35,7 @@ export interface IParserConfig {
 	 *
 	 * @default true
 	 */
-	useAgressiveStaticOptimizer: boolean
+	useAggressiveStaticOptimizer: boolean
 
 	/**
 	 * This options makes early return statements skip all parsing work completely
