@@ -37,7 +37,7 @@ export class CustomMolang {
 		this.parser = new CustomMolangParser({
 			useCache: false,
 			useOptimizer: true,
-			useAgressiveStaticOptimizer: true,
+			useAggressiveStaticOptimizer: true,
 			keepGroups: true,
 			earlyReturnsSkipParsing: false,
 			earlyReturnsSkipTokenization: false,
@@ -68,7 +68,7 @@ export class CustomMolang {
 				useCache: false,
 				keepGroups: true,
 				useOptimizer: true,
-				useAgressiveStaticOptimizer: true,
+				useAggressiveStaticOptimizer: true,
 				earlyReturnsSkipParsing: true,
 				earlyReturnsSkipTokenization: false,
 			}
