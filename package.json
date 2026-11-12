@@ -7,7 +7,7 @@
 	"types": "./dist/main.d.ts",
 	"exports": {
 		".": {
-			"types": "./dist/molang.d.ts",
+			"types": "./dist/main.d.ts",
 			"import": "./dist/molang.es.js",
 			"require": "./dist/molang.umd.js"
 		}
